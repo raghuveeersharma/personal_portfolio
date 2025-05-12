@@ -4,7 +4,7 @@ import Skills from "./components/Skills";
 import Education from "./components/Education";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import BlurBlob from "./Blurblob";
+import BlurBlob from "./BlurBlob";
 import Projects from "./components/Projects";
 import NavigatorToTop from "./components/NavigatorToTop";
 
