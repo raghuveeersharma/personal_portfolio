@@ -30,7 +30,7 @@ import CITYSTAR from "./assets/education_logo/CITYSTAR.jpeg";
 
 // Project Section Logo's
 import githubdetLogo from "./assets/work_logo/TextUtil.png";
-import csprepLogo from "./assets/work_logo/PassOP.png";
+import csprepLogo from "./assets/work_logo/PassOp.png";
 import taskremLogo from "./assets/work_logo/eco.png";
 import npmLogo from "./assets/work_logo/BookStore.png";
 import webverLogo from "./assets/work_logo/Portfolio.png";
