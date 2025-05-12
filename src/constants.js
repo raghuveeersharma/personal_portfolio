@@ -143,18 +143,17 @@ export const projects = [
     image: npmLogo,
     tags: ["React JS", "Node.js", "MongoDB", "Express", "HTML", "CSS"],
     github: "https://github.com/raghuveeersharma/BookStoreWeb",
-    webapp: "https://www.npmjs.com/package/cmtk-email-validator",
+    webapp: "https://book-store-web-flame.vercel.app/",
   },
   {
     id: 3,
     title: "EcoRecycle",
     description:
-      "A productivity-boosting Chrome extension designed to help users manage and remember their daily tasks. Built using JavaScript, it offers a simple interface with reminders and task notifications to keep users on track.",
+      "EcoRecycle is an intelligent web application designed to promote sustainable waste management by leveraging AI-powered object detection and location-based recycling center recommendations.",
     image: taskremLogo,
     tags: ["JavaScript", "Chrome Extension", "HTML", "CSS"],
-    github:
-      "EcoRecycle is an intelligent web application designed to promote sustainable waste management by leveraging AI-powered object detection and location-based recycling center recommendations.",
-    webapp: "chrome://extensions/?id=kngheeibjnnidhfoomkpnbeghackheci",
+    github: "https://github.com/raghuveeersharma/EcoRecycle",
+    webapp: "",
   },
   {
     id: 4,
@@ -163,8 +162,8 @@ export const projects = [
       "Responsive portfolio showcasing my work.I use react-animation in it, and it is fully responsive.",
     image: webverLogo,
     tags: ["HTML", "CSS", "JavaScript", "Framer Motion"],
-    github: "https://github.com/codingmastr/Webverse-Digital",
-    webapp: "https://webversedigital.com/",
+    github: "https://github.com/raghuveeersharma/Portfolio",
+    webapp: "https://raghuveeersharma.github.io/Portfolio/",
   },
   {
     id: 5,
