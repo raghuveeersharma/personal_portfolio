@@ -18,6 +18,10 @@ const Navbar = () => {
       label: "Skills",
     },
     {
+      id: "projects",
+      label: "Projects",
+    },
+    {
       id: "education",
       label: "Education",
     },
