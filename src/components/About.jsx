@@ -46,7 +46,7 @@ const About = () => {
           </p>
           {/* resume */}
           <a
-            href="https://drive.google.com/file/d/10ZpANzc4uDsZzR03CndxvyD0JlHVvpPz/view?usp=drivesdk"
+            href="https://drive.google.com/file/d/1jQzcFIlcEWLyNvn6_CbqHX3kI9e8BO0m/view?usp=drivesdk"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block py-2 px-4 bg-[#8245ec] text-gray-200 hover:text-white rounded-full hover:bg-[#6f3bce] transition transform duration-300 ease-in-out mt-4"
