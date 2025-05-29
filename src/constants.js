@@ -35,6 +35,7 @@ import taskremLogo from "./assets/work_logo/eco.png";
 import npmLogo from "./assets/work_logo/BookStore.png";
 import webverLogo from "./assets/work_logo/Portfolio.png";
 import cmLogo from "./assets/work_logo/Todo.png";
+import LinkUP from "./assets/work_logo/LinkUP.png";
 
 export const SkillsInfo = [
   {
@@ -115,6 +116,25 @@ export const education = [
 ];
 
 export const projects = [
+  {
+    id: -1,
+    title: "LinkUP",
+    description:
+      "LinkUP is a modern, user-friendly web application designed to simplify social connection and communication. It enables users to create accounts, manage profiles, connect with others, and engage in meaningful digital interactions. Whether it's networking, sharing updates, or building an online presence, LinkUP makes it effortless and intuitive.",
+    image: LinkUP,
+    tags: [
+      "React.jS",
+      "Node.js",
+      "MongoDB",
+      "Express",
+      "Tailwind CSS",
+      "React Query",
+      "JWT",
+      "daisyui",
+    ],
+    github: "https://github.com/raghuveeersharma/LinkUP",
+    webapp: "https://link-up-git-master-raghuveer-sharmas-projects.vercel.app/",
+  },
   {
     id: 0,
     title: "EcoRecycle",
