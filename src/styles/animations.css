@@ -1,0 +1,127 @@
+/* ============================================================
+   Scroll-reveal motion system
+
+   The React layer (src/animation/) owns *when* something is
+   visible and nothing else. It sets two attributes:
+
+     data-reveal="<variant>"   the from-state / which axis moves
+     data-revealed="true"      flips to the to-state
+
+   This file owns *what the motion looks like*. Adding a variant
+   is therefore a CSS-only change — declare a new
+   [data-reveal="..."] rule below and pass that name as the
+   `variant` prop.
+
+   House rule: variants may only set --reveal-x / --reveal-y /
+   --reveal-scale. Animating opacity + transform and nothing
+   else is what keeps these reveals off the main thread.
+   ============================================================ */
+
+:root {
+  --reveal-duration: 700ms;
+  --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-distance: 28px;
+  --reveal-step: 90ms;
+}
+
+/* ---- From-state -------------------------------------------
+   The axis vars are re-declared (not just defaulted) on every
+   reveal element so a nested reveal cannot inherit its
+   parent's offset.
+--------------------------------------------------------- */
+[data-reveal] {
+  --reveal-x: 0px;
+  --reveal-y: 0px;
+  --reveal-scale: 1;
+
+  opacity: 0;
+  transform: translate3d(var(--reveal-x), var(--reveal-y), 0)
+    scale(var(--reveal-scale));
+  transition-property: opacity, transform;
+  transition-duration: var(--reveal-duration);
+  transition-timing-function: var(--reveal-ease);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+/* ---- Variants ---------------------------------------------
+   Equal specificity to the block above, so these must stay
+   after it to win on source order.
+--------------------------------------------------------- */
+[data-reveal="fade"] {
+  /* opacity only */
+}
+
+[data-reveal="fade-up"] {
+  --reveal-y: var(--reveal-distance);
+}
+
+[data-reveal="fade-down"] {
+  --reveal-y: calc(var(--reveal-distance) * -1);
+}
+
+/* Named for where the element comes *from*. */
+[data-reveal="fade-left"] {
+  --reveal-x: calc(var(--reveal-distance) * -1);
+}
+
+[data-reveal="fade-right"] {
+  --reveal-x: var(--reveal-distance);
+}
+
+[data-reveal="zoom-in"] {
+  --reveal-scale: 0.92;
+}
+
+[data-reveal="zoom-out"] {
+  --reveal-scale: 1.06;
+}
+
+[data-reveal="rise"] {
+  --reveal-y: calc(var(--reveal-distance) * 1.6);
+  --reveal-scale: 0.97;
+}
+
+/* ---- To-state --------------------------------------------- */
+[data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* ---- Staggered groups -------------------------------------
+   One observer on the container drives every child, so a 40-item
+   grid costs a single IntersectionObserver instead of 40.
+   The container inherits --reveal-step down to the children;
+   each child carries its own --reveal-index.
+--------------------------------------------------------- */
+[data-stagger] > [data-reveal] {
+  transition-delay: calc(
+    var(--reveal-delay, 0ms) + var(--reveal-index, 0) * var(--reveal-step)
+  );
+}
+
+[data-stagger][data-revealed="true"] > [data-reveal] {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* ---- Reduced motion ---------------------------------------
+   Final state, instantly, for every variant. Any new motion in
+   this project must degrade the same way.
+--------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-stagger] > [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  [data-stagger],
+  [data-reveal] {
+    animation: none;
+  }
+}

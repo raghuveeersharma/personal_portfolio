@@ -1,32 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaArrowUp } from "react-icons/fa";
 
 const NavigatorToTop = () => {
   const [isScrolling, setIsScrolling] = useState(false);
-  let scrollTimeout;
-
-  const handleScroll = () => {
-    if (window.scrollY === 0) {
-      setIsScrolling(false);
-    } else {
-      setIsScrolling(true); // Show while scrolling
-
-      // Hide after scrolling stops
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        setIsScrolling(false);
-      }, 1500); // Adjust delay as needed
-    }
-  };
+  // A plain `let` in the body was re-created on every render, so the
+  // pending timeout was never the one being cleared and the button
+  // flickered. The handle has to outlive renders.
+  const hideTimeout = useRef(null);
 
   useEffect(() => {
-    // Add scroll event listener
-    window.addEventListener("scroll", handleScroll);
+    const onScroll = () => {
+      if (window.scrollY === 0) {
+        setIsScrolling(false);
+        return;
+      }
 
-    // Cleanup event listener on unmount
+      setIsScrolling(true); // Show while scrolling
+
+      // Hide once scrolling stops
+      clearTimeout(hideTimeout.current);
+      hideTimeout.current = setTimeout(() => setIsScrolling(false), 1500);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(scrollTimeout);
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(hideTimeout.current);
     };
   }, []);
   return (

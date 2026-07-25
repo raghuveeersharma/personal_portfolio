@@ -31,23 +31,24 @@ const Navbar = () => {
     },
   ];
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 0) {
-        setScroll(true);
-      } else {
-        setScroll(false);
-      }
-    });
-    return () => {
-      window.removeEventListener("scroll", () => {});
-    };
+    // Named handler: the previous version removed a brand-new arrow
+    // function on cleanup, so the listener was never actually detached.
+    const onScroll = () => setScroll(window.scrollY > 0);
+
+    onScroll(); // catch a restored scroll position on mount
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
   const handelactive = (id) => {
     setActive(id);
   };
   return (
     <nav
-      className={`{!scroll ? "bg-[#050414] bg-opacity-50 backdrop-blur-md shadow-md " : "bg-transparent"} fixed top-0 w-full z-50 transition-all duration-300 ease-in-out px-[7vw] lg:px-[14vw]`}
+      className={`${
+        scroll
+          ? "bg-[#050414]/70 backdrop-blur-md shadow-md"
+          : "bg-transparent"
+      } fixed top-0 w-full z-50 transition-all duration-300 ease-in-out px-[7vw] lg:px-[14vw]`}
     >
       <div className="text-white py-5 flex items-center justify-between">
         <div className="font-semibold cursor-pointer text-lg">

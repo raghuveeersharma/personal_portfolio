@@ -2,9 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="./src/assets/Profile.png"  />
+    <link rel="icon" type="image/png" href="./src/assets/Profile.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/src/styles.css" rel="stylesheet">
+
+    <!-- Body serif. One request for the whole page: Newsreader is a
+         variable font, so every weight/optical size below comes from
+         this single file. See docs/FONTS.md before adding another. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Scroll reveals start from opacity:0, so without JS the page
+         would render blank. Pin everything to its final state. -->
+    <noscript>
+      <style>
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+
     <title>Raghuveer Sharma</title>
   </head>
   <body>

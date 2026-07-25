@@ -1,5 +1,6 @@
 import { FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 import { TbBrandLeetcode } from "react-icons/tb";
+import { Reveal } from "../animation";
 
 const Footer = () => {
   // Smooth scroll function
@@ -12,7 +13,7 @@ const Footer = () => {
 
   return (
     <footer className="text-white pt-4 md:pt-8 py-8 px-[12vw] md:px-[7vw] lg:px-[20vw]">
-      <div className="container mx-auto text-center">
+      <Reveal className="container mx-auto text-center">
         {/* Name / Logo */}
         <h2 className="text-xl font-semibold text-purple-500">
           Raghuveer Sharma
@@ -69,10 +70,10 @@ const Footer = () => {
         </div>
 
         {/* Copyright Text */}
-        <p className="text-sm text-gray-400 mt-6">
+        <p className="text-sm text-gray-400 mt-6 font-sans">
           © 2025 Raghuveer Sharma. All rights reserved.
         </p>
-      </div>
+      </Reveal>
     </footer>
   );
 };

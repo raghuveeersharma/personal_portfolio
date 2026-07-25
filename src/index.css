@@ -1,23 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+/* Single stylesheet entry point. Order is load-bearing:
+   Tailwind first, then tokens (@theme must be seen before the
+   utilities that read it), then the motion layer. */
 @import "tailwindcss";
+@import "./styles/theme.css";
+@import "./styles/animations.css";
 
-
-* {
-    font-family: poppins, sans-serif;
-}
-
-html{
+/* Smooth anchor scrolling, but never against the user's wishes. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
     scroll-behavior: smooth;
+  }
 }
 
-@layer utilities{
-    .clip-path-custom{
-        clip-path: polygon(0 0,100% 0, 100% 98%,75% 95% ,0 100%);
-    }
-    .clip-path-custom-2 {
-        clip-path: polygon(0 0, 100% 0, 100% 98%, 25% 95%, 0 100%);
-      }
-    .clip-path-custom-3 {
-        clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 96%, 0 100%);
-      }
+@layer utilities {
+  .clip-path-custom {
+    clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 95%, 0 100%);
+  }
+  .clip-path-custom-2 {
+    clip-path: polygon(0 0, 100% 0, 100% 98%, 25% 95%, 0 100%);
+  }
+  .clip-path-custom-3 {
+    clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 96%, 0 100%);
+  }
 }

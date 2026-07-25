@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
+import { Reveal, Stagger } from "../animation";
 
 const Contact = () => {
   const form = useRef();
@@ -55,17 +56,21 @@ const Contact = () => {
       <ToastContainer />
 
       {/* Section Title */}
-      <div className="text-center mb-16">
+      <Reveal className="text-center mb-16">
         <h2 className="text-4xl font-bold text-white">CONTACT</h2>
         <div className="w-32 h-1 bg-purple-500 mx-auto mt-4"></div>
         <p className="text-gray-400 mt-4 text-lg font-semibold">
           I’d love to hear from you—reach out for any opportunities or
           questions!
         </p>
-      </div>
+      </Reveal>
 
       {/* Contact Form */}
-      <div className="mt-8 w-full max-w-md bg-[#0d081f] p-6 rounded-lg shadow-lg border border-gray-700">
+      <Reveal
+        variant="rise"
+        delay={120}
+        className="mt-8 w-full max-w-md bg-[#0d081f] p-6 rounded-lg shadow-lg border border-gray-700"
+      >
         <h3 className="text-xl font-semibold text-white text-center">
           Connect With Me <span className="ml-1">🚀</span>
         </h3>
@@ -112,8 +117,13 @@ const Contact = () => {
             Send
           </button>
         </form>
-      </div>
-      <div className="flex flex-col lg:flex-row items-center text-center justify-center lg:gap-56 gap-12 md:pb-6 pb-0 mt-28">
+      </Reveal>
+      {/* Reveals sit directly on these cards — unlike the project/skill
+          cards they have no transition of their own to preserve. */}
+      <Stagger
+        step={120}
+        className="flex flex-col lg:flex-row items-center text-center justify-center lg:gap-56 gap-12 md:pb-6 pb-0 mt-28"
+      >
         <div className="flex flex-col items-center text-center text-white w-full lg:w-56 h-52 pt-0 hover:scale-105 duration-700 ">
           <span className="text-5xl lg:pt-2">
             <IoLocationOutline />
@@ -172,7 +182,7 @@ const Contact = () => {
             </a>
           </p>
         </div>
-      </div>
+      </Stagger>
     </section>
   );
 };

@@ -1,0 +1,77 @@
+/* ============================================================
+   Design tokens (Tailwind v4 — this file replaces tailwind.config.js)
+
+   Everything declared in @theme is emitted as a CSS variable on
+   :root AND generates the matching Tailwind utility, so
+   --font-serif  ->  font-serif
+   --color-accent -> text-accent / bg-accent / border-accent
+   ============================================================ */
+
+@theme {
+  /* ---- Typography ------------------------------------------
+     Anthropic's own faces (Copernicus for display, Tiempos Text
+     for reading) are licensed, so they are named first but are
+     NOT fetched: if they are ever self-hosted under
+     public/fonts/ via @font-face, this stack picks them up with
+     no other change. Newsreader is the free face that actually
+     renders today — same transitional-serif skeleton, high
+     x-height, optical-size axis. See docs/FONTS.md.
+  --------------------------------------------------------- */
+  --font-serif: "Copernicus", "Tiempos Text", "Newsreader", ui-serif, Georgia,
+    Cambria, "Times New Roman", serif;
+
+  /* Opt-out face for micro-copy: tags, badges, numeric labels.
+     System stack on purpose — it costs zero network requests. */
+  --font-sans: "Styrene B", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* ---- Brand ---------------------------------------------- */
+  --color-accent: #8245ec;
+  --color-accent-deep: #6f3bce;
+  --color-ink: #050414;
+
+  /* ---- Ambient motion -------------------------------------
+     `animate-blob` was already used by BlurBlob.jsx but no
+     keyframes existed anywhere, so it was a no-op until now.
+  --------------------------------------------------------- */
+  --animate-blob: blob 16s ease-in-out infinite;
+
+  @keyframes blob {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(6%, -4%) scale(1.08);
+    }
+    66% {
+      transform: translate(-5%, 5%) scale(0.94);
+    }
+  }
+}
+
+@layer base {
+  /* The serif is the default voice of the page — components
+     inherit it and must not re-declare `font-serif`. Reach for
+     `font-sans` only to step *out* of it. */
+  body {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-ink);
+  }
+
+  /* Newsreader's default tracking is loose at display sizes. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
+  }
+
+  /* The navbar is fixed at ~76px; without this, anchor jumps
+     land with the heading tucked underneath it. */
+  :where(section[id]) {
+    scroll-margin-top: 6rem;
+  }
+}
