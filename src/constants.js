@@ -28,6 +28,12 @@ import postgreLogo from "./assets/tech_logo/postgre.png";
 import chameli from "./assets/education_logo/chameli.png";
 import CITYSTAR from "./assets/education_logo/CITYSTAR.jpeg";
 
+// Experience Section Logo's
+// Placeholders — drop the real company logos into
+// src/assets/experience_logo/ and swap these imports.
+import bestpeersLogo from "./assets/experince_logo/bestpeers.jpeg";
+import codemantraLogo from "./assets/experince_logo/code_mantra.png";
+
 // Project Section Logo's
 import githubdetLogo from "./assets/work_logo/TextUtil.png";
 import csprepLogo from "./assets/work_logo/PassOp.png";
@@ -81,6 +87,49 @@ export const SkillsInfo = [
       { name: "Postman", logo: postmanLogo },
       { name: "Compass", logo: mcLogo },
       { name: "Vercel", logo: vercelLogo },
+    ],
+  },
+];
+
+// Newest first — the timeline renders in array order.
+export const experiences = [
+  {
+    id: 0,
+    img: codemantraLogo,
+    company: "Code Mantra, Indore",
+    role: "React JS Intern",
+    type: "Internship",
+    date: "June 2023 - july 2023",
+    desc: "My first hands-on experience with professional frontend development. I built responsive, reusable React components from Figma designs, wired them to REST APIs, and handled application state with hooks and the Context API. Along the way I picked up client-side routing with React Router, form handling and validation, cross-browser and mobile fixes, and the everyday habits of working on a team — Git workflow, pull requests, and acting on code review feedback.",
+    skills: [
+      "React JS",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Context API",
+      "React Router",
+      "Git",
+    ],
+  },
+   {
+    id: 1,
+    img: bestpeersLogo,
+    company: "BestPeers Infosystem, Indore",
+    role: "MERN Stack Developer",
+    type: "Full-time",
+    date: "Sept 2025 - Present",
+    desc: "Working as a full-time MERN stack developer, building and maintaining production web applications end to end. I design and consume REST APIs with Node.js and Express, model data in MongoDB, and build responsive, component-driven interfaces in React. Day to day this includes implementing authentication and role-based access with JWT, writing reusable hooks and shared UI components, optimising queries and render performance, and collaborating with designers and QA in an Agile workflow with code reviews and Git-based branching.",
+    skills: [
+      "React JS",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "REST APIs",
+      "JWT",
+      "Tailwind CSS",
+      "Git",
+      "TypeScript",
+      "Sql",
     ],
   },
 ];

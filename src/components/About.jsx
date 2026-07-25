@@ -43,7 +43,7 @@ const About = () => {
                 sequence={[
                   "Web Developer",
                   1500,
-                  "UI/UX Designer",
+                  "SaaS Developer",
                   1500,
                   "MERN Stack Developer",
                   1500,

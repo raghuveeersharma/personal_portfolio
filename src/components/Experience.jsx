@@ -1,39 +1,39 @@
-import { education } from "../constants"; // Import the education data
+import { experiences } from "../constants";
 import { Reveal, ScrollProgressLine, Stagger } from "../animation";
 
-const Education = () => {
+const Experience = () => {
   return (
     <section
-      id="education"
-      className="py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[4vw] clip-path-custom-3"
+      id="experience"
+      className="py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[4vw] clip-path-custom-2"
       style={{
         backgroundImage:
           "linear-gradient(38.73deg, rgba(204, 0, 187, 0.15) 0%, rgba(201, 32, 184, 0) 50%), linear-gradient(141.27deg, rgba(0, 70, 209, 0) 50%, rgba(0, 70, 209, 0.15) 100%)",
-        backgroundBlendMode: "overlay", // optional: helps blend if you want
+        backgroundBlendMode: "overlay",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >
       {/* Section Title */}
       <Reveal className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-white">EDUCATION</h2>
+        <h2 className="text-4xl font-bold text-white">EXPERIENCE</h2>
         <div className="w-32 h-1 bg-purple-500 mx-auto mt-4"></div>
         <p className="text-gray-400 mt-4 text-lg font-semibold">
-          My education has been a journey of learning and development. Here are
-          the details of my academic background
+          A short timeline of the teams I have built with — from my first
+          frontend internship to full-time full-stack work
         </p>
       </Reveal>
 
-      {/* Education Timeline */}
+      {/* Experience Timeline */}
       <div className="relative">
         {/* Vertical line — fills with the accent colour on scroll */}
         <ScrollProgressLine className="absolute sm:left-1/2 left-0 transform -translate-x-1/2 sm:-translate-x-0 w-1 rounded-full bg-white/15 h-full" />
 
-        {/* Education Entries */}
+        {/* Experience Entries */}
         <Stagger step={160} as="div">
-          {education.map((edu, index) => (
+          {experiences.map((exp, index) => (
             <div
-              key={edu.id}
+              key={exp.id}
               // Per-child data-reveal wins over Stagger's default, so
               // each entry slides in from its own side of the timeline.
               data-reveal={index % 2 === 0 ? "fade-left" : "fade-right"}
@@ -44,8 +44,8 @@ const Education = () => {
               {/* Timeline Circle */}
               <div className="absolute sm:left-1/2 left-0 transform -translate-x-1/2 bg-gray-400 border-4 border-accent w-12 h-12 sm:w-16 sm:h-16 rounded-full flex justify-center items-center z-10">
                 <img
-                  src={edu.img}
-                  alt={edu.school}
+                  src={exp.img}
+                  alt={exp.company}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -56,34 +56,47 @@ const Education = () => {
                   index % 2 === 0 ? "sm:ml-0" : "sm:mr-0"
                 } sm:ml-44 sm:mr-44 ml-8 transform transition-transform duration-300 hover:scale-105`}
               >
-                {/* Flex container for image and text */}
+                {/* Flex container for logo and text */}
                 <div className="flex items-center space-x-6">
-                  {/* School Logo/Image */}
-                  <div className="w-24 h-16 bg-white rounded-md overflow-hidden">
+                  {/* Company Logo */}
+                  <div className="w-24 h-16 bg-white rounded-md overflow-hidden flex items-center justify-center">
                     <img
-                      src={edu.img}
-                      alt={edu.school}
-                      className="w-full h-full object-cover"
+                      src={exp.img}
+                      alt={exp.company}
+                      className="w-full h-full object-contain p-2"
                     />
                   </div>
 
-                  {/* Degree, School Name, and Date */}
+                  {/* Role, Company and Date */}
                   <div className="flex flex-col justify-between">
                     <div>
                       <h3 className="text-xl sm:text-xl font-semibold text-white">
-                        {edu.degree}
+                        {exp.role}
                       </h3>
                       <h4 className="text-md sm:text-sm text-gray-300">
-                        {edu.school}
+                        {exp.company}
                       </h4>
                     </div>
                     {/* Date at the bottom */}
                     <p className="text-sm text-gray-500 mt-2 font-sans">
-                      {edu.date}
+                      {exp.date} &middot; {exp.type}
                     </p>
                   </div>
                 </div>
-                <p className="mt-4 text-gray-400">{edu.desc}</p>
+
+                <p className="mt-4 text-gray-400">{exp.desc}</p>
+
+                {/* Tech used */}
+                <div className="mt-4">
+                  {exp.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="inline-block bg-gray-800 text-purple-400 text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -93,4 +106,4 @@ const Education = () => {
   );
 };
 
-export default Education;
+export default Experience;

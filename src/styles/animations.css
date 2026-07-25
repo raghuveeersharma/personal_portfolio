@@ -107,6 +107,36 @@
   will-change: auto;
 }
 
+/* ---- Scroll-progress rule ---------------------------------
+   The timeline sections' vertical line fills as the visitor
+   reads down it. useScrollProgress writes --scroll-progress
+   (0 → 1) onto the track element; the fill is nothing but a
+   scaleY of that number, so this stays a compositor job like
+   the reveals do.
+
+   Note the track supplies the containing block — it must be
+   positioned, and this file deliberately does not set that
+   (it would override the caller's `absolute` utility).
+--------------------------------------------------------- */
+[data-progress-fill] {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    #8245ec 0%,
+    #a855f7 55%,
+    #d8b4fe 100%
+  );
+  box-shadow: 0 0 12px 1px rgba(130, 69, 236, 0.55);
+  transform: scaleY(var(--scroll-progress, 0));
+  transform-origin: top center;
+  /* Just enough to smooth the jump between discrete wheel ticks;
+     any longer and the line visibly lags the scroll. */
+  transition: transform 120ms linear;
+  will-change: transform;
+}
+
 /* ---- Reduced motion ---------------------------------------
    Final state, instantly, for every variant. Any new motion in
    this project must degrade the same way.
@@ -123,5 +153,13 @@
   [data-stagger],
   [data-reveal] {
     animation: none;
+  }
+
+  /* The hook already pins this to 1 and never listens; belt and
+     braces so the line is never left empty. */
+  [data-progress-fill] {
+    transform: scaleY(1);
+    transition: none;
+    will-change: auto;
   }
 }
