@@ -42,7 +42,9 @@ Section components are self-contained and share a layout idiom worth matching: `
 
 **Typography: the body font is a serif.** `@layer base` sets `font-family: var(--font-serif)` on `body`, so serif is inherited by default and you do not add `font-serif` to individual components. `font-sans` is the opt-out for small mechanical text (badges, tags, code-ish labels). Note that several older components still carry a literal `font-sans` class on their `<section>` — that is legacy and should be removed when you touch those files, not copied.
 
-The serif stack prefers Anthropic's licensed faces (`Copernicus`, `Tiempos Text`) if they are ever self-hosted in `public/fonts/`, and falls back to **Newsreader** (loaded from Google Fonts in `index.html`) which is the free face that actually renders today. See `docs/FONTS.md` for the swap procedure. Do not add a second webfont request without removing one — the page currently makes exactly one.
+The serif stack prefers Anthropic's licensed faces (`Copernicus`, `Tiempos Text`) if they are ever self-hosted in `public/fonts/`, and falls back to **Newsreader** (loaded from Google Fonts in `index.html`) which is the free face that actually renders today. See `docs/FONTS.md` for the swap procedure. Do not add a second webfont request without removing one — the page still makes exactly one, and the four families it needs are asked for in a single `css2` URL.
+
+`About` is the one section that sets type deliberately, because it is a hero rather than prose: `--font-display` (Syne) for the name and `--font-mono` (Fira Code) for the code panel, alongside the hero-only colour tokens (`--color-hero-*`) in `theme.css`. Nowhere else should reach for those.
 
 ## Scroll animations
 
@@ -53,6 +55,9 @@ Three pieces:
 - `useInView.js` — the only observer logic. Returns `[ref, inView]`, disconnects after first reveal by default (`once`).
 - `Reveal.jsx` — wraps one element: `<Reveal variant="fade-up" delay={120}>`. Renders a `div` unless you pass `as`.
 - `Stagger.jsx` — wraps a **list** container: one observer for the whole group, children revealed in sequence via `step` (ms). Always prefer this over N `Reveal`s in a `.map()`; the project grid and skills grid would otherwise create dozens of observers. A child that sets its own `data-reveal` keeps it, which is how `Education` alternates slide directions per timeline side.
+- `useScrollProgress.js` + `ScrollProgressLine.jsx` — the other direction: not "has it appeared" but "how far through it are we". The hook writes `--scroll-progress` (0→1) straight onto the node instead of into state, because it updates every scroll frame. `Experience` and `Education` use the line component for their timeline spine.
+
+Per-instance distances are set with `style={{ "--reveal-distance": "10px" }}` — the variants read that variable, so you tune a reveal without adding a variant for every offset.
 
 The actual visual states live in `src/styles/animations.css`, keyed off `[data-reveal]` / `[data-revealed]` attributes that the components set. **Adding a new variant is a CSS-only change** — add a `[data-reveal="my-variant"]` rule setting `--reveal-x/y/scale`, then pass `variant="my-variant"`. Don't animate anything other than `opacity` and `transform` in these rules; that constraint is what keeps reveals off the main thread.
 

@@ -13,8 +13,9 @@
    `variant` prop.
 
    House rule: variants may only set --reveal-x / --reveal-y /
-   --reveal-scale. Animating opacity + transform and nothing
-   else is what keeps these reveals off the main thread.
+   --reveal-scale (and, rarely, --reveal-ease). Animating
+   opacity + transform and nothing else is what keeps these
+   reveals off the main thread.
    ============================================================ */
 
 :root {
@@ -80,6 +81,21 @@
 [data-reveal="rise"] {
   --reveal-y: calc(var(--reveal-distance) * 1.6);
   --reveal-scale: 0.97;
+}
+
+/* Deeper zoom than zoom-in — for small elements (the hero's stack
+   chips) where 0.92 barely reads as a scale at all. */
+[data-reveal="scale-in"] {
+  --reveal-scale: 0.85;
+}
+
+/* The one variant that also overrides --reveal-ease: an overshoot
+   curve, standing in for the spring the hero's primary CTA wants.
+   Still opacity + transform only, so the house rule holds. */
+[data-reveal="pop-up"] {
+  --reveal-y: calc(var(--reveal-distance) * 0.5);
+  --reveal-scale: 0.96;
+  --reveal-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ---- To-state --------------------------------------------- */
@@ -161,5 +177,10 @@
     transform: scaleY(1);
     transition: none;
     will-change: auto;
+  }
+
+  /* The status dots stay lit rather than breathing. */
+  .animate-avail-pulse {
+    animation: none;
   }
 }

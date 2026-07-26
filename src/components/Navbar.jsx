@@ -64,7 +64,9 @@ const Navbar = () => {
           <span className="text-[#8245ec]">&gt;</span>
         </div>
 
-        <ul className="text-gray-300 hidden md:flex space-x-9 items-center justify-center text-center">
+        {/* lg, not md: six items no longer clear the wordmark at ~800px,
+            so the tablet range keeps the hamburger. */}
+        <ul className="text-gray-300 hidden lg:flex space-x-6 xl:space-x-9 items-center justify-center text-center">
           {menuitems.map((items) => (
             <li
               key={items.id}
@@ -101,12 +103,12 @@ const Navbar = () => {
         <div>
           {open ? (
             <RxCross1
-              className="text-white text-2xl md:hidden"
+              className="text-white text-2xl lg:hidden"
               onClick={() => setOpen(!open)}
             />
           ) : (
             <RxHamburgerMenu
-              className="text-white text-2xl md:hidden"
+              className="text-white text-2xl lg:hidden"
               onClick={() => setOpen(!open)}
             />
           )}
@@ -114,7 +116,7 @@ const Navbar = () => {
       </div>
       <div>
         {open && (
-          <div className="md:hidden absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5  backdrop-blur-lg bg-black/60  shadow-lg rounded-lg px-4 py-3">
+          <div className="lg:hidden absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5  backdrop-blur-lg bg-black/60  shadow-lg rounded-lg px-4 py-3">
             <ul className="text-gray-300 flex flex-col items-center space-y-4">
               {menuitems.map((items) => (
                 <a

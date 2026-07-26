@@ -1,3 +1,5 @@
+import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+
 // Skills Section Logo's
 import htmlLogo from "./assets/tech_logo/html.png";
 import cssLogo from "./assets/tech_logo/css.png";
@@ -90,6 +92,66 @@ export const SkillsInfo = [
     ],
   },
 ];
+
+// ---- Hero (About section) ---------------------------------------
+// The four phrases the hero types out, each aimed at a different
+// reader: generalist recruiter, backend lead, frontend lead, CTO.
+// react-type-animation reads this flat — string, hold, clear, pause.
+export const heroRoles = [
+  "full-stack MERN apps",
+  1800,
+  "",
+  300,
+  "REST APIs & backends",
+  1800,
+  "",
+  300,
+  "React interfaces",
+  1800,
+  "",
+  300,
+  "scalable Node.js services",
+  1800,
+  "",
+  300,
+];
+
+// TODO: confirm these before the next deploy — see the note in the
+// hero spec. Three is the ceiling; a fourth crowds the row.
+export const heroStats = [
+  { value: "1+", label: "years exp" },
+  { value: "10+", label: "projects" },
+];
+
+export const heroSocials = [
+  {
+    label: "GitHub",
+    icon: FiGithub,
+    href: "https://github.com/raghuveeersharma",
+  },
+  {
+    label: "LinkedIn",
+    icon: FiLinkedin,
+    href: "https://www.linkedin.com/in/raghuveer-sharma-810124252/",
+  },
+  {
+    label: "Email",
+    icon: FiMail,
+    href: "mailto:sharmaraghu157@gmail.com",
+  },
+];
+
+// Colour-coded per technology so the row reads as crafted rather
+// than as a generic tag list.
+export const heroStack = [
+  { label: "MongoDB", text: "#4ADE80", bg: "#111D11", border: "#1A3A1A" },
+  { label: "Express.js", text: "#F59E0B", bg: "#1A1209", border: "#3A2A09" },
+  { label: "React", text: "#60A5FA", bg: "#0D1729", border: "#0D2545" },
+  { label: "Node.js", text: "#4ADE80", bg: "#0D1A0D", border: "#1A3A1A" },
+];
+
+export const heroResume =
+  "https://drive.google.com/file/d/1jQzcFIlcEWLyNvn6_CbqHX3kI9e8BO0m/view?usp=drivesdk";
 
 // Newest first — the timeline renders in array order.
 export const experiences = [

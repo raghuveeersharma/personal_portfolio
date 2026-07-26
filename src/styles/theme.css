@@ -21,20 +21,63 @@
     Cambria, "Times New Roman", serif;
 
   /* Opt-out face for micro-copy: tags, badges, numeric labels.
-     System stack on purpose — it costs zero network requests. */
-  --font-sans: "Styrene B", ui-sans-serif, system-ui, -apple-system,
+     Inter leads the stack; everything after it is the system
+     fallback the site used before, so nothing shifts if the
+     webfont is dropped from index.html. */
+  --font-sans: "Inter", "Styrene B", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Display face for the hero name only — a grotesque, so it has
+     to be asked for explicitly against the serif body default. */
+  --font-display: "Syne", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* The hero's code panel. Ligature-friendly mono. */
+  --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
 
   /* ---- Brand ---------------------------------------------- */
   --color-accent: #8245ec;
   --color-accent-deep: #6f3bce;
   --color-ink: #050414;
 
+  /* ---- Hero palette ----------------------------------------
+     Scoped to the hero, which runs a cooler violet than the
+     site accent (#8245ec) and its own near-black. Kept as
+     tokens rather than arbitrary values so the panel, chips and
+     badges cannot drift apart.
+  --------------------------------------------------------- */
+  --color-hero-bg: #0d0d14;
+  --color-hero-surface: #111118;
+  --color-hero-card: #1a1a24;
+  --color-hero-border: #2a2a3f;
+  --color-hero-accent: #8b7cf8;
+  --color-hero-accent-dim: #6c5ce7;
+  --color-hero-green: #4ade80;
+  --color-hero-amber: #f59e0b;
+  --color-hero-blue: #60a5fa;
+  --color-hero-text: #e8e8f4;
+  --color-hero-dim: #8c8caa;
+  --color-hero-muted: #555572;
+
   /* ---- Ambient motion -------------------------------------
      `animate-blob` was already used by BlurBlob.jsx but no
      keyframes existed anywhere, so it was a no-op until now.
   --------------------------------------------------------- */
   --animate-blob: blob 16s ease-in-out infinite;
+
+  /* The "open to work" dot and the editor's live badge share one
+     heartbeat, so they read as the same signal. */
+  --animate-avail-pulse: availPulse 2s ease-in-out infinite;
+
+  @keyframes availPulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
 
   @keyframes blob {
     0%,
