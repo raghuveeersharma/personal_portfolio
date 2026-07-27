@@ -44,6 +44,8 @@ import npmLogo from "./assets/work_logo/BookStore.png";
 import webverLogo from "./assets/work_logo/Portfolio.png";
 import cmLogo from "./assets/work_logo/Todo.png";
 import LinkUP from "./assets/work_logo/LinkUP.png";
+import SchoolSathi from "./assets/work_logo/SchoolSathi.png";
+import SyncDoc from "./assets/work_logo/SyncDoc.png";
 
 export const SkillsInfo = [
   {
@@ -225,13 +227,89 @@ export const education = [
 
 export const projects = [
   {
-    id: -1,
+    id: 0,
+    title: "SchoolSathi",
+    description:
+      "SchoolSathi is a modern multi-tenant School Management System (SaaS) that streamlines school administration through a comprehensive dashboard. It provides modules for student admissions, staff management, attendance, classes, timetables, examinations, payroll, fees, notifications, and academic lifecycle management with secure authentication and a scalable architecture.",
+    image: SchoolSathi,
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Express.js",
+      "PostgreSQL",
+      "Prisma",
+      "Tailwind CSS",
+      "Material UI",
+      "React Query",
+      "Axios",
+      "JWT",
+      "Zod",
+      "Cloudinary",
+    ],
+    github:
+      "https://github.com/raghuveeersharma/SchoolSathi-frontend/tree/main",
+    webapp: "https://school-sathi-frontend.vercel.app/",
+  },
+  {
+    id: 1,
+    title: "GymFlow",
+    description:
+      "GymFlow is a modern multi-tenant gym management platform that helps gym owners efficiently manage members, membership plans, payments, attendance, and business analytics from a single dashboard. It features secure authentication, role-based access, real-time dashboard insights, and a scalable architecture built with modern frontend technologies for a seamless management experience.",
+    image: "GymFlow",
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Redux Toolkit",
+      "RTK Query",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "React Hook Form",
+      "Zod",
+      "Axios",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "JWT",
+    ],
+    github: "https://github.com/raghuveeersharma/gymflow-fe",
+    webapp: "https://gymflow-fe.vercel.app/",
+  },
+  {
+    id: 2,
+    title: "SyncDocs",
+    description:
+      "LocalFirst Docs is a collaborative document editor built with a local-first architecture, enabling users to create, edit, and collaborate on documents even without an internet connection. Powered by CRDT-based synchronization, it provides deterministic conflict resolution, real-time collaboration, version history, AI-assisted writing, and seamless offline-to-online synchronization while ensuring secure role-based access control.",
+    image: SyncDoc,
+    tags: [
+      "Next.js",
+      "TypeScript",
+      "Yjs",
+      "PartyKit",
+      "TipTap",
+      "IndexedDB",
+      "Drizzle ORM",
+      "Neon PostgreSQL",
+      "Auth.js",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Groq AI",
+      "Playwright",
+      "Vitest",
+    ],
+    github: "https://github.com/raghuveeersharma/SyncDocs",
+    webapp: "https://sync-docs-tau.vercel.app",
+  },
+  {
+    id: 3,
     title: "LinkUP",
     description:
       "LinkUP is a modern, user-friendly web application designed to simplify social connection and communication. It enables users to create accounts, manage profiles, connect with others, and engage in meaningful digital interactions. Whether it's networking, sharing updates, or building an online presence, LinkUP makes it effortless and intuitive.",
     image: LinkUP,
     tags: [
-      "React.jS",
+      "React.js",
       "Node.js",
       "MongoDB",
       "Express",
@@ -241,10 +319,11 @@ export const projects = [
       "daisyui",
     ],
     github: "https://github.com/raghuveeersharma/LinkUP",
-    webapp: "https://link-up-git-master-raghuveer-sharmas-projects.vercel.app/",
+    webapp:
+      "https://link-up-git-master-raghuveer-sharmas-projects.vercel.app/",
   },
   {
-    id: 0,
+    id: 4,
     title: "EcoRecycle",
     description:
       "EcoRecycle is an intelligent web application designed to promote sustainable waste management by leveraging AI-powered object detection and location-based recycling center recommendations.",
@@ -263,7 +342,7 @@ export const projects = [
     webapp: "https://eco-recycle-rho.vercel.app/",
   },
   {
-    id: 1,
+    id: 5,
     title: "PassOP",
     description:
       "PassOp is a responsive web application built with React.js that enables users to securely store and manage their website credentials, including usernames, passwords, and URLs, directly in their browser using local storage. Passwords are encrypted using AES encryption (CryptoJS) before being stored, providing a basic layer of security. To access or copy stored credentials, users are required to enter a master password.",
@@ -280,7 +359,7 @@ export const projects = [
     webapp: "https://password-manager-five-tan.vercel.app/",
   },
   {
-    id: 2,
+    id: 6,
     title: "E-BookStore",
     description:
       "E-BookStore web application using the MERN stack. The platform includes user authentication with login and logout functionality, and features protected routes that are accessible only to logged-in users. Books data is stored in MongoDB Atlas and fetched dynamically to display a collection of titles with details like name, author, and price.",
@@ -297,20 +376,20 @@ export const projects = [
     webapp: "https://book-store-web-flame.vercel.app/",
   },
   {
-    id: 3,
+    id: 7,
     title: "TextUtils",
     description:
-      "A text Editor built on React.js, it can manipulate text like Convert to uuper case,to lower case, Remove extra spaces, Copy to clipboard, Clear text, and Dark mode.",
+      "A text Editor built on React.js, it can manipulate text like Convert to upper case, to lower case, Remove extra spaces, Copy to clipboard, Clear text, and Dark mode.",
     image: githubdetLogo,
     tags: ["HTML", "CSS", "JavaScript", "React JS", "Tailwind CSS"],
     github: "https://github.com/raghuveeersharma/Text_Util/tree/master",
     webapp: "https://raghuveeersharma.github.io/Text_Util",
   },
   {
-    id: 4,
+    id: 8,
     title: "Portfolio Website",
     description:
-      "Responsive portfolio showcasing my work.I use react-animation in it, and it is fully responsive.",
+      "Responsive portfolio showcasing my work. I use react-animation in it, and it is fully responsive.",
     image: webverLogo,
     tags: [
       "JavaScript",
@@ -323,10 +402,10 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Portfolio/",
   },
   {
-    id: 5,
+    id: 9,
     title: "Todo App",
     description:
-      "A simple todo app built on MERN stack. It saves users tasks in database and user can perform CURD operations too on tasks, The UI of it is fully responsive.",
+      "A simple todo app built on MERN stack. It saves users tasks in the database, and users can perform CRUD operations on tasks. The UI is fully responsive.",
     image: cmLogo,
     tags: ["React JS", "HTML", "CSS", "JavaScript", "Tailwind CSS"],
     github: "https://github.com/raghuveeersharma/TODO_FRONTEND",
