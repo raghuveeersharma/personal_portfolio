@@ -153,7 +153,7 @@ export const heroStack = [
 ];
 
 export const heroResume =
-  "https://drive.google.com/file/d/1jQzcFIlcEWLyNvn6_CbqHX3kI9e8BO0m/view?usp=drivesdk";
+  "https://drive.google.com/file/d/1ARZrFCOdDyHR3s4qGXMztYAm0ydZ0hdB/view?usp=drivesdk";
 
 // Newest first — the timeline renders in array order.
 export const experiences = [
