@@ -3,51 +3,51 @@ import { FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 import { TbBrandLeetcode } from "react-icons/tb";
 
 // Skills Section Logo's
-import htmlLogo from "./assets/tech_logo/html.png";
-import cssLogo from "./assets/tech_logo/css.png";
-import javascriptLogo from "./assets/tech_logo/javascript.png";
-import reactjsLogo from "./assets/tech_logo/reactjs.png";
-import reduxLogo from "./assets/tech_logo/redux.png";
-import nextjsLogo from "./assets/tech_logo/nextjs.png";
-import tailwindcssLogo from "./assets/tech_logo/tailwindcss.png";
-import materialuiLogo from "./assets/tech_logo/materialui.png";
-import bootstrapLogo from "./assets/tech_logo/bootstrap.png";
-import nodejsLogo from "./assets/tech_logo/nodejs.png";
-import expressjsLogo from "./assets/tech_logo/express.png";
-import mysqlLogo from "./assets/tech_logo/mysql.png";
-import mongodbLogo from "./assets/tech_logo/mongodb.png";
-import cLogo from "./assets/tech_logo/c.png";
-import cppLogo from "./assets/tech_logo/cpp.png";
-import javaLogo from "./assets/tech_logo/java.png";
-import typescriptLogo from "./assets/tech_logo/typescript.png";
-import gitLogo from "./assets/tech_logo/git.png";
-import githubLogo from "./assets/tech_logo/github.png";
-import vscodeLogo from "./assets/tech_logo/vscode.png";
-import postmanLogo from "./assets/tech_logo/postman.png";
-import mcLogo from "./assets/tech_logo/mc.png";
-import vercelLogo from "./assets/tech_logo/vercel.png";
-import postgreLogo from "./assets/tech_logo/postgre.png";
+import htmlLogo from "./assets/tech_logo/html.webp";
+import cssLogo from "./assets/tech_logo/css.webp";
+import javascriptLogo from "./assets/tech_logo/javascript.webp";
+import reactjsLogo from "./assets/tech_logo/reactjs.webp";
+import reduxLogo from "./assets/tech_logo/redux.webp";
+import nextjsLogo from "./assets/tech_logo/nextjs.webp";
+import tailwindcssLogo from "./assets/tech_logo/tailwindcss.webp";
+import materialuiLogo from "./assets/tech_logo/materialui.webp";
+import bootstrapLogo from "./assets/tech_logo/bootstrap.webp";
+import nodejsLogo from "./assets/tech_logo/nodejs.webp";
+import expressjsLogo from "./assets/tech_logo/express.webp";
+import mysqlLogo from "./assets/tech_logo/mysql.webp";
+import mongodbLogo from "./assets/tech_logo/mongodb.webp";
+import cLogo from "./assets/tech_logo/c.webp";
+import cppLogo from "./assets/tech_logo/cpp.webp";
+import javaLogo from "./assets/tech_logo/java.webp";
+import typescriptLogo from "./assets/tech_logo/typescript.webp";
+import gitLogo from "./assets/tech_logo/git.webp";
+import githubLogo from "./assets/tech_logo/github.webp";
+import vscodeLogo from "./assets/tech_logo/vscode.webp";
+import postmanLogo from "./assets/tech_logo/postman.webp";
+import mcLogo from "./assets/tech_logo/mc.webp";
+import vercelLogo from "./assets/tech_logo/vercel.webp";
+import postgreLogo from "./assets/tech_logo/postgre.webp";
 
 // Education Section Logo's
-import chameli from "./assets/education_logo/chameli.png";
-import CITYSTAR from "./assets/education_logo/CITYSTAR.jpeg";
+import chameli from "./assets/education_logo/chameli.webp";
+import CITYSTAR from "./assets/education_logo/CITYSTAR.webp";
 
 // Experience Section Logo's
 // Placeholders — drop the real company logos into
 // src/assets/experience_logo/ and swap these imports.
-import bestpeersLogo from "./assets/experince_logo/bestpeers.jpeg";
-import codemantraLogo from "./assets/experince_logo/code_mantra.png";
+import bestpeersLogo from "./assets/experince_logo/bestpeers.webp";
+import codemantraLogo from "./assets/experince_logo/code_mantra.webp";
 
 // Project Section Logo's
-import githubdetLogo from "./assets/work_logo/TextUtil.png";
-import csprepLogo from "./assets/work_logo/PassOp.png";
-import taskremLogo from "./assets/work_logo/eco.png";
-import npmLogo from "./assets/work_logo/BookStore.png";
-import webverLogo from "./assets/work_logo/Portfolio.png";
-import cmLogo from "./assets/work_logo/Todo.png";
-import LinkUP from "./assets/work_logo/LinkUP.png";
-import SchoolSathi from "./assets/work_logo/SchoolSathi.png";
-import SyncDoc from "./assets/work_logo/SyncDoc.png";
+import githubdetLogo from "./assets/work_logo/TextUtil.webp";
+import csprepLogo from "./assets/work_logo/PassOp.webp";
+import taskremLogo from "./assets/work_logo/eco.webp";
+import npmLogo from "./assets/work_logo/BookStore.webp";
+import webverLogo from "./assets/work_logo/Portfolio.webp";
+import cmLogo from "./assets/work_logo/Todo.webp";
+import LinkUP from "./assets/work_logo/LinkUP.webp";
+import SchoolSathi from "./assets/work_logo/SchoolSathi.webp";
+import SyncDoc from "./assets/work_logo/SyncDoc.webp";
 
 export const SkillsInfo = [
   {
@@ -229,7 +229,7 @@ export const education = [
     id: 0,
     img: chameli,
     school: "Chameli Devi Group of Institutions, Indore",
-    date: "Sept 2022 - July 2024",
+    date: "Sept 2021 - July 2025",
     desc: "I have completed my Bachelor's degree in Information Technology (B.Tech) from rgpv University, Bhopal. During my time at rgpv University, I gained a strong foundation in programming, software development, and computer science principles. I have studied courses such as Data Structures, Algorithms, Object-Oriented Programming, Database Management Systems, Web Development, and Software Engineering. I actively participated in various workshops and technical events, which enhanced my skills and knowledge.",
     degree: "Bachelor of Technology - BTECH (Information Technology)",
   },
@@ -237,7 +237,7 @@ export const education = [
     id: 1,
     img: CITYSTAR,
     school: "City Star Convent Higher Secondary School, Indore",
-    date: "Apr 2017 - March 2018",
+    date: "Apr 2020 - March 2021",
     desc: "I completed my class 12 education from City Star Convent Higher Secondary School, Indore, under the State board, where I studied Physics, Chemistry, and Mathematics (PCM) with Computer Science.",
     degree: "State Board(XII) - PCM",
   },
@@ -245,7 +245,7 @@ export const education = [
     id: 2,
     img: CITYSTAR,
     school: "City Star Convent Higher Secondary School, Indore",
-    date: "Apr 2015 - March 2016",
+    date: "Apr 2017 - March 2018",
     desc: "I completed my class 10 education from City Star Convent Higher Secondary School, Indore, under the State board, where I studied Science with Computer.",
     degree: "State Board(X) - Science",
   },
