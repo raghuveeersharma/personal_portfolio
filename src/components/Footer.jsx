@@ -1,6 +1,5 @@
-import { FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
-import { TbBrandLeetcode } from "react-icons/tb";
 import { Reveal } from "../animation";
+import { socialLinks } from "../constants";
 
 const Footer = () => {
   // Smooth scroll function
@@ -40,34 +39,21 @@ const Footer = () => {
 
         {/* Social Media Icons - Responsive */}
         <div className="flex flex-wrap justify-center space-x-4 mt-6">
-          {[
-            {
-              icon: <FaLinkedin />,
-              link: "https://www.linkedin.com/in/raghuveer-sharma-810124252/",
-            },
-            {
-              icon: <FaInstagram />,
-              link: "https://www.instagram.com/__raghusharma__?igsh=MjkwYTRxb3ljaXBx",
-            },
-            {
-              icon: <FaGithub />,
-              link: "https://github.com/raghuveeersharma",
-            },
-            {
-              icon: <TbBrandLeetcode />,
-              link: "https://leetcode.com/u/RaghuSharma48/",
-            },
-          ].map((item, index) => (
-            <a
-              key={index}
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xl hover:text-purple-500 transition-transform transform hover:scale-110"
-            >
-              {item.icon}
-            </a>
-          ))}
+          {socialLinks.map((social) => {
+            const Icon = social.icon;
+            return (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                className="text-xl hover:text-purple-500 transition-transform transform hover:scale-110"
+              >
+                <Icon />
+              </a>
+            );
+          })}
         </div>
 
         {/* Copyright Text */}

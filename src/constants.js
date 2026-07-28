@@ -1,4 +1,6 @@
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
+import { TbBrandLeetcode } from "react-icons/tb";
 
 // Skills Section Logo's
 import htmlLogo from "./assets/tech_logo/html.png";
@@ -129,17 +131,41 @@ export const heroSocials = [
   {
     label: "GitHub",
     icon: FiGithub,
-    href: "https://github.com/raghuveeersharma",
+    href: import.meta.env.VITE_GITHUB_URL,
   },
   {
     label: "LinkedIn",
     icon: FiLinkedin,
-    href: "https://www.linkedin.com/in/raghuveer-sharma-810124252/",
+    href: import.meta.env.VITE_LINKEDIN_URL,
   },
   {
     label: "Email",
     icon: FiMail,
-    href: "mailto:sharmaraghu157@gmail.com",
+    href: import.meta.env.VITE_EMAIL_URL,
+  },
+];
+
+
+export const socialLinks = [
+  {
+    label: "LinkedIn",
+    icon: FaLinkedin,
+    href: import.meta.env.VITE_LINKEDIN_URL,
+  },
+  {
+    label: "Instagram",
+    icon: FaInstagram,
+    href: import.meta.env.VITE_INSTAGRAM_URL,
+  },
+  {
+    label: "GitHub",
+    icon: FaGithub,
+    href: import.meta.env.VITE_GITHUB_URL,
+  },
+  {
+    label: "LeetCode",
+    icon: TbBrandLeetcode,
+    href: import.meta.env.VITE_LEETCODE_URL,
   },
 ];
 
@@ -153,7 +179,7 @@ export const heroStack = [
 ];
 
 export const heroResume =
-  "https://drive.google.com/file/d/1ARZrFCOdDyHR3s4qGXMztYAm0ydZ0hdB/view?usp=drivesdk";
+  import.meta.env.VITE_RESUME_URL;
 
 // Newest first — the timeline renders in array order.
 export const experiences = [
