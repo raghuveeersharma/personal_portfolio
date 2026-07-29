@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="./src/assets/Profile.png" />
+    <!-- Served from public/, so these paths survive the build — the old
+         ./src/assets/ href only resolved under the dev server. -->
+    <link rel="icon" type="image/svg+xml" href="/person.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Still one stylesheet request for the whole page — the four
