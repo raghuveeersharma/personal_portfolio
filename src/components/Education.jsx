@@ -46,6 +46,8 @@ const Education = () => {
                 <img
                   src={edu.img}
                   alt={edu.school}
+                  width={edu.imgW}
+                  height={edu.imgH}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -63,6 +65,8 @@ const Education = () => {
                     <img
                       src={edu.img}
                       alt={edu.school}
+                      width={edu.imgW}
+                      height={edu.imgH}
                       className="w-full h-full object-cover"
                     />
                   </div>

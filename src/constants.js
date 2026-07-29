@@ -53,46 +53,46 @@ export const SkillsInfo = [
   {
     title: "Frontend",
     skills: [
-      { name: "HTML", logo: htmlLogo },
-      { name: "CSS", logo: cssLogo },
-      { name: "JavaScript", logo: javascriptLogo },
-      { name: "React JS", logo: reactjsLogo },
-      { name: "Redux", logo: reduxLogo },
-      { name: "Next JS", logo: nextjsLogo },
-      { name: "Tailwind CSS", logo: tailwindcssLogo },
-      { name: "Material UI", logo: materialuiLogo },
-      { name: "Bootstrap", logo: bootstrapLogo },
+      { name: "HTML", logo: htmlLogo, logoW: 128, logoH: 128 },
+      { name: "CSS", logo: cssLogo, logoW: 128, logoH: 128 },
+      { name: "JavaScript", logo: javascriptLogo, logoW: 128, logoH: 128 },
+      { name: "React JS", logo: reactjsLogo, logoW: 96, logoH: 96 },
+      { name: "Redux", logo: reduxLogo, logoW: 128, logoH: 128 },
+      { name: "Next JS", logo: nextjsLogo, logoW: 128, logoH: 128 },
+      { name: "Tailwind CSS", logo: tailwindcssLogo, logoW: 128, logoH: 128 },
+      { name: "Material UI", logo: materialuiLogo, logoW: 128, logoH: 111 },
+      { name: "Bootstrap", logo: bootstrapLogo, logoW: 128, logoH: 128 },
     ],
   },
   {
     title: "Backend",
     skills: [
-      { name: "Node JS", logo: nodejsLogo },
-      { name: "Express JS", logo: expressjsLogo },
-      { name: "MySQL", logo: mysqlLogo },
-      { name: "MongoDB", logo: mongodbLogo },
-      { name: "PostgreSQL", logo: postgreLogo },
+      { name: "Node JS", logo: nodejsLogo, logoW: 128, logoH: 128 },
+      { name: "Express JS", logo: expressjsLogo, logoW: 128, logoH: 128 },
+      { name: "MySQL", logo: mysqlLogo, logoW: 128, logoH: 126 },
+      { name: "MongoDB", logo: mongodbLogo, logoW: 128, logoH: 128 },
+      { name: "PostgreSQL", logo: postgreLogo, logoW: 128, logoH: 128 },
     ],
   },
   {
     title: "Languages",
     skills: [
-      { name: "C", logo: cLogo },
-      { name: "C++", logo: cppLogo },
-      { name: "Java", logo: javaLogo },
-      { name: "JavaScript", logo: javascriptLogo },
-      { name: "TypeScript", logo: typescriptLogo },
+      { name: "C", logo: cLogo, logoW: 128, logoH: 128 },
+      { name: "C++", logo: cppLogo, logoW: 128, logoH: 128 },
+      { name: "Java", logo: javaLogo, logoW: 128, logoH: 128 },
+      { name: "JavaScript", logo: javascriptLogo, logoW: 128, logoH: 128 },
+      { name: "TypeScript", logo: typescriptLogo, logoW: 128, logoH: 128 },
     ],
   },
   {
     title: "Tools",
     skills: [
-      { name: "Git", logo: gitLogo },
-      { name: "GitHub", logo: githubLogo },
-      { name: "VS Code", logo: vscodeLogo },
-      { name: "Postman", logo: postmanLogo },
-      { name: "Compass", logo: mcLogo },
-      { name: "Vercel", logo: vercelLogo },
+      { name: "Git", logo: gitLogo, logoW: 128, logoH: 128 },
+      { name: "GitHub", logo: githubLogo, logoW: 128, logoH: 128 },
+      { name: "VS Code", logo: vscodeLogo, logoW: 128, logoH: 127 },
+      { name: "Postman", logo: postmanLogo, logoW: 128, logoH: 128 },
+      { name: "Compass", logo: mcLogo, logoW: 128, logoH: 128 },
+      { name: "Vercel", logo: vercelLogo, logoW: 128, logoH: 128 },
     ],
   },
 ];
@@ -186,6 +186,8 @@ export const experiences = [
   {
     id: 0,
     img: codemantraLogo,
+    imgW: 1200,
+    imgH: 675,
     company: "Code Mantra, Indore",
     role: "React JS Intern",
     type: "Internship",
@@ -204,6 +206,8 @@ export const experiences = [
    {
     id: 1,
     img: bestpeersLogo,
+    imgW: 200,
+    imgH: 200,
     company: "BestPeers Infosystem, Indore",
     role: "MERN Stack Developer",
     type: "Full-time",
@@ -228,6 +232,8 @@ export const education = [
   {
     id: 0,
     img: chameli,
+    imgW: 256,
+    imgH: 203,
     school: "Chameli Devi Group of Institutions, Indore",
     date: "Sept 2021 - May 2025",
     desc: "I have completed my Bachelor's degree in Information Technology (B.Tech) from rgpv University, Bhopal. During my time at rgpv University, I gained a strong foundation in programming, software development, and computer science principles. I have studied courses such as Data Structures, Algorithms, Object-Oriented Programming, Database Management Systems, Web Development, and Software Engineering. I actively participated in various workshops and technical events, which enhanced my skills and knowledge.",
@@ -236,6 +242,8 @@ export const education = [
   {
     id: 1,
     img: CITYSTAR,
+    imgW: 256,
+    imgH: 183,
     school: "City Star Convent Higher Secondary School, Indore",
     date: "May 2020 - March 2021",
     desc: "I completed my class 12 education from City Star Convent Higher Secondary School, Indore, under the State board, where I studied Physics, Chemistry, and Mathematics (PCM) with Computer Science.",
@@ -244,6 +252,8 @@ export const education = [
   {
     id: 2,
     img: CITYSTAR,
+    imgW: 256,
+    imgH: 183,
     school: "City Star Convent Higher Secondary School, Indore",
     date: "May 2018 - March 2019",
     desc: "I completed my class 10 education from City Star Convent Higher Secondary School, Indore, under the State board, where I studied Science with Computer.",
@@ -258,6 +268,8 @@ export const projects = [
     description:
       "SchoolSathi is a modern multi-tenant School Management System (SaaS) that streamlines school administration through a comprehensive dashboard. It provides modules for student admissions, staff management, attendance, classes, timetables, examinations, payroll, fees, notifications, and academic lifecycle management with secure authentication and a scalable architecture.",
     image: SchoolSathi,
+    imgW: 1200,
+    imgH: 651,
     tags: [
       "Next.js",
       "React",
@@ -309,6 +321,8 @@ export const projects = [
     description:
       "LocalFirst Docs is a collaborative document editor built with a local-first architecture, enabling users to create, edit, and collaborate on documents even without an internet connection. Powered by CRDT-based synchronization, it provides deterministic conflict resolution, real-time collaboration, version history, AI-assisted writing, and seamless offline-to-online synchronization while ensuring secure role-based access control.",
     image: SyncDoc,
+    imgW: 1200,
+    imgH: 651,
     tags: [
       "Next.js",
       "TypeScript",
@@ -334,6 +348,8 @@ export const projects = [
     description:
       "LinkUP is a modern, user-friendly web application designed to simplify social connection and communication. It enables users to create accounts, manage profiles, connect with others, and engage in meaningful digital interactions. Whether it's networking, sharing updates, or building an online presence, LinkUP makes it effortless and intuitive.",
     image: LinkUP,
+    imgW: 1200,
+    imgH: 635,
     tags: [
       "React.js",
       "Node.js",
@@ -354,6 +370,8 @@ export const projects = [
     description:
       "EcoRecycle is an intelligent web application designed to promote sustainable waste management by leveraging AI-powered object detection and location-based recycling center recommendations.",
     image: taskremLogo,
+    imgW: 1200,
+    imgH: 632,
     tags: [
       "React JS",
       "Node.js",
@@ -373,6 +391,8 @@ export const projects = [
     description:
       "PassOp is a responsive web application built with React.js that enables users to securely store and manage their website credentials, including usernames, passwords, and URLs, directly in their browser using local storage. Passwords are encrypted using AES encryption (CryptoJS) before being stored, providing a basic layer of security. To access or copy stored credentials, users are required to enter a master password.",
     image: csprepLogo,
+    imgW: 1200,
+    imgH: 636,
     tags: [
       "React JS",
       "HTML",
@@ -390,6 +410,8 @@ export const projects = [
     description:
       "E-BookStore web application using the MERN stack. The platform includes user authentication with login and logout functionality, and features protected routes that are accessible only to logged-in users. Books data is stored in MongoDB Atlas and fetched dynamically to display a collection of titles with details like name, author, and price.",
     image: npmLogo,
+    imgW: 1200,
+    imgH: 641,
     tags: [
       "React JS",
       "Node.js",
@@ -407,6 +429,8 @@ export const projects = [
     description:
       "A text Editor built on React.js, it can manipulate text like Convert to upper case, to lower case, Remove extra spaces, Copy to clipboard, Clear text, and Dark mode.",
     image: githubdetLogo,
+    imgW: 1200,
+    imgH: 636,
     tags: ["HTML", "CSS", "JavaScript", "React JS", "Tailwind CSS"],
     github: "https://github.com/raghuveeersharma/Text_Util/tree/master",
     webapp: "https://raghuveeersharma.github.io/Text_Util",
@@ -417,6 +441,8 @@ export const projects = [
     description:
       "Responsive portfolio showcasing my work. I use react-animation in it, and it is fully responsive.",
     image: webverLogo,
+    imgW: 1200,
+    imgH: 643,
     tags: [
       "JavaScript",
       "React JS",
@@ -433,6 +459,8 @@ export const projects = [
     description:
       "A simple todo app built on MERN stack. It saves users tasks in the database, and users can perform CRUD operations on tasks. The UI is fully responsive.",
     image: cmLogo,
+    imgW: 845,
+    imgH: 758,
     tags: ["React JS", "HTML", "CSS", "JavaScript", "Tailwind CSS"],
     github: "https://github.com/raghuveeersharma/TODO_FRONTEND",
     webapp: "https://todo-frontend-sigma-opal.vercel.app/",

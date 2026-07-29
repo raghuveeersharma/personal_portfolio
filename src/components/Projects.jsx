@@ -48,6 +48,8 @@ const Projects = () => {
                 <img
                   src={project.image}
                   alt={project.title}
+                  width={project.imgW}
+                  height={project.imgH}
                   className="w-full h-48 object-cover rounded-2xl mb-2 p-2"
                 />
               </div>
@@ -93,6 +95,8 @@ const Projects = () => {
               <img
                 src={project.image}
                 alt={project.title}
+                width={project.imgW}
+                height={project.imgH}
                 className="w-full h-56 object-cover rounded-2xl"
               />
             </div>
