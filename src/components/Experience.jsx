@@ -46,6 +46,8 @@ const Experience = () => {
                 <img
                   src={exp.img}
                   alt={exp.company}
+                  width={exp.imgW}
+                  height={exp.imgH}
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -63,6 +65,8 @@ const Experience = () => {
                     <img
                       src={exp.img}
                       alt={exp.company}
+                      width={exp.imgW}
+                      height={exp.imgH}
                       className="w-full h-full object-contain p-2"
                     />
                   </div>
