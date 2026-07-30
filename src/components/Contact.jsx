@@ -1,7 +1,5 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
@@ -9,10 +7,14 @@ import { Reveal, Stagger } from "../animation";
 
 const Contact = () => {
   const form = useRef();
-  const [isSent, setIsSent] = useState(false);
+  // null | "sent" | "error" — rendered inline under the button rather than
+  // as a toast, so the whole react-toastify bundle stays off the page for
+  // the visitors who never submit anything (which is most of them).
+  const [status, setStatus] = useState(null);
 
   const sendEmail = (e) => {
     e.preventDefault();
+    setStatus(null); // clear the previous result before the retry
 
     emailjs
       .sendForm("service_x8hut4o", "template_rw6nx8f", form.current, {
@@ -20,29 +22,12 @@ const Contact = () => {
       })
       .then(
         () => {
-          setIsSent(true);
+          setStatus("sent");
           form.current.reset(); // Reset form fields after sending
-          toast.success("Message sent successfully! ✅", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "dark",
-          });
         },
         (error) => {
           console.error("Error sending message:", error);
-          toast.error("Failed to send message. Please try again.", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "dark",
-          });
+          setStatus("error");
         }
       );
   };
@@ -52,9 +37,6 @@ const Contact = () => {
       id="contact"
       className="flex flex-col items-center justify-center py-24 px-[12vw] md:px-[7vw] lg:px-[20vw]"
     >
-      {/* Toast Container */}
-      <ToastContainer />
-
       {/* Section Title */}
       <Reveal className="text-center mb-16">
         <h2 className="text-4xl font-bold text-white">CONTACT</h2>
@@ -116,6 +98,21 @@ const Contact = () => {
           >
             Send
           </button>
+
+          {/* aria-live so the result is announced without moving focus.
+              The node is always present — a region that only appears on
+              success is often missed by screen readers. */}
+          <p
+            role="status"
+            aria-live="polite"
+            className={`text-sm text-center min-h-5 ${
+              status === "error" ? "text-rose-400" : "text-emerald-400"
+            }`}
+          >
+            {status === "sent" && "Thanks — your message is on its way. ✅"}
+            {status === "error" &&
+              "Something went wrong. Please try again, or email me directly."}
+          </p>
         </form>
       </Reveal>
       {/* Reveals sit directly on these cards — unlike the project/skill
