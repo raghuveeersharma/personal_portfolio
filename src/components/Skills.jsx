@@ -63,16 +63,20 @@ const Skills = () => {
                   {category.skills.map((skill) => (
                     <div
                       key={skill.name}
-                      className="flex items-center justify-center space-x-2 bg-transparent border-2 border-gray-700 rounded-3xl py-2 px-2 sm:py-2 sm:px-2 text-center w-28 h-12"
+                      // Fluid width, not a fixed w-28: 112px per pill is
+                      // wider than a grid column on a small phone (12vw
+                      // section padding + the card's px-6), so the pills
+                      // used to spill over the card's own border.
+                      className="flex min-w-0 h-12 w-full items-center justify-center gap-x-1.5 rounded-3xl border-2 border-gray-700 bg-transparent px-2 py-2 text-center"
                     >
                       <img
                         src={skill.logo}
                         alt={`${skill.name} logo`}
                         width={skill.logoW}
                         height={skill.logoH}
-                        className="w-4 h-4 sm:w-6 sm:h-6 rounded"
+                        className="w-4 h-4 sm:w-6 sm:h-6 shrink-0 rounded"
                       />
-                      <span className="text-xs text-gray-300 font-sans">
+                      <span className="min-w-0 font-sans text-[11px] leading-tight text-gray-300 sm:text-xs">
                         {skill.name}
                       </span>
                     </div>
