@@ -153,6 +153,174 @@
   will-change: transform;
 }
 
+/* ---- MERN request journey (Skills) ------------------------
+   Geometry and the three small looping animations only —
+   every colour is inline on the node, because the palette is
+   per-technology and nothing outside that section reads it.
+
+   The React layer writes one number, --pos (0 → 1, how far
+   along the track the packet is), onto .journey-track. The
+   spine fill and the packet are both functions of it, so the
+   forward and return passes are the same two rules and the
+   axis swap between the mobile and desktop layouts is a
+   media query rather than a second code path.
+
+   --node-half is half a node box, which is exactly the inset
+   the spine needs to start and end at the first and last
+   node's centre.
+--------------------------------------------------------- */
+.journey-track {
+  --node-size: 56px;
+  --node-half: 28px;
+  --pos: 0;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.journey-spine,
+.journey-fill,
+.journey-packet {
+  position: absolute;
+}
+
+.journey-spine {
+  background: #1e1e2e;
+}
+
+.journey-fill {
+  background: #8b7cf8;
+}
+
+/* --- Mobile: the track is a vertical timeline ------------- */
+.journey-spine {
+  left: var(--node-half);
+  top: var(--node-half);
+  bottom: var(--node-half);
+  width: 1px;
+}
+
+.journey-fill {
+  left: var(--node-half);
+  top: var(--node-half);
+  width: 1px;
+  height: calc(var(--pos) * (100% - var(--node-size)));
+  transition: height 450ms ease;
+}
+
+.journey-packet {
+  left: var(--node-half);
+  top: calc(var(--node-half) + var(--pos) * (100% - var(--node-size)));
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 9999px;
+  z-index: 3;
+  transition: top 450ms ease, background-color 300ms ease,
+    opacity 250ms ease, transform 250ms ease;
+}
+
+/* --- 640px and up: the track is a horizontal row ---------- */
+@media (min-width: 640px) {
+  .journey-track {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .journey-spine {
+    left: var(--node-half);
+    right: var(--node-half);
+    top: var(--node-half);
+    bottom: auto;
+    width: auto;
+    height: 1px;
+  }
+
+  .journey-fill {
+    left: var(--node-half);
+    top: var(--node-half);
+    height: 1px;
+    width: calc(var(--pos) * (100% - var(--node-size)));
+    transition: width 450ms ease;
+  }
+
+  .journey-packet {
+    top: var(--node-half);
+    left: calc(var(--node-half) + var(--pos) * (100% - var(--node-size)));
+    transition: left 450ms ease, background-color 300ms ease,
+      opacity 250ms ease, transform 250ms ease;
+  }
+}
+
+@media (min-width: 768px) {
+  .journey-track {
+    --node-size: 72px;
+    --node-half: 36px;
+  }
+}
+
+/* One-shot ring when a node is selected. */
+@keyframes journey-ripple {
+  from {
+    opacity: 0.8;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+.journey-ripple {
+  animation: journey-ripple 500ms ease-out forwards;
+}
+
+/* The log line is remounted on every text change (React keys it
+   by the text), so a plain entrance animation replays itself. */
+@keyframes journey-log-in {
+  from {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.journey-log-line {
+  animation: journey-log-in 200ms ease-out;
+}
+
+@keyframes journey-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.journey-cursor {
+  animation: journey-blink 900ms steps(1, end) infinite;
+}
+
+@keyframes journey-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.journey-spin {
+  animation: journey-spin 800ms linear infinite;
+}
+
 /* ---- Reduced motion ---------------------------------------
    Final state, instantly, for every variant. Any new motion in
    this project must degrade the same way.
@@ -182,5 +350,25 @@
   /* The status dots stay lit rather than breathing. */
   .animate-avail-pulse {
     animation: none;
+  }
+
+  /* The request journey is user-triggered, so it still runs — it
+     just cuts between states instead of gliding, and nothing
+     loops. The step timings in useJourneyAnimation still pace it,
+     so the log stays readable. */
+  .journey-fill,
+  .journey-packet {
+    transition: none;
+  }
+
+  .journey-ripple,
+  .journey-log-line,
+  .journey-cursor,
+  .journey-spin {
+    animation: none;
+  }
+
+  .journey-ripple {
+    opacity: 0;
   }
 }

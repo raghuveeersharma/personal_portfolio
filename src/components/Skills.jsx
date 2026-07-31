@@ -1,6 +1,7 @@
 import { SkillsInfo } from "../constants.js";
 import Tilt from "react-parallax-tilt";
 import { Reveal, Stagger } from "../animation";
+import MernJourney from "./skills/MernJourney.jsx";
 
 const Skills = () => {
   return (
@@ -26,6 +27,9 @@ const Skills = () => {
           performance and design.
         </p>
       </Reveal>
+      {/* Interactive half of the section — the grid says *what*, this
+          says *how the pieces talk to each other*. */}
+      <MernJourney />
       {/* Skill Categories */}
       <Stagger
         step={140}

@@ -97,6 +97,141 @@ export const SkillsInfo = [
   },
 ];
 
+// ---- Skills: live MERN request journey --------------------------
+// The five hops a single API call makes through the stack, in order.
+// `icon` names a key in the ICONS map in components/skills/icons.js
+// rather than importing a component here — this file stays data.
+// Colours are per-node because the whole point of the visualiser is
+// that each layer reads as a distinct technology; they are inline in
+// the components and deliberately not @theme tokens (nothing outside
+// this one block consumes them).
+export const journeyNodes = [
+  {
+    id: "browser",
+    label: "Browser",
+    layer: "Client",
+    icon: "device-laptop",
+    color: "#9B9BAE",
+    bg: "#111118",
+    border: "#2A2A3F",
+    packetColor: "#9B9BAE",
+    requestLog: "User triggers GET /api/users/profile",
+    responseLog: "Browser received response · rendering UI",
+    detail: {
+      headline: "Where the user experience lives.",
+      bullets: [
+        "React renders the UI from JSON response data",
+        "Axios / fetch dispatches authenticated API calls",
+        "State updates re-render components without page reload",
+      ],
+      years: "3 years",
+      projects: ["School Management System", "Secret Vault", "Portfolio"],
+    },
+  },
+  {
+    id: "react",
+    label: "React",
+    layer: "UI Layer",
+    icon: "brand-react",
+    color: "#60A5FA",
+    bg: "#0D1729",
+    border: "#0D2545",
+    packetColor: "#60A5FA",
+    requestLog: "React dispatching fetch() with Bearer token",
+    responseLog: "useState() updating — component re-rendering",
+    detail: {
+      headline:
+        "Component-based UIs with hooks, context, and dynamic state.",
+      bullets: [
+        "Custom hooks for data fetching, auth state, and form handling",
+        "Context API + useReducer for global state without Redux",
+        "React Router for nested layouts and protected route guards",
+      ],
+      years: "3 years",
+      projects: ["School Management System", "Secret Vault", "Portfolio"],
+    },
+  },
+  {
+    id: "node",
+    label: "Node.js",
+    layer: "Runtime",
+    icon: "server",
+    color: "#4ADE80",
+    bg: "#0D1A0D",
+    border: "#1A3A1A",
+    packetColor: "#4ADE80",
+    requestLog: "Node.js received request on :5000 · passing to Express",
+    responseLog: "Node.js streaming response back to client",
+    detail: {
+      headline: "Server-side JS runtime — non-blocking I/O for fast APIs.",
+      bullets: [
+        "Event-driven architecture handling concurrent requests",
+        "Environment config, middleware pipeline, and error handling",
+        "File I/O, streams, and multipart upload handling (Multer)",
+      ],
+      years: "3 years",
+      projects: ["School Management System", "Secret Vault"],
+    },
+  },
+  {
+    id: "express",
+    label: "Express",
+    layer: "API Layer",
+    icon: "api",
+    color: "#F59E0B",
+    bg: "#1A1209",
+    border: "#3A2A09",
+    packetColor: "#F59E0B",
+    requestLog: "Express routing to /users handler · validating JWT",
+    responseLog: "Express sending 200 OK with JSON payload",
+    detail: {
+      headline: "REST API design with middleware, auth, and clean routing.",
+      bullets: [
+        "JWT-based auth middleware protecting private routes",
+        "Role-based access control (Admin / Teacher / Student)",
+        "Input validation with express-validator, rate limiting",
+      ],
+      years: "3 years",
+      projects: ["School Management System", "Secret Vault"],
+    },
+  },
+  {
+    id: "mongo",
+    label: "MongoDB",
+    layer: "Database",
+    icon: "database",
+    color: "#4ADE80",
+    bg: "#0D1A0D",
+    border: "#1A3A1A",
+    packetColor: "#4ADE80",
+    requestLog: "MongoDB querying users collection · 2ms",
+    responseLog: "MongoDB returned 1 document · 524 bytes",
+    detail: {
+      headline: "Document-oriented data modeling with Mongoose schemas.",
+      bullets: [
+        "Schema design with refs, virtuals, and pre/post hooks",
+        "Aggregation pipelines for reports and analytics data",
+        "Indexing strategies for query performance optimization",
+      ],
+      years: "2.5 years",
+      projects: ["School Management System", "Secret Vault"],
+    },
+  },
+];
+
+// Supporting tools — a lower-weight row *below* the visualiser card,
+// never inside it.
+export const journeyTools = [
+  { label: "Git", icon: "brand-git", color: "#F97316", bg: "#1A1209", border: "#3A2009" },
+  { label: "GitHub", icon: "brand-github", color: "#9B9BAE", bg: "#111118", border: "#2A2A3F" },
+  { label: "Tailwind CSS", icon: "palette", color: "#7DD3FC", bg: "#0D1A29", border: "#0D3050" },
+  { label: "Framer Motion", icon: "windmill", color: "#A78BFA", bg: "#1A1228", border: "#2A1A48" },
+  { label: "Postman", icon: "arrows-right-left", color: "#F97316", bg: "#1A1209", border: "#3A2009" },
+  { label: "Docker", icon: "brand-docker", color: "#60A5FA", bg: "#0D1729", border: "#0D2545" },
+  { label: "VS Code", icon: "code", color: "#60A5FA", bg: "#0D1729", border: "#0D2545" },
+  { label: "Socket.io", icon: "broadcast", color: "#2DD4BF", bg: "#0D1A1A", border: "#0D3030" },
+];
+
 // ---- Hero (About section) ---------------------------------------
 // The four phrases the hero types out, each aimed at a different
 // reader: generalist recruiter, backend lead, frontend lead, CTO.
