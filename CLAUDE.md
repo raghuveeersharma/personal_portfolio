@@ -30,9 +30,13 @@ Navbar → About → NavigatorToTop → Skills → Projects → Education → Co
 Two conventions matter across the whole app:
 
 - **Navigation is anchor-based, not routed.** Each section owns an `id` (`about`, `skills`, `projects`, `education`, `contact`) and both `Navbar` and `Footer` jump to those ids. `Navbar` uses `href="#id"`; `Footer` uses `scrollIntoView`. Smooth scrolling comes from `html { scroll-behavior: smooth }` in `index.css`. If you add a section, add its id to the `menuitems` array in `Navbar.jsx` and the link list in `Footer.jsx`. `react-router-dom` and `react-scroll` are installed but unused.
-- **All content is data, not markup.** `src/constants.js` exports `SkillsInfo`, `projects`, and `education`, and imports every image from `src/assets/` so Vite fingerprints them. Sections map over these arrays. To add a project or skill, edit `constants.js` — never hardcode content into a component.
+- **All content is data, not markup.** `src/constants.js` exports `SkillsInfo`, `journeyNodes`, `journeyTools`, `projects`, and `education`, and imports every image from `src/assets/` so Vite fingerprints them. Sections map over these arrays. To add a project or skill, edit `constants.js` — never hardcode content into a component. `constants.js` stays free of JSX and component imports: `journeyNodes`/`journeyTools` name their icons as **strings**, and `src/components/skills/icons.js` is the only place that maps a name to a `react-icons/tb` component.
 
 Section components are self-contained and share a layout idiom worth matching: `<section id="..." className="py-24 px-[12vw] md:px-[7vw] lg:px-[Nvw]">`, a centered title block, then the content grid. The purple accent is `#8245ec` and the page background is `#050414`.
+
+`Skills` is the one section with two halves under a single `id="skills"`: the `SkillsInfo` card grid, plus `components/skills/MernJourney.jsx` (see below). Keep the id singular — the navbar and footer both target it.
+
+**Fixed pill/card widths are a mobile bug waiting to happen.** With `px-[12vw]` section padding plus a card's own `px-6`, a 2-column grid column is barely 105px on a 360px phone, so a `w-28` chip overhangs its own card border. Size chips with `w-full min-w-0` and let the grid column decide.
 
 ## Design tokens
 
@@ -67,3 +71,26 @@ Two rules that are easy to get wrong:
 - **Above-the-fold content uses `immediate`.** `<Reveal immediate>` skips the observer and plays on mount. The whole `About` hero uses it: on a short viewport the CTA sits just below the fold, and as a scroll reveal it would sit at `opacity: 0` until the visitor happened to scroll. Anything in the first screenful should be an entrance, not a scroll reveal.
 
 `prefers-reduced-motion: reduce` is honored in both layers — `animations.css` pins every variant to its final state with no transition, and `useInView` skips creating observers entirely. Smooth anchor scrolling is also disabled. Any new motion must degrade the same way.
+
+## The MERN request journey (`src/components/skills/`)
+
+The interactive lower half of `Skills`: a **Send request** button sends a packet through Browser → React → Node.js → Express → MongoDB and back, lighting each node and logging what that layer is doing. It is the one piece of stateful, user-driven motion in the app, and it follows the same no-motion-library rule as the reveals — `framer-motion` is not installed and must not be added for it.
+
+```
+MernJourney        header + card + tools row
+ ├─ JourneyVisualizer   node track, log bar, controls, one open detail panel
+ │   ├─ JourneyNode     one hop; presentational, 4 states
+ │   └─ SkillDetailPanel
+ ├─ ToolsRow            supporting tools — outside the card, below it
+ ├─ useJourneyAnimation timing only
+ └─ icons.js            icon-name → react-icons/tb component
+```
+
+Four things to preserve when touching it:
+
+- **`useJourneyAnimation.js` owns timing and nothing else** — which node is lit (`activeStep`), the direction, the log line, the status. It is chained `setTimeout`s, never `setInterval`, so each step has a precise offset and one `clearAll()` cancels a run; its `useEffect` cleanup is what stops a run in flight from setting state after unmount. Don't move geometry into it.
+- **Geometry is one CSS variable.** The visualiser writes `--pos` (0→1, how far along the track the packet is) onto `.journey-track`; the spine fill and the packet are both `calc()` of it in the "MERN request journey" block of `animations.css`. That is why the mobile vertical timeline (<640px) and the desktop row are a media query rather than a second animation path — swap which axis reads `--pos` and the forward/return passes come along for free.
+- **Cross-fades are done by keying, not by `AnimatePresence`.** The log line is keyed on its text and the detail panel on its node id, so React remounts them and a one-shot CSS entrance (`.journey-log-line`) replays. Same trick works anywhere a presence animation is wanted.
+- **It never auto-plays**, only one detail panel is open at a time, and there are no percentage "skill levels" anywhere in the section — the interaction is the proof. Under reduced motion the journey still runs (the visitor asked for it) but cuts between states with no transitions and no looping cursor or spinner.
+
+Per-technology colours are inline on the nodes and deliberately **not** `@theme` tokens: nothing outside this one section consumes them, so they live in `constants.js` next to the copy they describe.
