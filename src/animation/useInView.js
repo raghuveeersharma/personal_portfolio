@@ -56,6 +56,20 @@ const useInView = ({
       };
     }
 
+    // `threshold` is a fraction of the *element*, which is a trap for the
+    // Stagger containers: a grid that is 3 columns on desktop collapses to
+    // one on a phone, and a container several viewports tall can never
+    // expose 15% of itself at once. The reveal would then stay pinned at
+    // opacity 0 — laid out and tappable, but invisible. So when the node is
+    // taller than the viewport, ask for `threshold` of the *viewport*
+    // instead, which is what the number was always meant to express.
+    const viewportHeight = window.innerHeight || 0;
+    const nodeHeight = node.offsetHeight || 0;
+    const effectiveThreshold =
+      nodeHeight > viewportHeight && nodeHeight > 0 && viewportHeight > 0
+        ? (viewportHeight * threshold) / nodeHeight
+        : threshold;
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -67,7 +81,7 @@ const useInView = ({
           }
         }
       },
-      { threshold, rootMargin }
+      { threshold: effectiveThreshold, rootMargin }
     );
 
     observer.observe(node);
