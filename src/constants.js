@@ -48,6 +48,7 @@ import cmLogo from "./assets/work_logo/Todo.webp";
 import LinkUP from "./assets/work_logo/LinkUP.webp";
 import SchoolSathi from "./assets/work_logo/SchoolSathi.webp";
 import SyncDoc from "./assets/work_logo/SyncDoc.webp";
+import Vichar from "./assets/work_logo/Vichar.webp";
 
 export const SkillsInfo = [
   {
@@ -521,7 +522,40 @@ export const projects = [
     webapp: "https://eco-recycle-rho.vercel.app/",
   },
   {
-    id: 5,
+  id: 5,
+  title: "Vichar",
+  description:
+    "Vichar is a modern multi-tenant note-taking application with a local-first architecture that enables users to create, organize, and manage rich-text notes securely. It features per-note AES-256 encryption, AI-powered writing assistance, offline-first synchronization with IndexedDB, installable PWA support, folder organization, secure JWT cookie authentication, and seamless online/offline note management.",
+
+  image: Vichar,
+  imgW: 1669,
+  imgH: 967,
+
+  tags: [
+    "React 19",
+    "Vite",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "Mongoose",
+    "Tailwind CSS",
+    "daisyUI",
+    "TipTap",
+    "IndexedDB",
+    "PWA",
+    "JWT",
+    "Google Gemini",
+    "Axios",
+    "AES-256 Encryption",
+  ],
+
+  github: "https://github.com/raghuveeersharma/vichar",
+
+  webapp: "https://your-vichar-app.vercel.app/",
+},
+  {
+    id: 6,
     title: "PassOP",
     description:
       "PassOp is a responsive web application built with React.js that enables users to securely store and manage their website credentials, including usernames, passwords, and URLs, directly in their browser using local storage. Passwords are encrypted using AES encryption (CryptoJS) before being stored, providing a basic layer of security. To access or copy stored credentials, users are required to enter a master password.",
@@ -540,7 +574,7 @@ export const projects = [
     webapp: "https://password-manager-five-tan.vercel.app/",
   },
   {
-    id: 6,
+    id: 7,
     title: "E-BookStore",
     description:
       "E-BookStore web application using the MERN stack. The platform includes user authentication with login and logout functionality, and features protected routes that are accessible only to logged-in users. Books data is stored in MongoDB Atlas and fetched dynamically to display a collection of titles with details like name, author, and price.",
@@ -559,7 +593,7 @@ export const projects = [
     webapp: "https://book-store-web-flame.vercel.app/",
   },
   {
-    id: 7,
+    id: 8,
     title: "TextUtils",
     description:
       "A text Editor built on React.js, it can manipulate text like Convert to upper case, to lower case, Remove extra spaces, Copy to clipboard, Clear text, and Dark mode.",
@@ -571,7 +605,7 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Text_Util",
   },
   {
-    id: 8,
+    id: 9,
     title: "Portfolio Website",
     description:
       "Responsive portfolio showcasing my work. I use react-animation in it, and it is fully responsive.",
@@ -589,7 +623,7 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Portfolio/",
   },
   {
-    id: 9,
+    id: 10,
     title: "Todo App",
     description:
       "A simple todo app built on MERN stack. It saves users tasks in the database, and users can perform CRUD operations on tasks. The UI is fully responsive.",
