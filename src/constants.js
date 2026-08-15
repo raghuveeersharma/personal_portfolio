@@ -552,7 +552,7 @@ export const projects = [
 
   github: "https://github.com/raghuveeersharma/vichar",
 
-  webapp: "https://your-vichar-app.vercel.app/",
+  webapp: "https://vichar-three.vercel.app/",
 },
   {
     id: 6,
