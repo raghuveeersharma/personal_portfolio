@@ -50,6 +50,7 @@ import SchoolSathi from "./assets/work_logo/SchoolSathi.webp";
 import SyncDoc from "./assets/work_logo/SyncDoc.webp";
 import Vichar from "./assets/work_logo/Vichar.webp";
 import Benoit from "./assets/work_logo/Benoit.webp";
+import PistZerna from "./assets/work_logo/PistZerna.webp";
 
 export const SkillsInfo = [
   {
@@ -421,11 +422,42 @@ export const projects = [
       "PWA",
       "Accessibility",
     ],
-    github: "https://github.com/raghuveeersharma/Cafe-website",
-    webapp: "https://cafe-website-two-black.vercel.app/",
+    github: "https://github.com/raghuveeersharma/Benoit-Cafe",
+    webapp: "https://benoitcoffee.vercel.app/",
   },
   {
-    id: 1,
+  id: 1,
+  title: "Пист & Зёрна",
+  description:
+    "Пист & Зёрна is a modern bilingual specialty coffee shop marketing website designed as a scroll-driven portfolio showcase. The site supports Russian and English with fully statically prerendered routes, localized content and metadata, responsive navigation, animated interactions, product-focused menu sections, accessible forms, and a carefully designed visual system combining bold typography with warm coffee-inspired aesthetics.",
+
+  image: PistZerna,
+  imgW: 1200,
+  imgH: 626,
+
+  tags: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "App Router",
+    "React Server Components",
+    "Tailwind CSS",
+    "Framer Motion",
+    "React Hook Form",
+    "Zod",
+    "Radix UI",
+    "Lucide React",
+    "next/font",
+    "i18n",
+    "SEO",
+  ],
+
+  github: "https://github.com/raghuveeersharma/PistZerna-Cafe",
+
+  webapp: "https://pist-zerna.vercel.app/en",
+},
+  {
+    id: 2,
     title: "SchoolSathi",
     description:
       "SchoolSathi is a modern multi-tenant School Management System (SaaS) that streamlines school administration through a comprehensive dashboard. It provides modules for student admissions, staff management, attendance, classes, timetables, examinations, payroll, fees, notifications, and academic lifecycle management with secure authentication and a scalable architecture.",
@@ -453,7 +485,7 @@ export const projects = [
     webapp: "https://school-sathi-frontend.vercel.app/",
   },
   {
-    id: 2,
+    id: 3,
     title: "GymFlow",
     description:
       "GymFlow is a modern multi-tenant gym management platform that helps gym owners efficiently manage members, membership plans, payments, attendance, and business analytics from a single dashboard. It features secure authentication, role-based access, real-time dashboard insights, and a scalable architecture built with modern frontend technologies for a seamless management experience.",
@@ -478,7 +510,7 @@ export const projects = [
     webapp: "https://gymflow-fe.vercel.app/",
   },
   {
-    id: 3,
+    id: 4,
     title: "SyncDocs",
     description:
       "LocalFirst Docs is a collaborative document editor built with a local-first architecture, enabling users to create, edit, and collaborate on documents even without an internet connection. Powered by CRDT-based synchronization, it provides deterministic conflict resolution, real-time collaboration, version history, AI-assisted writing, and seamless offline-to-online synchronization while ensuring secure role-based access control.",
@@ -505,7 +537,7 @@ export const projects = [
     webapp: "https://sync-docs-tau.vercel.app",
   },
   {
-    id: 4,
+    id: 5,
     title: "LinkUP",
     description:
       "LinkUP is a modern, user-friendly web application designed to simplify social connection and communication. It enables users to create accounts, manage profiles, connect with others, and engage in meaningful digital interactions. Whether it's networking, sharing updates, or building an online presence, LinkUP makes it effortless and intuitive.",
@@ -527,7 +559,7 @@ export const projects = [
       "https://link-up-git-master-raghuveer-sharmas-projects.vercel.app/",
   },
   {
-    id: 5,
+    id: 6,
     title: "EcoRecycle",
     description:
       "EcoRecycle is an intelligent web application designed to promote sustainable waste management by leveraging AI-powered object detection and location-based recycling center recommendations.",
@@ -548,7 +580,7 @@ export const projects = [
     webapp: "https://eco-recycle-rho.vercel.app/",
   },
   {
-  id: 6,
+  id: 7,
   title: "Vichar",
   description:
     "Vichar is a modern multi-tenant note-taking application with a local-first architecture that enables users to create, organize, and manage rich-text notes securely. It features per-note AES-256 encryption, AI-powered writing assistance, offline-first synchronization with IndexedDB, installable PWA support, folder organization, secure JWT cookie authentication, and seamless online/offline note management.",
@@ -581,7 +613,7 @@ export const projects = [
   webapp: "https://vichar-three.vercel.app/",
 },
   {
-    id: 7,
+    id: 8,
     title: "PassOP",
     description:
       "PassOp is a responsive web application built with React.js that enables users to securely store and manage their website credentials, including usernames, passwords, and URLs, directly in their browser using local storage. Passwords are encrypted using AES encryption (CryptoJS) before being stored, providing a basic layer of security. To access or copy stored credentials, users are required to enter a master password.",
@@ -600,7 +632,7 @@ export const projects = [
     webapp: "https://password-manager-five-tan.vercel.app/",
   },
   {
-    id: 8,
+    id: 9,
     title: "E-BookStore",
     description:
       "E-BookStore web application using the MERN stack. The platform includes user authentication with login and logout functionality, and features protected routes that are accessible only to logged-in users. Books data is stored in MongoDB Atlas and fetched dynamically to display a collection of titles with details like name, author, and price.",
@@ -619,7 +651,7 @@ export const projects = [
     webapp: "https://book-store-web-flame.vercel.app/",
   },
   {
-    id: 9,
+    id: 10,
     title: "TextUtils",
     description:
       "A text Editor built on React.js, it can manipulate text like Convert to upper case, to lower case, Remove extra spaces, Copy to clipboard, Clear text, and Dark mode.",
@@ -631,7 +663,7 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Text_Util",
   },
   {
-    id: 10,
+    id: 11,
     title: "Portfolio Website",
     description:
       "Responsive portfolio showcasing my work. I use react-animation in it, and it is fully responsive.",
@@ -649,7 +681,7 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Portfolio/",
   },
   {
-    id: 11,
+    id: 12,
     title: "Todo App",
     description:
       "A simple todo app built on MERN stack. It saves users tasks in the database, and users can perform CRUD operations on tasks. The UI is fully responsive.",
