@@ -4,6 +4,17 @@ import PropTypes from "prop-types";
 const RESTING_FILL = "#0a0918";
 const RESTING_BORDER = "#4a3f73";
 
+// Mix a service colour at ~12% over the page background (#050414)
+// to get a solid opaque dark tint. The spine runs behind the node,
+// so the dot MUST be fully opaque to mask it.
+const tintedBg = (hex) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  const mix = (c, base) => Math.round(base + (c - base) * 0.12);
+  return `rgb(${mix(r, 5)}, ${mix(g, 4)}, ${mix(b, 20)})`;
+};
+
 /**
  * One node on the service track. Purely presentational — the parent
  * decides which state it's in.
@@ -34,7 +45,7 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
           width: "var(--svc-node-size)",
           height: "var(--svc-node-size)",
           borderRadius: "14px",
-          background: active ? `${service.color}18` : RESTING_FILL,
+          background: active ? tintedBg(service.color) : RESTING_FILL,
           border: `1.5px solid ${active ? service.color : RESTING_BORDER}`,
           boxShadow: active
             ? `0 0 14px ${service.color}55, 0 0 28px ${service.color}22`

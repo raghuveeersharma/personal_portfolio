@@ -348,6 +348,7 @@
 .service-spine {
   background: #241d3d;
   border-radius: 1px;
+  z-index: 1;
 }
 
 /* --- Mobile: vertical layout ------------------------------ */
