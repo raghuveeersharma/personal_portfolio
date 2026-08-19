@@ -24,13 +24,13 @@ Tailwind v4 means **there is no `tailwind.config.js`**. All design tokens live i
 Single-page portfolio. `main.jsx` mounts `App.jsx`, which renders a fixed background layer (`BlurBlob` + a CSS grid-lines overlay) and then stacks every section in one scrolling column:
 
 ```
-Navbar → About → NavigatorToTop → Skills → Projects → Education → Contact → Footer
+Navbar → About → NavigatorToTop → Skills → Services → Experience → Projects → Education → Contact → Footer
 ```
 
 Two conventions matter across the whole app:
 
 - **Navigation is anchor-based, not routed.** Each section owns an `id` (`about`, `skills`, `projects`, `education`, `contact`) and both `Navbar` and `Footer` jump to those ids. `Navbar` uses `href="#id"`; `Footer` uses `scrollIntoView`. Smooth scrolling comes from `html { scroll-behavior: smooth }` in `index.css`. If you add a section, add its id to the `menuitems` array in `Navbar.jsx` and the link list in `Footer.jsx`. `react-router-dom` and `react-scroll` are installed but unused.
-- **All content is data, not markup.** `src/constants.js` exports `SkillsInfo`, `journeyNodes`, `journeyTools`, `projects`, and `education`, and imports every image from `src/assets/` so Vite fingerprints them. Sections map over these arrays. To add a project or skill, edit `constants.js` — never hardcode content into a component. `constants.js` stays free of JSX and component imports: `journeyNodes`/`journeyTools` name their icons as **strings**, and `src/components/skills/icons.js` is the only place that maps a name to a `react-icons/tb` component.
+- **All content is data, not markup.** `src/constants.js` exports `SkillsInfo`, `journeyNodes`, `journeyTools`, `services`, `projects`, and `education`, and imports every image from `src/assets/` so Vite fingerprints them. Sections map over these arrays. To add a project or skill, edit `constants.js` — never hardcode content into a component. `constants.js` stays free of JSX and component imports: `journeyNodes`/`journeyTools` name their icons as **strings**, and `src/components/skills/icons.js` is the only place that maps a name to a `react-icons/tb` component.
 
 Section components are self-contained and share a layout idiom worth matching: `<section id="..." className="py-24 px-[12vw] md:px-[7vw] lg:px-[Nvw]">`, a centered title block, then the content grid. The purple accent is `#8245ec` and the page background is `#050414`.
 
@@ -94,3 +94,23 @@ Four things to preserve when touching it:
 - **It never auto-plays**, only one detail panel is open at a time, and there are no percentage "skill levels" anywhere in the section — the interaction is the proof. Under reduced motion the journey still runs (the visitor asked for it) but cuts between states with no transitions and no looping cursor or spinner.
 
 Per-technology colours are inline on the nodes and deliberately **not** `@theme` tokens: nothing outside this one section consumes them, so they live in `constants.js` next to the copy they describe.
+
+## The Services section (`src/components/services/`)
+
+A showcase of offered services with an auto-playing animated track. This is the **second** piece of the app (after the MERN journey) that uses per-item colors instead of the global accent — each service has its own hue defined inline in `constants.js`.
+
+```
+Services           section wrapper, header, composes the two pieces
+ ├─ ServiceTrack     track + nodes + packet
+ │   └─ ServiceNode  one node; presentational, active/inactive states
+ ├─ ServiceCarousel  card + arrows + dots
+ └─ useServiceLoop   timing only — active index, pause/resume
+```
+
+Five things to preserve when touching it:
+
+- **`useServiceLoop.js` owns timing and nothing else** — which service is active (`activeIndex`), pause/resume, and the autoplay interval. Geometry (where the packet sits) is derived from `activeIndex` and animated in CSS via `--svc-pos`.
+- **It always auto-plays** (the opposite of the MERN journey). The loop runs forward only (0→1→2→3→0→…), never pinging back. All timers are cleared and restarted on manual interaction so autoplay resumes cleanly.
+- **Expanding a card pauses autoplay; collapsing resumes it.** Only one card is ever expanded.
+- **Under `prefers-reduced-motion: reduce`, autoplay stops entirely** — land on the first node, no cycling, no color animation, and require explicit clicks to move. This is stricter than the MERN journey's reduced-motion handling because a self-triggering, indefinitely looping animation is exactly what that setting exists to prevent.
+- **Per-service colours are inline** in `constants.js` and deliberately not `@theme` tokens, same convention as the MERN journey nodes.
