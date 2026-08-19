@@ -235,6 +235,49 @@ export const journeyTools = [
   { label: "Socket.io", icon: "broadcast", color: "#2DD4BF", bg: "#0D1A1A", border: "#0D3030" },
 ];
 
+// ---- Services section -------------------------------------------
+// Each service carries its own colour, same convention as the MERN
+// journey: per-item colours are inline here and deliberately not
+// @theme tokens — nothing outside this section consumes them.
+export const services = [
+  {
+    id: "frontend",
+    index: "01",
+    title: "Frontend Engineering",
+    short:
+      "Responsive, animation-aware interfaces built with React, Next.js, and Tailwind CSS.",
+    full: "I design and build dynamic, performant frontends that combine component-driven architecture with thoughtful motion design. From complex dashboard layouts to scroll-driven marketing sites, every interface I ship is responsive from 360px up, scores well on Core Web Vitals, and uses accessible, semantic HTML. My React work leans on hooks, context, and custom animation systems rather than heavy libraries — keeping bundles lean and interactions snappy.",
+    color: "#3ecbe0",
+  },
+  {
+    id: "backend",
+    index: "02",
+    title: "Backend & APIs",
+    short:
+      "REST APIs, authentication, and data modelling with Node.js, Express, and MongoDB.",
+    full: "I build the server layer that powers full-stack applications — RESTful route design, JWT-based auth with refresh-token rotation, role-based access control, input validation, and rate limiting. My Express APIs are structured around a controller-service-repository pattern for maintainability, and I model data in both MongoDB (Mongoose schemas, aggregation pipelines) and PostgreSQL (Prisma, Drizzle). Every endpoint is tested with Postman and documented for the frontend team.",
+    color: "#4fd18a",
+  },
+  {
+    id: "design",
+    index: "03",
+    title: "UI / UX Design",
+    short:
+      "User-centred layouts, motion systems, and design-to-code translation from Figma.",
+    full: "I bridge the gap between design and implementation. I translate Figma mockups into pixel-accurate, token-driven code, build reusable component libraries with consistent spacing and typography scales, and design subtle micro-interactions (hover states, scroll reveals, page transitions) that make interfaces feel alive without overwhelming the user. Accessibility, contrast ratios, and reduced-motion preferences are baked in from the start, not bolted on.",
+    color: "#e0619f",
+  },
+  {
+    id: "deployment",
+    index: "04",
+    title: "Deployment & DevOps",
+    short:
+      "CI/CD, containerization, and cloud hosting with Vercel, Docker, and GitHub Actions.",
+    full: "I handle the full deploy pipeline: Git branching strategies, GitHub Actions for CI, Docker containers for reproducible environments, and zero-downtime deploys to Vercel and custom VPS setups. I configure environment variables, domain routing, SSL, and preview deployments for pull requests. Monitoring and error tracking are part of the checklist — an app that ships without observability is an app that fails silently.",
+    color: "#e0a53e",
+  },
+];
+
 // ---- Hero (About section) ---------------------------------------
 // The four phrases the hero types out, each aimed at a different
 // reader: generalist recruiter, backend lead, frontend lead, CTO.

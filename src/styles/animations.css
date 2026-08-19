@@ -321,6 +321,123 @@
   animation: journey-spin 800ms linear infinite;
 }
 
+/* ---- Service track (Services section) ---------------------
+   Independent of the MERN journey: own class names, own
+   --svc-pos variable. Same axis-swap technique though —
+   mobile is vertical, 640px+ is horizontal, both reading the
+   same custom property for packet position.
+--------------------------------------------------------- */
+.service-track {
+  --svc-node-size: 48px;
+  --svc-node-half: 24px;
+  --svc-pos: 0;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 0;
+}
+
+.service-spine,
+.service-packet {
+  position: absolute;
+}
+
+.service-spine {
+  background: #241d3d;
+  border-radius: 1px;
+}
+
+/* --- Mobile: vertical layout ------------------------------ */
+.service-spine {
+  left: 50%;
+  transform: translateX(-50%);
+  top: var(--svc-node-half);
+  bottom: var(--svc-node-half);
+  width: 2px;
+}
+
+.service-packet {
+  left: 50%;
+  top: calc(var(--svc-node-half) + var(--svc-pos) * (100% - var(--svc-node-size)));
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 9999px;
+  z-index: 3;
+  box-shadow: 0 0 12px currentColor;
+  /* transition is set inline for travel duration control */
+}
+
+/* --- 640px+: horizontal row ------------------------------- */
+@media (min-width: 640px) {
+  .service-track {
+    --svc-node-size: 52px;
+    --svc-node-half: 26px;
+
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0;
+    padding: 16px 0;
+  }
+
+  .service-spine {
+    left: var(--svc-node-half);
+    right: var(--svc-node-half);
+    top: var(--svc-node-half);
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    transform: none;
+  }
+
+  .service-packet {
+    top: var(--svc-node-half);
+    left: calc(var(--svc-node-half) + var(--svc-pos) * (100% - var(--svc-node-size)));
+    margin: -7px 0 0 -7px;
+  }
+}
+
+@media (min-width: 768px) {
+  .service-track {
+    --svc-node-size: 56px;
+    --svc-node-half: 28px;
+  }
+}
+
+/* Card entrance — same keyed-remount trick as the journey log. */
+@keyframes service-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.service-card {
+  animation: service-card-in 300ms ease-out;
+}
+
+/* Gentle glow pulse on active nodes — box-shadow only, no layout. */
+@keyframes service-glow-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.service-node__pulse {
+  animation: service-glow-pulse 2s ease-in-out infinite;
+}
+
 /* ---- Reduced motion ---------------------------------------
    Final state, instantly, for every variant. Any new motion in
    this project must degrade the same way.
@@ -371,4 +488,24 @@
   .journey-ripple {
     opacity: 0;
   }
+
+  /* Services: autoplay stops entirely (handled in JS), packet
+     and nodes snap to their states, no glow pulse. */
+  .service-packet {
+    transition: none;
+  }
+
+  .service-card {
+    animation: none;
+  }
+
+  .service-node__pulse {
+    animation: none;
+    opacity: 0;
+  }
+
+  .service-node__dot {
+    transition: none;
+  }
 }
+
