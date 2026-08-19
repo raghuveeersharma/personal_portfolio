@@ -243,6 +243,7 @@ export const services = [
   {
     id: "frontend",
     index: "01",
+    icon: "device-laptop",
     title: "Frontend Engineering",
     short:
       "Responsive, animation-aware interfaces built with React, Next.js, and Tailwind CSS.",
@@ -252,6 +253,7 @@ export const services = [
   {
     id: "backend",
     index: "02",
+    icon: "server",
     title: "Backend & APIs",
     short:
       "REST APIs, authentication, and data modelling with Node.js, Express, and MongoDB.",
@@ -261,6 +263,7 @@ export const services = [
   {
     id: "design",
     index: "03",
+    icon: "palette",
     title: "UI / UX Design",
     short:
       "User-centred layouts, motion systems, and design-to-code translation from Figma.",
@@ -270,6 +273,7 @@ export const services = [
   {
     id: "deployment",
     index: "04",
+    icon: "cloud",
     title: "Deployment & DevOps",
     short:
       "CI/CD, containerization, and cloud hosting with Vercel, Docker, and GitHub Actions.",

@@ -321,92 +321,210 @@
   animation: journey-spin 800ms linear infinite;
 }
 
-/* ---- Service track (Services section) ---------------------
-   Independent of the MERN journey: own class names, own
-   --svc-pos variable. Same axis-swap technique though —
-   mobile is vertical, 640px+ is horizontal, both reading the
-   same custom property for packet position.
---------------------------------------------------------- */
-.service-track {
-  --svc-node-size: 48px;
-  --svc-node-half: 24px;
-  --svc-pos: 0;
+/* ---- Service CIRCLE track (Services section) -----------------
+   Circular layout inspired by the Popmenu "cycle" pattern.
+   The track is an SVG circle with nodes placed at cardinal
+   positions around it. An animated arc fills between nodes and
+   a glowing packet travels along the circle.
 
+   On mobile (<768px) the layout stacks vertically; on desktop
+   (768px+) circle and cards sit side by side.
+--------------------------------------------------------- */
+
+/* -- Side-by-side layout container ----------------------------- */
+.service-layout {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  padding: 12px 0;
+  gap: 32px;
 }
 
-.service-spine,
-.service-packet {
+.service-layout__counter {
   position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 13px;
+  letter-spacing: 0.05em;
 }
 
-.service-spine {
-  background: #241d3d;
-  border-radius: 1px;
-  z-index: 1;
+.service-layout__circle {
+  width: 100%;
+  max-width: 340px;
+  flex-shrink: 0;
 }
 
-/* --- Mobile: vertical layout ------------------------------ */
-.service-spine {
-  left: 50%;
-  transform: translateX(-50%);
-  top: var(--svc-node-half);
-  bottom: var(--svc-node-half);
-  width: 2px;
+.service-layout__cards {
+  width: 100%;
+  flex: 1;
+  min-width: 0;
 }
 
-.service-packet {
-  left: 50%;
-  top: calc(var(--svc-node-half) + var(--svc-pos) * (100% - var(--svc-node-size)));
-  width: 14px;
-  height: 14px;
-  margin: -7px 0 0 -7px;
+@media (min-width: 768px) {
+  .service-layout {
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .service-layout__circle {
+    max-width: 380px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .service-layout {
+    gap: 64px;
+  }
+
+  .service-layout__circle {
+    max-width: 420px;
+  }
+}
+
+/* -- Circular track container ---------------------------------- */
+.service-circle-track {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.service-circle-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* -- Packet on the circle -------------------------------------- */
+.service-circle-packet {
+  position: absolute;
+  width: 12px;
+  height: 12px;
   border-radius: 9999px;
   z-index: 3;
-  box-shadow: 0 0 12px currentColor;
-  /* transition is set inline for travel duration control */
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
-/* --- 640px+: horizontal row ------------------------------- */
+/* -- Node wrapper — positions the node on the circle ----------- */
+.service-circle-node-wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+/* -- Center label ---------------------------------------------- */
+.service-circle-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.service-circle-center-label {
+  font-weight: 600;
+}
+
+.service-circle-center-sub {
+  opacity: 0.5;
+}
+
+/* -- Circle node sizes ----------------------------------------- */
+.service-circle-track {
+  --svc-circle-node-size: 38px;
+}
+
 @media (min-width: 640px) {
-  .service-track {
-    --svc-node-size: 52px;
-    --svc-node-half: 26px;
-
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0;
-    padding: 16px 0;
-  }
-
-  .service-spine {
-    left: var(--svc-node-half);
-    right: var(--svc-node-half);
-    top: var(--svc-node-half);
-    bottom: auto;
-    width: auto;
-    height: 2px;
-    transform: none;
-  }
-
-  .service-packet {
-    top: var(--svc-node-half);
-    left: calc(var(--svc-node-half) + var(--svc-pos) * (100% - var(--svc-node-size)));
-    margin: -7px 0 0 -7px;
+  .service-circle-track {
+    --svc-circle-node-size: 42px;
   }
 }
 
 @media (min-width: 768px) {
-  .service-track {
-    --svc-node-size: 56px;
-    --svc-node-half: 28px;
+  .service-circle-track {
+    --svc-circle-node-size: 46px;
   }
+}
+
+/* -- Stacked cards --------------------------------------------- */
+.service-cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-stack-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid #1E1E2E;
+  cursor: pointer;
+  transition: border-color 300ms ease, background 300ms ease,
+              box-shadow 300ms ease;
+}
+
+.service-stack-card:hover {
+  border-color: #3a3458;
+}
+
+.service-stack-card--active {
+  box-shadow: 0 0 20px var(--card-color, #8245ec)10,
+              inset 0 1px 0 var(--card-color, #8245ec)08;
+}
+
+.service-stack-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.service-stack-card__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #111118;
+  border: 1px solid #1E1E2E;
+  flex-shrink: 0;
+}
+
+.service-stack-card--active .service-stack-card__icon-wrap {
+  background: color-mix(in srgb, var(--card-color) 10%, #111118);
+  border-color: color-mix(in srgb, var(--card-color) 20%, transparent);
+}
+
+.service-stack-card__body {
+  animation: service-card-body-in 300ms ease-out;
+}
+
+@keyframes service-card-body-in {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 200px;
+  }
+}
+
+/* -- Footer: dots + pause ------------------------------------- */
+.service-stack-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 0 4px;
 }
 
 /* Card entrance — same keyed-remount trick as the journey log. */
@@ -492,11 +610,12 @@
 
   /* Services: autoplay stops entirely (handled in JS), packet
      and nodes snap to their states, no glow pulse. */
-  .service-packet {
+  .service-circle-packet {
     transition: none;
   }
 
-  .service-card {
+  .service-card,
+  .service-stack-card__body {
     animation: none;
   }
 

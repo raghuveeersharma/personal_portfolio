@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import SERVICE_ICONS from "./serviceIcons.js";
 
 // Neutral resting palette — matches the MERN journey's inactive state.
 const RESTING_FILL = "#0a0918";
@@ -16,16 +17,14 @@ const tintedBg = (hex) => {
 };
 
 /**
- * One node on the service track. Purely presentational — the parent
- * decides which state it's in.
+ * One node on the circular service track. Purely presentational —
+ * the parent decides which state it's in.
  *
- * States:
- *   - resting:  neutral dark fill, muted border, no color
- *   - active:   colored border + glow pulse in the service's hue
- *   - arriving: same as active but the glow is fading in
+ * Shows the service icon in a round container with optional glow.
  */
 const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
   const active = isActive;
+  const IconComponent = SERVICE_ICONS[service.icon];
 
   return (
     <button
@@ -33,18 +32,17 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
       onClick={onClick}
       aria-label={`${service.title}`}
       aria-pressed={active}
-      className="service-node group relative z-[2] flex flex-col items-center gap-2 cursor-pointer"
+      className="service-node group relative z-[2] flex items-center justify-center cursor-pointer"
       style={{
         "--node-color": service.color,
       }}
     >
-      {/* The dot */}
+      {/* The circular dot */}
       <div
-        className="service-node__dot relative flex items-center justify-center"
+        className="service-node__dot relative flex items-center justify-center rounded-full"
         style={{
-          width: "var(--svc-node-size)",
-          height: "var(--svc-node-size)",
-          borderRadius: "14px",
+          width: "var(--svc-circle-node-size, 42px)",
+          height: "var(--svc-circle-node-size, 42px)",
           background: active ? tintedBg(service.color) : RESTING_FILL,
           border: `1.5px solid ${active ? service.color : RESTING_BORDER}`,
           boxShadow: active
@@ -54,41 +52,29 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
           transition: `border-color ${travelMs}ms ease, background-color ${travelMs}ms ease, box-shadow ${travelMs}ms ease, transform ${travelMs}ms ease`,
         }}
       >
-        {/* Index number */}
-        <span
-          className="font-sans text-xs font-bold select-none"
-          style={{
-            color: active ? service.color : "#555572",
-            transition: `color ${travelMs}ms ease`,
-          }}
-        >
-          {service.index}
-        </span>
+        {/* Icon */}
+        {IconComponent && (
+          <IconComponent
+            size={18}
+            style={{
+              color: active ? service.color : "#555572",
+              transition: `color ${travelMs}ms ease`,
+            }}
+          />
+        )}
       </div>
-
-      {/* Label */}
-      <span
-        className="font-sans text-[10px] sm:text-[11px] text-center leading-tight max-w-[80px] sm:max-w-[100px] select-none"
-        style={{
-          color: active ? service.color : "#555572",
-          fontWeight: active ? 600 : 400,
-          transition: `color ${travelMs}ms ease`,
-        }}
-      >
-        {service.title}
-      </span>
 
       {/* Pulse animation — active nodes only */}
       {active && (
         <span
           aria-hidden="true"
-          className="service-node__pulse absolute rounded-[14px] pointer-events-none"
+          className="service-node__pulse absolute rounded-full pointer-events-none"
           style={{
-            width: "var(--svc-node-size)",
-            height: "var(--svc-node-size)",
-            top: 0,
+            width: "var(--svc-circle-node-size, 42px)",
+            height: "var(--svc-circle-node-size, 42px)",
+            top: "50%",
             left: "50%",
-            transform: "translateX(-50%)",
+            transform: "translate(-50%, -50%)",
             boxShadow: `0 0 14px ${service.color}55`,
           }}
         />
