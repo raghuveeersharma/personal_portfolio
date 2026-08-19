@@ -5,157 +5,138 @@ import ServiceNode from "./ServiceNode.jsx";
 const TOTAL = services.length;
 
 /**
- * The circular service track: an SVG circle spine with nodes
- * positioned at cardinal points around it, and an animated
- * arc that fills between nodes as the active index changes.
+ * The circular service track: an SVG circle with nodes at
+ * cardinal points. The spine is drawn as individual arc
+ * segments between each pair of adjacent nodes.
  *
- * Geometry is driven by the activeIndex — each node sits at a
- * fixed angle around the circle (evenly distributed, starting
- * from top / 12-o'clock). The arc fill and the animated
- * packet are both derived from activeIndex.
- *
- * The center shows a brand label, matching the Popmenu
- * reference design.
+ * Only the segment leading INTO the active node is coloured
+ * (previous node → active node). The colour change is instant
+ * — no sweeping arc, no bending path animation. Each segment
+ * simply snaps to "lit" or "unlit" when the active index
+ * changes.
  */
 const ServiceTrack = ({ activeIndex, prevIndex, travelMs, onNodeClick }) => {
   // Circle geometry — all values are relative to a 300×300 viewBox.
   const CX = 150;
   const CY = 150;
-  const R = 120; // radius of the node circle
+  const R = 120; // radius for positioning nodes
   const CIRCLE_R = 110; // radius of the visible SVG circle
 
-  // Each node is positioned at a fixed angle, starting from top (−90°).
-  // We go clockwise: top → right → bottom → left for 4 items.
-  const getAngle = (index) => {
-    return -90 + (360 / TOTAL) * index;
-  };
+  // Each node sits at a fixed angle, starting from top (−90°).
+  // Clockwise: top → right → bottom → left for 4 items.
+  const getAngle = (index) => -90 + (360 / TOTAL) * index;
 
   const getPosition = (index) => {
-    const angleDeg = getAngle(index);
-    const angleRad = (angleDeg * Math.PI) / 180;
+    const angleRad = (getAngle(index) * Math.PI) / 180;
     return {
       x: CX + R * Math.cos(angleRad),
       y: CY + R * Math.sin(angleRad),
     };
   };
 
-  // Build the active arc path (from the first node to the active node, clockwise).
-  // We fill from node 0 to activeIndex, sweeping through intermediate nodes.
-  const buildArcPath = () => {
-    if (activeIndex === 0) return "";
-
-    const startAngle = getAngle(0);
-    const endAngle = getAngle(activeIndex);
-
-    // Convert to radians
+  // Build an arc path for the segment from node `from` to node `to`.
+  const buildSegmentPath = (from, to) => {
+    const startAngle = getAngle(from);
+    const endAngle = getAngle(to);
     const startRad = (startAngle * Math.PI) / 180;
     const endRad = (endAngle * Math.PI) / 180;
 
-    // Calculate actual sweep — we always go clockwise
-    let sweep = endAngle - startAngle;
-    if (sweep < 0) sweep += 360;
-    const largeArc = sweep > 180 ? 1 : 0;
-
+    // Each segment is exactly 360/TOTAL degrees — always < 180,
+    // so largeArc is always 0.
     const sx = CX + CIRCLE_R * Math.cos(startRad);
     const sy = CY + CIRCLE_R * Math.sin(startRad);
     const ex = CX + CIRCLE_R * Math.cos(endRad);
     const ey = CY + CIRCLE_R * Math.sin(endRad);
 
-    return `M ${sx} ${sy} A ${CIRCLE_R} ${CIRCLE_R} 0 ${largeArc} 1 ${ex} ${ey}`;
+    return `M ${sx} ${sy} A ${CIRCLE_R} ${CIRCLE_R} 0 0 1 ${ex} ${ey}`;
   };
 
-  // Arrow positions along the spine between nodes
+  // Arrow positions — one at the midpoint of each segment.
   const getArrowPositions = () => {
     const arrows = [];
     for (let i = 0; i < TOTAL; i++) {
-      // Place arrow at the midpoint between node i and node (i+1)
       const midAngle = getAngle(i) + 360 / TOTAL / 2;
       const midRad = (midAngle * Math.PI) / 180;
       arrows.push({
         x: CX + CIRCLE_R * Math.cos(midRad),
         y: CY + CIRCLE_R * Math.sin(midRad),
-        angle: midAngle + 90, // tangent direction (perpendicular to radius)
+        angle: midAngle + 90,
       });
     }
     return arrows;
   };
 
-  const arrows = getArrowPositions();
-  const arcPath = buildArcPath();
-  const activeColor = services[activeIndex].color;
+  // Build all TOTAL segments. Each segment goes from node i → node (i+1) % TOTAL.
+  // A segment is "active" if the active node is at its END.
+  // i.e. segment i (from node i → node i+1) is active when activeIndex === (i+1) % TOTAL.
+  const segments = [];
+  for (let i = 0; i < TOTAL; i++) {
+    const nextIdx = (i + 1) % TOTAL;
+    const isActive = activeIndex === nextIdx;
+    segments.push({
+      from: i,
+      to: nextIdx,
+      path: buildSegmentPath(i, nextIdx),
+      isActive,
+      color: services[nextIdx].color, // colour of the node it leads into
+    });
+  }
 
-  // Packet position — sits on the circle at the active node's angle
-  const packetPos = getPosition(activeIndex);
+  const arrows = getArrowPositions();
+  const activeColor = services[activeIndex].color;
 
   return (
     <div
       className="service-circle-track"
-      style={{
-        "--svc-travel-ms": `${travelMs}ms`,
-      }}
       aria-label="Service navigation track"
     >
-      {/* SVG circle spine + arc fill + arrows */}
+      {/* SVG circle spine drawn as individual segments */}
       <svg
         viewBox="0 0 300 300"
         className="service-circle-svg"
         aria-hidden="true"
       >
-        {/* Static spine circle */}
-        <circle
-          cx={CX}
-          cy={CY}
-          r={CIRCLE_R}
-          fill="none"
-          stroke="#241d3d"
-          strokeWidth="1.5"
-        />
-
-        {/* Active arc fill — sweeps from node 0 to active node */}
-        {arcPath && (
+        {/* Each segment — inactive ones are the muted spine colour,
+            the active one (leading to the current node) is coloured. */}
+        {segments.map((seg, i) => (
           <path
-            d={arcPath}
+            key={i}
+            d={seg.path}
             fill="none"
-            stroke={activeColor}
-            strokeWidth="2.5"
+            stroke={seg.isActive ? seg.color : "#241d3d"}
+            strokeWidth={seg.isActive ? 2.5 : 1.5}
             strokeLinecap="round"
             style={{
-              transition: `d ${travelMs}ms ease-in-out, stroke ${travelMs}ms ease`,
-              filter: `drop-shadow(0 0 6px ${activeColor}66)`,
+              filter: seg.isActive
+                ? `drop-shadow(0 0 6px ${seg.color}66)`
+                : "none",
+              /* No transition — instant snap */
             }}
           />
-        )}
-
-        {/* Direction arrows on the spine */}
-        {arrows.map((arrow, i) => (
-          <g
-            key={i}
-            transform={`translate(${arrow.x}, ${arrow.y}) rotate(${arrow.angle})`}
-          >
-            <polyline
-              points="-3.5,-3.5 0,0 -3.5,3.5"
-              fill="none"
-              stroke="#3a3458"
-              strokeWidth="1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </g>
         ))}
-      </svg>
 
-      {/* Animated packet — the glowing dot on the circle */}
-      <div
-        className="service-circle-packet"
-        aria-hidden="true"
-        style={{
-          left: `${(packetPos.x / 300) * 100}%`,
-          top: `${(packetPos.y / 300) * 100}%`,
-          backgroundColor: activeColor,
-          boxShadow: `0 0 14px ${activeColor}88, 0 0 28px ${activeColor}44`,
-          transition: `left ${travelMs}ms ease-in-out, top ${travelMs}ms ease-in-out, background-color ${travelMs}ms linear, box-shadow ${travelMs}ms linear`,
-        }}
-      />
+        {/* Direction arrows on the spine between nodes */}
+        {arrows.map((arrow, i) => {
+          // The arrow sits on segment i (from node i → node i+1).
+          // Colour the arrow if its segment is active.
+          const seg = segments[i];
+          return (
+            <g
+              key={i}
+              transform={`translate(${arrow.x}, ${arrow.y}) rotate(${arrow.angle})`}
+            >
+              <polyline
+                points="-3.5,-3.5 0,0 -3.5,3.5"
+                fill="none"
+                stroke={seg.isActive ? seg.color : "#3a3458"}
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </g>
+          );
+        })}
+      </svg>
 
       {/* Nodes positioned around the circle */}
       {services.map((svc, i) => {
@@ -183,10 +164,7 @@ const ServiceTrack = ({ activeIndex, prevIndex, travelMs, onNodeClick }) => {
       <div className="service-circle-center" aria-hidden="true">
         <span
           className="service-circle-center-label font-sans text-[10px] sm:text-xs tracking-[0.14em] uppercase"
-          style={{
-            color: activeColor,
-            transition: `color ${travelMs}ms ease`,
-          }}
+          style={{ color: activeColor }}
         >
           Services
         </span>

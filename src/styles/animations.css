@@ -396,17 +396,6 @@
   height: 100%;
 }
 
-/* -- Packet on the circle -------------------------------------- */
-.service-circle-packet {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 9999px;
-  z-index: 3;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
 /* -- Node wrapper — positions the node on the circle ----------- */
 .service-circle-node-wrapper {
   position: absolute;
@@ -608,11 +597,8 @@
     opacity: 0;
   }
 
-  /* Services: autoplay stops entirely (handled in JS), packet
-     and nodes snap to their states, no glow pulse. */
-  .service-circle-packet {
-    transition: none;
-  }
+  /* Services: autoplay stops entirely (handled in JS),
+     nodes snap to their states, no glow pulse. */
 
   .service-card,
   .service-stack-card__body {
