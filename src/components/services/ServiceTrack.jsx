@@ -20,7 +20,7 @@ const ServiceTrack = ({ activeIndex, prevIndex, travelMs, onNodeClick }) => {
   const CX = 150;
   const CY = 150;
   const R = 120; // radius for positioning nodes
-  const CIRCLE_R = 110; // radius of the visible SVG circle
+  const CIRCLE_R = 120; // radius of the visible SVG circle
 
   // Each node sits at a fixed angle, starting from top (−90°).
   // Clockwise: top → right → bottom → left for 4 items.
@@ -110,7 +110,7 @@ const ServiceTrack = ({ activeIndex, prevIndex, travelMs, onNodeClick }) => {
               filter: seg.isActive
                 ? `drop-shadow(0 0 6px ${seg.color}66)`
                 : "none",
-              /* No transition — instant snap */
+              transition: `stroke ${travelMs}ms ease, stroke-width ${travelMs}ms ease, filter ${travelMs}ms ease`,
             }}
           />
         ))}
@@ -132,6 +132,9 @@ const ServiceTrack = ({ activeIndex, prevIndex, travelMs, onNodeClick }) => {
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                style={{
+                  transition: `stroke ${travelMs}ms ease`,
+                }}
               />
             </g>
           );
@@ -164,7 +167,10 @@ const ServiceTrack = ({ activeIndex, prevIndex, travelMs, onNodeClick }) => {
       <div className="service-circle-center" aria-hidden="true">
         <span
           className="service-circle-center-label font-sans text-[10px] sm:text-xs tracking-[0.14em] uppercase"
-          style={{ color: activeColor }}
+          style={{ 
+            color: activeColor,
+            transition: `color ${travelMs}ms ease`
+          }}
         >
           Services
         </span>
