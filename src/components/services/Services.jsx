@@ -75,7 +75,7 @@ const Services = () => {
   return (
     <section
       id="services"
-      className="py-24 px-[12vw] md:px-[7vw] lg:px-[6vw]"
+      className="py-24 px-[12vw] md:px-[7vw] lg:px-[14vw]"
     >
       {/* Header — matches the section title block idiom */}
       <Reveal className="text-center mb-10">

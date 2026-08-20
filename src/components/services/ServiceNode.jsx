@@ -43,13 +43,12 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
         style={{
           width: "var(--svc-circle-node-size, 42px)",
           height: "var(--svc-circle-node-size, 42px)",
-          background: active ? tintedBg(service.color) : RESTING_FILL,
+          backgroundColor: active ? tintedBg(service.color) : RESTING_FILL,
           border: `1.5px solid ${active ? service.color : RESTING_BORDER}`,
           boxShadow: active
             ? `0 0 14px ${service.color}55, 0 0 28px ${service.color}22`
             : "none",
-          transform: active ? "scale(1.15)" : "scale(1)",
-          transition: `border-color ${travelMs}ms ease, background-color ${travelMs}ms ease, box-shadow ${travelMs}ms ease, transform ${travelMs}ms ease`,
+          transition: `border-color ${travelMs}ms ease, background-color ${travelMs}ms ease, box-shadow ${travelMs}ms ease`,
         }}
       >
         {/* Icon */}
