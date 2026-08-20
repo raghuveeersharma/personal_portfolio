@@ -11,10 +11,12 @@ const Contact = () => {
   // as a toast, so the whole react-toastify bundle stays off the page for
   // the visitors who never submit anything (which is most of them).
   const [status, setStatus] = useState(null);
+  const [sending, setSending] = useState(false);
 
   const sendEmail = (e) => {
     e.preventDefault();
     setStatus(null); // clear the previous result before the retry
+    setSending(true);
 
     emailjs
       .sendForm("service_x8hut4o", "template_rw6nx8f", form.current, {
@@ -29,7 +31,8 @@ const Contact = () => {
           console.error("Error sending message:", error);
           setStatus("error");
         }
-      );
+      )
+      .finally(() => setSending(false));
   };
 
   return (
@@ -64,14 +67,14 @@ const Contact = () => {
         >
           <input
             type="email"
-            name="user_email"
+            name="from_Email"
             placeholder="Your Email"
             required
             className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
           />
           <input
             type="text"
-            name="user_name"
+            name="from_name"
             placeholder="Your Name"
             required
             className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
@@ -94,9 +97,10 @@ const Contact = () => {
           {/* Send Button */}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-500 py-3 text-white font-semibold rounded-md hover:opacity-90 transition"
+            disabled={sending}
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-500 py-3 text-white font-semibold rounded-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Send
+            {sending ? "Sending..." : "Send"}
           </button>
 
           {/* aria-live so the result is announced without moving focus.
