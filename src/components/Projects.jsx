@@ -10,6 +10,14 @@ const Projects = () => {
   const handleCloseProject = () => {
     setProject(null);
   };
+  // Cards are divs (a real <button> may not contain the <h3>), so Enter/Space
+  // have to be wired up by hand to match native button activation.
+  const handleProjectKeyDown = (project) => (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      setProject(project);
+    }
+  };
   // Function to handle opening a project
   return (
     <section
@@ -41,8 +49,12 @@ const Projects = () => {
           // transition-transform duration-300 for the hover lift.
           <div key={project.id}>
             <div
+              role="button"
+              tabIndex={0}
+              aria-label={`View details for ${project.title}`}
               onClick={handelOpenProject(project)}
-              className="h-full bg-gray-900 backdrop-blur-md rounded-2xl border border-white hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
+              onKeyDown={handleProjectKeyDown(project)}
+              className="h-full bg-gray-900 backdrop-blur-md rounded-2xl border border-white hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
             >
               <div className="p-4">
                 <img
