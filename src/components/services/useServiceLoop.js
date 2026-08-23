@@ -17,10 +17,15 @@ const DWELL_MS = 2200;  // hold at each node before advancing
  */
 const useServiceLoop = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   // "arriving" is true during the travel phase (packet is in motion),
   // false once it has arrived and is dwelling.
   const [arriving, setArriving] = useState(false);
+
+  // A ref, not state: the timer callbacks below are the only readers, and
+  // as state it was read through a stale closure — `goTo` captured
+  // `paused` from the render that created it, so a click during a pause
+  // saw the wrong value and never resumed.
+  const pausedRef = useRef(false);
 
   const timerRef = useRef(null);
   const reducedMotion = useRef(false);
@@ -63,22 +68,26 @@ const useServiceLoop = () => {
     [clearTimer],
   );
 
-  // Manual navigation — click a node, arrow, or dot.
+  // Manual navigation — click a node, arrow, or dot. Picking a service by
+  // hand always means "carry on from here", so this clears the pause
+  // itself rather than leaving the caller to fire a second resume() that
+  // would race this function's own travel timer.
   const goTo = useCallback(
     (index) => {
       clearTimer();
+      pausedRef.current = false;
       setArriving(true);
       setActiveIndex(index);
 
       // Let the packet travel, then dwell and resume autoplay.
       timerRef.current = setTimeout(() => {
         setArriving(false);
-        if (!paused && !reducedMotion.current) {
+        if (!pausedRef.current && !reducedMotion.current) {
           scheduleNext(index);
         }
       }, TRAVEL_MS);
     },
-    [clearTimer, paused, scheduleNext],
+    [clearTimer, scheduleNext],
   );
 
   const next = useCallback(() => {
@@ -91,16 +100,21 @@ const useServiceLoop = () => {
 
   // Pause/resume — expanding a card pauses, collapsing resumes.
   const pause = useCallback(() => {
-    setPaused(true);
+    pausedRef.current = true;
     clearTimer();
+    // Pausing mid-travel cancels the timer that would have cleared this,
+    // and the CSS transition finishes on its own regardless — so settle it
+    // here rather than leaving it stuck on.
+    setArriving(false);
   }, [clearTimer]);
 
   const resume = useCallback(() => {
-    setPaused(false);
+    pausedRef.current = false;
+    clearTimer();
     if (!reducedMotion.current) {
       scheduleNext(activeIndex);
     }
-  }, [activeIndex, scheduleNext]);
+  }, [activeIndex, clearTimer, scheduleNext]);
 
   // Start the loop on mount (unless reduced motion).
   useEffect(() => {
@@ -113,7 +127,6 @@ const useServiceLoop = () => {
   return {
     activeIndex,
     arriving,
-    paused,
     goTo,
     next,
     prev,

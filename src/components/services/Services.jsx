@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Reveal } from "../../animation";
 import { services } from "../../constants.js";
 import ServiceTrack from "./ServiceTrack.jsx";
@@ -20,46 +20,18 @@ import useServiceLoop from "./useServiceLoop.js";
  * prefers-reduced-motion: reduce.
  */
 const Services = () => {
-  const {
-    activeIndex,
-    goTo,
-    next,
-    prev,
-    pause,
-    resume,
-    TRAVEL_MS,
-  } = useServiceLoop();
+  const { activeIndex, goTo, pause, resume, TRAVEL_MS } = useServiceLoop();
 
   const [expanded, setExpanded] = useState(false);
-  const prevIndexRef = useRef(0);
 
-  // Keep track of the previous index for colour interpolation.
+  // Collapse whatever was open and hand over to goTo, which clears the
+  // pause itself. The old version deferred a resume() with
+  // setTimeout(…, 0), which then ran *after* goTo and cancelled goTo's
+  // own travel timer — leaving `arriving` stuck true and autoplay
+  // scheduled from the previous index.
   const handleGoTo = (i) => {
-    prevIndexRef.current = activeIndex;
-    if (expanded) {
-      setExpanded(false);
-      // small delay so resume triggers after state settles
-      setTimeout(() => resume(), 0);
-    }
+    setExpanded(false);
     goTo(i);
-  };
-
-  const handlePrev = () => {
-    prevIndexRef.current = activeIndex;
-    if (expanded) {
-      setExpanded(false);
-      setTimeout(() => resume(), 0);
-    }
-    prev();
-  };
-
-  const handleNext = () => {
-    prevIndexRef.current = activeIndex;
-    if (expanded) {
-      setExpanded(false);
-      setTimeout(() => resume(), 0);
-    }
-    next();
   };
 
   const handleCardClick = () => {
@@ -110,7 +82,6 @@ const Services = () => {
           <div className="service-layout__circle">
             <ServiceTrack
               activeIndex={activeIndex}
-              prevIndex={prevIndexRef.current}
               travelMs={TRAVEL_MS}
               onNodeClick={handleGoTo}
             />
@@ -121,8 +92,6 @@ const Services = () => {
             <ServiceCarousel
               activeIndex={activeIndex}
               expanded={expanded}
-              onPrev={handlePrev}
-              onNext={handleNext}
               onDotClick={handleGoTo}
               onCardClick={handleCardClick}
               travelMs={TRAVEL_MS}

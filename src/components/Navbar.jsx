@@ -50,6 +50,13 @@ const Navbar = () => {
   const handelactive = (id) => {
     setActive(id);
   };
+
+  // The mobile sheet has to close itself: without this it stayed open on
+  // top of the section the visitor had just jumped to.
+  const handleMobileNav = (id) => {
+    setActive(id);
+    setOpen(false);
+  };
   return (
     <nav
       className={`${
@@ -130,7 +137,7 @@ const Navbar = () => {
                     active === items.id ? "text-[#8245ec]" : ""
                   }`}
                 >
-                  <button onClick={() => handelactive(items.id)}>
+                  <button onClick={() => handleMobileNav(items.id)}>
                     {items.label}
                   </button>
                 </a>

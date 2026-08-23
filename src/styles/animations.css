@@ -466,9 +466,15 @@
   border-color: #3a3458;
 }
 
+/* `var(--card-color)10` is not a colour — appending hex-alpha digits only
+   works on a literal. The whole declaration was invalid, so the active
+   card had no glow at all. color-mix() is what the icon-wrap below
+   already uses for the same job. */
 .service-stack-card--active {
-  box-shadow: 0 0 20px var(--card-color, #8245ec)10,
-              inset 0 1px 0 var(--card-color, #8245ec)08;
+  box-shadow: 0 0 20px
+      color-mix(in srgb, var(--card-color, #8245ec) 10%, transparent),
+    inset 0 1px 0
+      color-mix(in srgb, var(--card-color, #8245ec) 8%, transparent);
 }
 
 .service-stack-card__header {
