@@ -14,8 +14,6 @@ import SERVICE_ICONS from "./serviceIcons.js";
 const ServiceCarousel = ({
   activeIndex,
   expanded,
-  onPrev,
-  onNext,
   onDotClick,
   onCardClick,
   travelMs,
@@ -141,8 +139,6 @@ const ServiceCarousel = ({
 ServiceCarousel.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   expanded: PropTypes.bool.isRequired,
-  onPrev: PropTypes.func.isRequired,
-  onNext: PropTypes.func.isRequired,
   onDotClick: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
   travelMs: PropTypes.number.isRequired,

@@ -15,7 +15,7 @@ const TOTAL = services.length;
  * simply snaps to "lit" or "unlit" when the active index
  * changes.
  */
-const ServiceTrack = ({ activeIndex, prevIndex, travelMs, onNodeClick }) => {
+const ServiceTrack = ({ activeIndex, travelMs, onNodeClick }) => {
   // Circle geometry — all values are relative to a 300×300 viewBox.
   const CX = 150;
   const CY = 150;
@@ -184,7 +184,6 @@ const ServiceTrack = ({ activeIndex, prevIndex, travelMs, onNodeClick }) => {
 
 ServiceTrack.propTypes = {
   activeIndex: PropTypes.number.isRequired,
-  prevIndex: PropTypes.number,
   travelMs: PropTypes.number.isRequired,
   onNodeClick: PropTypes.func.isRequired,
 };
