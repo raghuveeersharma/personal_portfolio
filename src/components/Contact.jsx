@@ -5,6 +5,13 @@ import { MdOutlineEmail } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import { Reveal, Stagger } from "../animation";
 
+// EmailJS ids, same VITE_* pattern the social/resume links use. They are
+// publishable by design (the SDK sends them from the browser), so this is
+// about not needing a code change to rotate the template — not secrecy.
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
 const Contact = () => {
   const form = useRef();
   // null | "sent" | "error" — rendered inline under the button rather than
@@ -16,11 +23,24 @@ const Contact = () => {
   const sendEmail = (e) => {
     e.preventDefault();
     setStatus(null); // clear the previous result before the retry
+
+    // A missing .env fails inside the SDK with an opaque error, so catch it
+    // here and show the same fallback ("email me directly") the visitor
+    // would get from a network failure.
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      console.error(
+        "EmailJS is not configured — set VITE_EMAILJS_SERVICE_ID, " +
+          "VITE_EMAILJS_TEMPLATE_ID and VITE_EMAILJS_PUBLIC_KEY (see .env.example)."
+      );
+      setStatus("error");
+      return;
+    }
+
     setSending(true);
 
     emailjs
-      .sendForm("service_x8hut4o", "template_rw6nx8f", form.current, {
-        publicKey: "MKlmHK9s8eZZ-bfY0",
+      .sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form.current, {
+        publicKey: EMAILJS_PUBLIC_KEY,
       })
       .then(
         () => {
