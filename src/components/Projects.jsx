@@ -1,10 +1,16 @@
 import { projects } from "../constants";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Reveal, Stagger } from "../animation";
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 const Projects = () => {
   const [project, setProject] = useState(null);
-  const handelOpenProject = (project) => () => {
+  const modalRef = useRef(null);
+  const lastFocusedRef = useRef(null);
+  const handelOpenProject = (project) => (event) => {
+    lastFocusedRef.current = event.currentTarget;
     setProject(project);
   };
   const handleCloseProject = () => {
@@ -15,9 +21,55 @@ const Projects = () => {
   const handleProjectKeyDown = (project) => (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
+      lastFocusedRef.current = event.currentTarget;
       setProject(project);
     }
   };
+  const handleBackdropClick = (event) => {
+    if (event.target === event.currentTarget) {
+      handleCloseProject();
+    }
+  };
+
+  // Dialog behaviour: lock body scroll, trap focus inside the panel, close on
+  // Escape, and return focus to the card that opened it.
+  useEffect(() => {
+    if (!project) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const node = modalRef.current;
+    const focusables = node
+      ? Array.from(node.querySelectorAll(FOCUSABLE_SELECTOR))
+      : [];
+    (focusables[0] || node)?.focus();
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        handleCloseProject();
+        return;
+      }
+      if (event.key !== "Tab" || focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      lastFocusedRef.current?.focus();
+    };
+  }, [project]);
   // Function to handle opening a project
   return (
     <section
@@ -89,16 +141,27 @@ const Projects = () => {
       </Stagger>
       {/* modal container */}
       {project && (
-        <div className="fixed top-0 inset-0 mx-auto h-screen flex items-center justify-center z-50 bg-black/70">
+        <div
+          className="fixed top-0 inset-0 mx-auto h-screen flex items-center justify-center z-50 bg-black/70"
+          onClick={handleBackdropClick}
+        >
           <Reveal
             variant="zoom-in"
             duration={300}
             className="bg-gray-900 lg:w-full w-[90%] max-w-xl backdrop-blur-md rounded-2xl border border-white shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden relative"
           >
+            <div
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-modal-title"
+              tabIndex={-1}
+            >
             <div className="flex justify-end ">
               <button
                 className="text-white text-3xl font-semibold mr-4 hover:text-purple-400 transition duration-300"
                 onClick={handleCloseProject}
+                aria-label="Close project details"
               >
                 &times;
               </button>
@@ -113,7 +176,10 @@ const Projects = () => {
               />
             </div>
             <div className="p-4 md:p-6">
-              <h3 className="text-2xl font-semibold mb-2 text-gray-100">
+              <h3
+                id="project-modal-title"
+                className="text-2xl font-semibold mb-2 text-gray-100"
+              >
                 {project.title}
               </h3>
               <p className="text-gray-400 mb-1 md:mb-4 pt-2 md:pt-5 ">
@@ -145,6 +211,7 @@ const Projects = () => {
               >
                 LIVE
               </a>
+            </div>
             </div>
           </Reveal>
         </div>

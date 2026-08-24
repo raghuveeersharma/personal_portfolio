@@ -112,22 +112,28 @@ const Navbar = () => {
           </a>
         </div>
         <div>
-          {open ? (
-            <RxCross1
-              className="text-white text-2xl lg:hidden"
-              onClick={() => setOpen(!open)}
-            />
-          ) : (
-            <RxHamburgerMenu
-              className="text-white text-2xl lg:hidden"
-              onClick={() => setOpen(!open)}
-            />
-          )}
+          <button
+            type="button"
+            className="lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? (
+              <RxCross1 className="text-white text-2xl" />
+            ) : (
+              <RxHamburgerMenu className="text-white text-2xl" />
+            )}
+          </button>
         </div>
       </div>
       <div>
         {open && (
-          <div className="lg:hidden absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5  backdrop-blur-lg bg-black/60  shadow-lg rounded-lg px-4 py-3">
+          <div
+            id="mobile-menu"
+            className="lg:hidden absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5  backdrop-blur-lg bg-black/60  shadow-lg rounded-lg px-4 py-3"
+          >
             <ul className="text-gray-300 flex flex-col items-center space-y-4">
               {menuitems.map((items) => (
                 <a

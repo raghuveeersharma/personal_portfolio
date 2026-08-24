@@ -27,13 +27,21 @@ screening tool pointed at the site.
       Left as a `div` rather than a `<button>` because the card contains an
       `<h3>`, which is not valid button content. Note this only makes the card
       *reachable* — dismissing the modal from the keyboard is the item below.
-- [ ] **The project modal is not a dialog.** [`Projects.jsx:80`](src/components/Projects.jsx#L80) —
+- [x] **The project modal is not a dialog.** ~~[`Projects.jsx:80`](src/components/Projects.jsx#L80) —
       no `role="dialog"`, no `aria-modal`, no Escape handler, no
       backdrop-click close, no focus trap, no body scroll-lock, and focus is
-      not returned to the originating card on close.
-- [ ] **The hamburger is an SVG with `onClick`.** [`Navbar.jsx:116-121`](src/components/Navbar.jsx#L116-L121) —
+      not returned to the originating card on close.~~
+      **Done:** panel now has `role="dialog"`, `aria-modal="true"`, and
+      `aria-labelledby` pointing at the title; an effect locks body scroll,
+      focuses the first focusable element, traps Tab/Shift+Tab inside the
+      panel, closes on Escape, and returns focus to the card that opened it.
+      Backdrop click also closes.
+- [x] **The hamburger is an SVG with `onClick`.** ~~[`Navbar.jsx:116-121`](src/components/Navbar.jsx#L116-L121) —
       not focusable, no `aria-label`, no `aria-expanded`, no `aria-controls`.
-      Wrap it in a real `button`.
+      Wrap it in a real `button`.~~
+      **Done:** icon is now inside a `<button type="button">` with
+      `aria-label`, `aria-expanded`, and `aria-controls="mobile-menu"`, wired
+      to the mobile panel's new `id="mobile-menu"`.
 - [ ] **`<a href="#id"><button>` nesting** in both navbar menus is invalid
       HTML (interactive inside interactive) and behaves unpredictably with
       assistive tech. Pick one: an anchor styled as a button, or a button that
