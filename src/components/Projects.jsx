@@ -106,7 +106,9 @@ const Projects = () => {
               aria-label={`View details for ${project.title}`}
               onClick={handelOpenProject(project)}
               onKeyDown={handleProjectKeyDown(project)}
-              className="h-full bg-gray-900 backdrop-blur-md rounded-2xl border border-white hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+              // bg-gray-900 is opaque — a backdrop-filter here only cost
+              // a compositor layer for a blur nothing could ever show.
+              className="h-full bg-gray-900 rounded-2xl border border-white hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
             >
               <div className="p-4">
                 <img
@@ -150,7 +152,9 @@ const Projects = () => {
           <Reveal
             variant="zoom-in"
             duration={300}
-            className="bg-gray-900 lg:w-full w-[90%] max-w-xl backdrop-blur-md rounded-2xl border border-white shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden relative"
+            // Opaque panel; the dimming behind it is the overlay's
+            // bg-black/70, not a blur of the page.
+            className="bg-gray-900 lg:w-full w-[90%] max-w-xl rounded-2xl border border-white shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden relative"
           >
             <div
               ref={modalRef}

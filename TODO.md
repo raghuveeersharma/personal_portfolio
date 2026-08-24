@@ -115,14 +115,38 @@ screening tool pointed at the site.
       the same scroll column and gated by the `IntersectionObserver` reveal
       system, so a suspended section would land as a blank gap mid-scroll.
       Worth revisiting only with a real skeleton per section.
-- [ ] **`backdrop-blur-md` over opaque `bg-gray-900`** composites a blur that
+- [x] **`backdrop-blur-md` over opaque `bg-gray-900`** ~~composites a blur that
       can never be seen: [`Skills.jsx:46`](src/components/Skills.jsx#L46),
       [`Projects.jsx:45`](src/components/Projects.jsx#L45),
       [`Experience.jsx:62`](src/components/Experience.jsx#L62),
       [`Education.jsx:60`](src/components/Education.jsx#L60). Same for
       `hover:bg-black/5` on the Skills card, which is a visual no-op. Pure GPU
       cost — delete, or make the background translucent so the blur does
-      something.
+      something.~~
+      **Done — deleted, and there were five sites, not four:** this list
+      missed the project modal panel
+      ([`Projects.jsx:153`](src/components/Projects.jsx#L153)), which is the
+      same opaque `bg-gray-900`. The two remaining `backdrop-blur` uses are
+      both in `Navbar.jsx` (`bg-[#050414]/70`, `bg-black/60`) — those are
+      genuinely translucent and were left alone.
+      Verified rather than assumed: rendering here is deterministic (two
+      runs of identical code diff to zero pixels), so before/after captures
+      are directly comparable. On a flat card surface only 10 of 5760 pixels
+      differ and the sampled surface colour is `rgb(16 24 40)` either way —
+      the blur really was invisible. Border and page-background regions
+      differ by at most 1/255. The one real difference is **text
+      antialiasing** across each section (deltas up to ~113 on glyph edges,
+      no reflow — card and track geometry are byte-identical at
+      `track=996`, `cards=454x456,478x456`), which is the expected
+      consequence of dropping the compositor layer that `backdrop-filter`
+      forced. Sharper text, one less layer.
+      **`hover:bg-black/5` was not a no-op** — worth correcting, because the
+      reason matters. It is a `background-color`, so it *replaced*
+      `bg-gray-900` on hover rather than tinting it; measured, the card
+      surface went from `rgb(16 24 40)` to `rgb(6 3 22)` — i.e. the page
+      colour. The card lost its whole surface on hover and receded, and that
+      transparency was the only moment the blur was ever visible. Removed
+      with the blur; the `hover:-translate-y-2` lift is the affordance.
 - [ ] **10 unused image assets** (~450kB) still in the repo: `react.svg` and
       `figma / netlify / springboot / gsap / angular / firebase / csharp /
       python / sass .png` under `src/assets/tech_logo/`. Not bundled, but they
