@@ -43,8 +43,14 @@ const Skills = () => {
           // lift snap instantly.
           <div key={category.title} className="w-full sm:w-[48%] mb-10">
             <div
-              className="h-full bg-gray-900 backdrop-blur-md px-6 sm:px-8 py-8 sm:py-4 rounded-2xl border border-white
-          shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] hover:bg-black/5 transition-all duration-500 ease-in-out transform hover:-translate-y-2"
+              // No backdrop-blur: `bg-gray-900` is opaque, so there is
+              // nothing behind the card to blur. It used to become visible
+              // on hover only because `hover:bg-black/5` *replaced* the
+              // opaque background rather than layering over it — which
+              // dropped the card's surface to the page colour and made the
+              // hovered card recede. The lift is the whole affordance.
+              className="h-full bg-gray-900 px-6 sm:px-8 py-8 sm:py-4 rounded-2xl border border-white
+          shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transition-all duration-500 ease-in-out transform hover:-translate-y-2"
             >
               <h3 className="text-2xl sm:text-3xl font-semibold text-gray-400 mb-4 text-center">
                 {category.title}

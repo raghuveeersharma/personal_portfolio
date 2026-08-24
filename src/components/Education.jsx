@@ -71,7 +71,7 @@ const Education = () => {
                 // justify-start/end flex item does not move the item at all.
                 // Which side it lands on is the row's justify-*, so no
                 // margin ternary is needed (or wanted — see git log).
-                className="w-full lg:w-[calc(50%-3.5rem)] p-4 sm:p-8 rounded-2xl border border-white bg-gray-900 backdrop-blur-md shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transform transition-transform duration-300 hover:scale-105"
+                className="w-full lg:w-[calc(50%-3.5rem)] p-4 sm:p-8 rounded-2xl border border-white bg-gray-900 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transform transition-transform duration-300 hover:scale-105"
               >
                 {/* Flex container for image and text */}
                 <div className="flex items-center space-x-6">
