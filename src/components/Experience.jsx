@@ -25,9 +25,12 @@ const Experience = () => {
       </Reveal>
 
       {/* Experience Timeline */}
-      <div className="relative">
-        {/* Vertical line — fills with the accent colour on scroll */}
-        <ScrollProgressLine className="absolute sm:left-1/2 left-0 transform -translate-x-1/2 sm:-translate-x-0 w-1 rounded-full bg-white/15 h-full" />
+      <div className="relative mx-auto w-full max-w-5xl">
+        {/* Vertical line — fills with the accent colour on scroll.
+            -translate-x-1/2 at every width so the rule is centred on the
+            same axis as the node circles; `sm:-translate-x-0` used to leave
+            it 2px to their right. */}
+        <ScrollProgressLine className="absolute left-0 lg:left-1/2 transform -translate-x-1/2 w-1 rounded-full bg-white/15 h-full" />
 
         {/* Experience Entries */}
         <Stagger step={160} as="div">
@@ -37,12 +40,17 @@ const Experience = () => {
               // Per-child data-reveal wins over Stagger's default, so
               // each entry slides in from its own side of the timeline.
               data-reveal={index % 2 === 0 ? "fade-left" : "fade-right"}
-              className={`flex flex-col sm:flex-row items-center mb-16 ${
-                index % 2 === 0 ? "sm:justify-start" : "sm:justify-end"
+              // Below lg this is a single left-aligned column, and the
+              // offset that clears the node circle is padding on the row,
+              // not a margin on a `w-full` card — that overflowed the track
+              // by the width of the margin and only stayed invisible because
+              // the section's own padding absorbed it.
+              className={`flex flex-col lg:flex-row items-center mb-16 pl-8 lg:pl-0 ${
+                index % 2 === 0 ? "lg:justify-start" : "lg:justify-end"
               }`}
             >
               {/* Timeline Circle */}
-              <div className="absolute sm:left-1/2 left-0 transform -translate-x-1/2 bg-gray-400 border-4 border-accent w-12 h-12 sm:w-16 sm:h-16 rounded-full flex justify-center items-center z-10">
+              <div className="absolute left-0 lg:left-1/2 transform -translate-x-1/2 bg-gray-400 border-4 border-accent w-12 h-12 lg:w-16 lg:h-16 rounded-full flex justify-center items-center z-10">
                 <img
                   src={exp.img}
                   alt={exp.company}
@@ -56,14 +64,14 @@ const Experience = () => {
 
               {/* Content Section */}
               <div
-                // One margin class per side, chosen by the ternary. Emitting
-                // `sm:ml-0` *and* `sm:ml-44` did nothing: class order in this
-                // string is not precedence — CSS source order is, and
-                // Tailwind emits ml-44 after ml-0, so the entry always got
-                // both 44s and squeezed to ~198px in the 640-768px range.
-                className={`w-full sm:max-w-md p-4 sm:p-8 rounded-2xl border border-white bg-gray-900 backdrop-blur-md shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] ${
-                  index % 2 === 0 ? "sm:ml-0 sm:mr-44" : "sm:ml-44 sm:mr-0"
-                } ml-8 transform transition-transform duration-300 hover:scale-105`}
+                // The card owns exactly half the track minus the gutter, so
+                // it ends where the spine begins instead of being pushed
+                // away from it: `max-w-md` + `mr-44`/`ml-44` left a 214px
+                // void at 1440px, because a margin on the far side of a
+                // justify-start/end flex item does not move the item at all.
+                // Which side it lands on is the row's justify-*, so no
+                // margin ternary is needed (or wanted — see git log).
+                className="w-full lg:w-[calc(50%-3.5rem)] p-4 sm:p-8 rounded-2xl border border-white bg-gray-900 backdrop-blur-md shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transform transition-transform duration-300 hover:scale-105"
               >
                 {/* Flex container for logo and text */}
                 <div className="flex items-center space-x-6">
