@@ -48,6 +48,8 @@ const Experience = () => {
                   alt={exp.company}
                   width={exp.imgW}
                   height={exp.imgH}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -72,6 +74,8 @@ const Experience = () => {
                       alt={exp.company}
                       width={exp.imgW}
                       height={exp.imgH}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-contain p-2"
                     />
                   </div>

@@ -114,6 +114,8 @@ const Projects = () => {
                   alt={project.title}
                   width={project.imgW}
                   height={project.imgH}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-48 object-cover rounded-2xl mb-2 p-2"
                 />
               </div>

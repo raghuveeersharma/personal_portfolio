@@ -48,6 +48,8 @@ const Education = () => {
                   alt={edu.school}
                   width={edu.imgW}
                   height={edu.imgH}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
@@ -70,6 +72,8 @@ const Education = () => {
                       alt={edu.school}
                       width={edu.imgW}
                       height={edu.imgH}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                     />
                   </div>

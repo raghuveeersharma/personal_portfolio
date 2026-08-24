@@ -74,6 +74,8 @@ const Skills = () => {
                         alt={`${skill.name} logo`}
                         width={skill.logoW}
                         height={skill.logoH}
+                        loading="lazy"
+                        decoding="async"
                         className="w-4 h-4 sm:w-6 sm:h-6 shrink-0 rounded"
                       />
                       <span className="min-w-0 font-sans text-[11px] leading-tight text-gray-300 sm:text-xs">

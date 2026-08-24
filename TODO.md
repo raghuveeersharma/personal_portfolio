@@ -74,7 +74,7 @@ screening tool pointed at the site.
 
 ## 2. Performance
 
-- [ ] **No image is lazy-loaded.** All 27 tech logos, 13 project screenshots
+- [x] **No image is lazy-loaded.** ~~All 27 tech logos, 13 project screenshots
       and the timeline logos are eager `<img>`s
       ([`Skills.jsx:72`](src/components/Skills.jsx#L72),
       [`Projects.jsx:48`](src/components/Projects.jsx#L48),
@@ -84,7 +84,12 @@ screening tool pointed at the site.
       should be "lazily-fetched" — nothing lazy-loads them. Add
       `loading="lazy" decoding="async"` to everything below the fold.
       `width`/`height` are already set, so there is no CLS risk. **Highest
-      value-per-effort change in this file.**
+      value-per-effort change in this file.**~~
+      **Done:** `loading="lazy" decoding="async"` added to all six `<img>`
+      sites above (skill logos, both timeline-logo spots in Experience and
+      Education, and the project card thumbnail). The project modal's image
+      is left eager since it only renders after a click and reuses the same
+      already-fetched URL as its card.
 - [ ] **One 300kB JS chunk (94kB gzip), no splitting.** `@emailjs/browser`
       ([`Contact.jsx:2`](src/components/Contact.jsx#L2)) is only needed after
       a submit — move it to a dynamic `import()` inside `sendEmail`.
