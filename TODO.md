@@ -90,11 +90,31 @@ screening tool pointed at the site.
       Education, and the project card thumbnail). The project modal's image
       is left eager since it only renders after a click and reuses the same
       already-fetched URL as its card.
-- [ ] **One 300kB JS chunk (94kB gzip), no splitting.** `@emailjs/browser`
+- [x] **One 300kB JS chunk (94kB gzip), no splitting.** ~~`@emailjs/browser`
       ([`Contact.jsx:2`](src/components/Contact.jsx#L2)) is only needed after
       a submit — move it to a dynamic `import()` inside `sendEmail`.
       `react-parallax-tilt` and `react-type-animation` are above the fold and
-      should stay eager.
+      should stay eager.~~
+      **Done, but the diagnosis above was wrong about where the weight is.**
+      `@emailjs/browser` is now a dynamic `import()` inside `sendEmail`
+      ([`Contact.jsx:49`](src/components/Contact.jsx#L49)) — it splits out
+      cleanly, but it was only **2.3kB** of the entry chunk, not the ~50kB
+      the SDK's install size suggests. Measured module contributions to the
+      old chunk: `react-dom` 531kB raw, `react` 18kB, `scheduler` 11kB —
+      i.e. React *is* the 300kB, and `constants.js` (24kB) is the largest
+      first-party module. There is no dependency left to remove.
+      So the split that pays is a caching one: `manualChunks` now emits
+      `react` (186kB / 58kB gzip, byte-identical between deploys) separately
+      from the app chunk (112kB / 35kB gzip). Total transfer is unchanged
+      (~+1kB of chunk overhead), but a returning visitor after a content
+      edit re-downloads 35kB instead of 94kB. `react-parallax-tilt` and
+      `react-type-animation` stayed eager as noted — both are used by
+      `About`, above the fold.
+      Not done: `React.lazy` on the below-the-fold sections. It would move
+      ~50kB of app code off the first request, but every section is inside
+      the same scroll column and gated by the `IntersectionObserver` reveal
+      system, so a suspended section would land as a blank gap mid-scroll.
+      Worth revisiting only with a real skeleton per section.
 - [ ] **`backdrop-blur-md` over opaque `bg-gray-900`** composites a blur that
       can never be seen: [`Skills.jsx:46`](src/components/Skills.jsx#L46),
       [`Projects.jsx:45`](src/components/Projects.jsx#L45),

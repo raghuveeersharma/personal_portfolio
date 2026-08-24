@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
@@ -20,7 +19,7 @@ const Contact = () => {
   const [status, setStatus] = useState(null);
   const [sending, setSending] = useState(false);
 
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
     setStatus(null); // clear the previous result before the retry
 
@@ -36,23 +35,31 @@ const Contact = () => {
       return;
     }
 
+    // The form element itself, captured before the await: nothing unmounts
+    // it mid-submit today, but the ref is the only handle the SDK gets and
+    // reading it after the dynamic import is a needless dependency on that.
+    const formEl = form.current;
+
     setSending(true);
 
-    emailjs
-      .sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form.current, {
+    // The SDK is ~50kB and only ever needed once a visitor actually submits,
+    // so it is fetched here rather than in the entry chunk. The network cost
+    // lands inside the "Sending..." state the button already shows.
+    try {
+      const { default: emailjs } = await import("@emailjs/browser");
+
+      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formEl, {
         publicKey: EMAILJS_PUBLIC_KEY,
-      })
-      .then(
-        () => {
-          setStatus("sent");
-          form.current.reset(); // Reset form fields after sending
-        },
-        (error) => {
-          console.error("Error sending message:", error);
-          setStatus("error");
-        }
-      )
-      .finally(() => setSending(false));
+      });
+
+      setStatus("sent");
+      formEl.reset(); // Reset form fields after sending
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setStatus("error");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
