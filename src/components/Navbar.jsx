@@ -68,27 +68,31 @@ const Navbar = () => {
       <div className="text-white py-5 flex items-center justify-between">
         <div className="font-semibold cursor-pointer text-lg">
           {" "}
-          <span className="text-[#8245ec]">&lt;</span>
+          <span className="text-accent-text">&lt;</span>
           <span className="text-white">Raghuveer</span>
-          <span className="text-[#8245ec]">/</span>
+          <span className="text-accent-text">/</span>
           <span className="text-white">Sharma</span>
-          <span className="text-[#8245ec]">&gt;</span>
+          <span className="text-accent-text">&gt;</span>
         </div>
 
         {/* lg, not md: six items no longer clear the wordmark at ~800px,
             so the tablet range keeps the hamburger. */}
         <ul className="text-gray-300 hidden lg:flex space-x-6 xl:space-x-9 items-center justify-center text-center">
           {menuitems.map((items) => (
-            <li
-              key={items.id}
-              className={`hover:text-[#8245ec] ${
-                active === items.id ? "text-[#8245ec]" : ""
-              }`}
-            >
-              <a href={`#${items.id}`}>
-                <button onClick={() => handelactive(items.id)}>
-                  {items.label}
-                </button>
+            <li key={items.id}>
+              {/* One interactive element, not an <a> wrapping a <button>:
+                  interactive-inside-interactive is invalid HTML and screen
+                  readers disagree about what to announce. The anchor is the
+                  one that keeps the href, so the button went. */}
+              <a
+                href={`#${items.id}`}
+                aria-current={active === items.id ? "true" : undefined}
+                onClick={() => handelactive(items.id)}
+                className={`rounded-sm hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text ${
+                  active === items.id ? "text-accent-text" : ""
+                }`}
+              >
+                {items.label}
               </a>
             </li>
           ))}
@@ -97,18 +101,18 @@ const Navbar = () => {
           <a
             href="https://github.com/raghuveeersharma"
             target="_blank"
-            rel=" noopener noreferrer"
+            rel="noopener noreferrer"
             className="text-gray-300 "
           >
-            <IoLogoGithub className="text-white text-2xl mx-2 hover:text-[#8245ec]" />
+            <IoLogoGithub className="text-white text-2xl mx-2 hover:text-accent-text" />
           </a>
           <a
             href="https://www.linkedin.com/in/raghuveer-sharma-810124252/"
             target="_blank"
-            rel=" noopener noreferrer"
+            rel="noopener noreferrer"
             className="text-gray-300 "
           >
-            <FaLinkedin className="text-white text-2xl mx-2 hover:text-[#8245ec]" />
+            <FaLinkedin className="text-white text-2xl mx-2 hover:text-accent-text" />
           </a>
         </div>
         <div>
@@ -136,17 +140,18 @@ const Navbar = () => {
           >
             <ul className="text-gray-300 flex flex-col items-center space-y-4">
               {menuitems.map((items) => (
-                <a
-                  href={`#${items.id}`}
-                  key={items.id}
-                  className={`hover:text-[#8245ec] ${
-                    active === items.id ? "text-[#8245ec]" : ""
-                  }`}
-                >
-                  <button onClick={() => handleMobileNav(items.id)}>
+                <li key={items.id}>
+                  <a
+                    href={`#${items.id}`}
+                    aria-current={active === items.id ? "true" : undefined}
+                    onClick={() => handleMobileNav(items.id)}
+                    className={`rounded-sm hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text ${
+                      active === items.id ? "text-accent-text" : ""
+                    }`}
+                  >
                     {items.label}
-                  </button>
-                </a>
+                  </a>
+                </li>
               ))}
             </ul>
           </div>

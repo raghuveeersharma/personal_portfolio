@@ -51,7 +51,7 @@ const Services = () => {
     >
       {/* Header — matches the section title block idiom */}
       <Reveal className="text-center mb-10">
-        <p className="font-sans text-[10px] tracking-[0.14em] text-[#555572] uppercase">
+        <p className="font-sans text-[10px] tracking-[0.14em] text-hero-muted uppercase">
           What I offer
         </p>
         <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-gray-100">
@@ -72,8 +72,8 @@ const Services = () => {
             <span style={{ color: services?.[activeIndex]?.color ?? "#8245ec" }}>
               {String(activeIndex + 1).padStart(2, "0")}
             </span>
-            <span className="text-[#3a3458]"> / </span>
-            <span className="text-[#3a3458]">
+            <span className="text-[#796faa]"> / </span>
+            <span className="text-[#796faa]">
               {String(4).padStart(2, "0")}
             </span>
           </div>

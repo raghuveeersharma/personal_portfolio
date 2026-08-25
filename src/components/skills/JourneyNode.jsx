@@ -71,7 +71,7 @@ const JourneyNode = ({ node, isActive, isVisited, isSelected, onClick }) => {
       <span
         className="font-sans text-[10px] transition-colors duration-300 sm:mt-2 sm:block"
         style={{
-          color: lit ? node.color : isVisited ? node.color + DIM : "#555572",
+          color: lit ? node.color : isVisited ? node.color + DIM : "#7a7a9c",
           fontWeight: lit ? 500 : 400,
         }}
       >

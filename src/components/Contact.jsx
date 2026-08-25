@@ -92,33 +92,59 @@ const Contact = () => {
           onSubmit={sendEmail}
           className="mt-4 flex flex-col space-y-4"
         >
+          {/* Every field carries a real <label>, visually hidden. The
+              placeholder alone is not a name: it vanishes the moment you
+              type, so the field goes unlabelled exactly when a screen
+              reader user is reviewing what they entered. */}
+          <label htmlFor="contact-email" className="sr-only">
+            Your email
+          </label>
           <input
+            id="contact-email"
             type="email"
             name="from_Email"
             placeholder="Your Email"
+            autoComplete="email"
             required
-            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
+            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-purple-500"
           />
+
+          <label htmlFor="contact-name" className="sr-only">
+            Your name
+          </label>
           <input
+            id="contact-name"
             type="text"
             name="from_name"
             placeholder="Your Name"
+            autoComplete="name"
             required
-            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
+            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-purple-500"
           />
+
+          <label htmlFor="contact-subject" className="sr-only">
+            Subject
+          </label>
           <input
+            id="contact-subject"
             type="text"
             name="subject"
             placeholder="Subject"
+            autoComplete="off"
             required
-            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
+            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-purple-500"
           />
+
+          <label htmlFor="contact-message" className="sr-only">
+            Message
+          </label>
           <textarea
+            id="contact-message"
             name="message"
             placeholder="Message"
             rows="4"
             required
-            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
+            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-purple-500"
           />
 
           {/* Send Button */}
@@ -156,9 +182,9 @@ const Contact = () => {
           <span className="text-5xl lg:pt-2">
             <IoLocationOutline />
           </span>
-          <h1 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
+          <h3 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
             Where to find me
-          </h1>
+          </h3>
           <p className="mt-4 text-slate-400">
             Raj nagar, Indore, Madhya Pradesh
           </p>
@@ -167,9 +193,9 @@ const Contact = () => {
           <span className="text-5xl">
             <MdOutlineEmail />
           </span>
-          <h1 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
+          <h3 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
             Email me at
-          </h1>
+          </h3>
           <p className="mt-4 text-slate-400">
             <a
               href="mailto:sharmaraghu157@gmail.com"
@@ -197,9 +223,9 @@ const Contact = () => {
           <span className="text-5xl lg:pt-2">
             <IoCallOutline />
           </span>
-          <h1 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
+          <h3 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
             Call me at
-          </h1>
+          </h3>
           <p className="mt-4 text-slate-400">
             {" "}
             <a

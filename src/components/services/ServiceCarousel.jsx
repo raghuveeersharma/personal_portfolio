@@ -55,7 +55,7 @@ const ServiceCarousel = ({
                   <IconComponent
                     size={18}
                     style={{
-                      color: isActive ? svc.color : "#555572",
+                      color: isActive ? svc.color : "#7a7a9c",
                       transition: `color ${travelMs}ms ease`,
                     }}
                   />
@@ -73,7 +73,7 @@ const ServiceCarousel = ({
               <span
                 className="service-stack-card__index font-sans text-xs font-bold ml-auto"
                 style={{
-                  color: isActive ? svc.color : "#3a3458",
+                  color: isActive ? svc.color : "#796faa",
                   transition: `color ${travelMs}ms ease`,
                 }}
               >
@@ -126,7 +126,7 @@ const ServiceCarousel = ({
         <button
           type="button"
           onClick={onCardClick}
-          className="service-pause-btn font-sans text-[10px] tracking-wide uppercase flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#2A2A3F] text-[#555572] bg-[#0a0918] cursor-pointer transition-[border-color,color] duration-200 hover:border-[#4a3f73] hover:text-[#8C8CAA]"
+          className="service-pause-btn font-sans text-[10px] tracking-wide uppercase flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#2A2A3F] text-hero-muted bg-[#0a0918] cursor-pointer transition-[border-color,color] duration-200 hover:border-[#4a3f73] hover:text-[#8C8CAA]"
         >
           <span className="text-[10px]">⏸</span>
           {expanded ? "Resume" : "Pause"}

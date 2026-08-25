@@ -199,7 +199,7 @@ const About = () => {
               duration={400}
               className="mb-5 lg:mb-6 flex h-8 lg:h-10 items-center font-sans text-[17px] lg:text-[21px]"
             >
-              <span className="text-[#6C6C8A]">I build&nbsp;</span>
+              <span className="text-hero-dim">I build&nbsp;</span>
               <TypeAnimation
                 sequence={heroRoles}
                 wrapper="span"
@@ -349,18 +349,18 @@ const About = () => {
                   style={{ "--reveal-distance": "6px" }}
                   className="hidden border-t border-[#1A3A1A] bg-[#0A1A0A] px-3.5 py-2.5 lg:px-6 lg:py-3.5 font-mono text-[11px] lg:text-[12.5px] leading-[2] sm:block"
                 >
-                  <p className="whitespace-pre text-[#6C6C8A]">
+                  <p className="whitespace-pre text-hero-dim">
                     GET /api/users/profile{"  "}
                     <span className="text-hero-green">200 OK</span>
                   </p>
-                  <p className="whitespace-pre text-[#6C6C8A]">
+                  <p className="whitespace-pre text-hero-dim">
                     {"{  "}
                     <span className="text-[#A5F3C0]">&quot;name&quot;</span>
                     {":   "}
                     <span className="text-hero-green">&quot;Raghuveer&quot;</span>
                     ,
                   </p>
-                  <p className="whitespace-pre text-[#6C6C8A]">
+                  <p className="whitespace-pre text-hero-dim">
                     {"   "}
                     <span className="text-[#A5F3C0]">&quot;role&quot;</span>
                     {":   "}
@@ -369,7 +369,7 @@ const About = () => {
                     </span>
                     ,
                   </p>
-                  <p className="whitespace-pre text-[#6C6C8A]">
+                  <p className="whitespace-pre text-hero-dim">
                     {"   "}
                     <span className="text-[#A5F3C0]">&quot;status&quot;</span>
                     {": "}
