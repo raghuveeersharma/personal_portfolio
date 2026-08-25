@@ -122,13 +122,16 @@ const ServiceCarousel = ({
           ))}
         </div>
 
-        {/* Pause button (visual only — pause/resume is on card click) */}
+        {/* Pause/resume — the same toggle the active card performs, so the
+            glyph has to follow `expanded` too or it contradicts its label. */}
         <button
           type="button"
           onClick={onCardClick}
           className="service-pause-btn font-sans text-[10px] tracking-wide uppercase flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#2A2A3F] text-hero-muted bg-[#0a0918] cursor-pointer transition-[border-color,color] duration-200 hover:border-[#4a3f73] hover:text-[#8C8CAA]"
         >
-          <span className="text-[10px]">⏸</span>
+          <span className="text-[10px]" aria-hidden="true">
+            {expanded ? "▶" : "⏸"}
+          </span>
           {expanded ? "Resume" : "Pause"}
         </button>
       </div>

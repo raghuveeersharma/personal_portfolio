@@ -229,7 +229,7 @@ const About = () => {
               step={80}
               duration={350}
               style={{ "--reveal-distance": "10px" }}
-              className="mb-[26px] lg:mb-8 grid w-full grid-cols-3 gap-4 sm:flex sm:w-auto sm:gap-6 lg:gap-10"
+              className="mb-[26px] lg:mb-8 grid w-full grid-cols-2 gap-4 sm:flex sm:w-auto sm:gap-6 lg:gap-10"
             >
               {heroStats.map((stat) => (
                 <div key={stat.label}>
