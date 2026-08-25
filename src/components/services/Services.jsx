@@ -74,7 +74,7 @@ const Services = () => {
             </span>
             <span className="text-[#796faa]"> / </span>
             <span className="text-[#796faa]">
-              {String(4).padStart(2, "0")}
+              {String(services.length).padStart(2, "0")}
             </span>
           </div>
 

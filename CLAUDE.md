@@ -21,7 +21,7 @@ Tailwind v4 means **there is no `tailwind.config.js`**. All design tokens live i
 
 ## Architecture
 
-Single-page portfolio. `main.jsx` mounts `App.jsx`, which renders a fixed background layer (`BlurBlob` + a CSS grid-lines overlay) and then stacks every section in one scrolling column:
+Single-page portfolio. `main.jsx` mounts `App.jsx`, which renders a background layer (`BlurBlob` + a CSS grid-lines overlay) and then stacks every section in one scrolling column. Both background pieces are `absolute`, not `fixed`, so they scroll away with the page rather than staying put behind it:
 
 ```
 Navbar → About → NavigatorToTop → Skills → Services → Experience → Projects → Education → Contact → Footer
@@ -29,7 +29,7 @@ Navbar → About → NavigatorToTop → Skills → Services → Experience → P
 
 Two conventions matter across the whole app:
 
-- **Navigation is anchor-based, not routed.** Each section owns an `id` (`about`, `skills`, `projects`, `education`, `contact`) and both `Navbar` and `Footer` jump to those ids. `Navbar` uses `href="#id"`; `Footer` uses `scrollIntoView`. Smooth scrolling comes from `html { scroll-behavior: smooth }` in `index.css`. If you add a section, add its id to the `menuitems` array in `Navbar.jsx` and the link list in `Footer.jsx`. `react-router-dom` and `react-scroll` are installed but unused.
+- **Navigation is anchor-based, not routed.** Each section owns an `id` (`about`, `skills`, `services`, `experience`, `projects`, `education`, `contact`) and both `Navbar` and `Footer` jump to those ids. `Navbar` uses `href="#id"`; `Footer` uses `scrollIntoView`. Smooth scrolling comes from `html { scroll-behavior: smooth }` in `index.css`. The link list itself is **one array — `navLinks` in `constants.js`** — which both components map over; adding a section means adding its id there and nowhere else. (It used to be duplicated in each component, and the two promptly drifted: the footer lost Contact.)
 - **All content is data, not markup.** `src/constants.js` exports `SkillsInfo`, `journeyNodes`, `journeyTools`, `services`, `projects`, and `education`, and imports every image from `src/assets/` so Vite fingerprints them. Sections map over these arrays. To add a project or skill, edit `constants.js` — never hardcode content into a component. `constants.js` stays free of JSX and component imports: `journeyNodes`/`journeyTools` name their icons as **strings**, and `src/components/skills/icons.js` is the only place that maps a name to a `react-icons/tb` component.
 
 Section components are self-contained and share a layout idiom worth matching: `<section id="..." className="py-24 px-[12vw] md:px-[7vw] lg:px-[Nvw]">`, a centered title block, then the content grid. The purple accent is `#8245ec` and the page background is `#050414`.
@@ -70,7 +70,7 @@ Two rules that are easy to get wrong:
 - **Never put a reveal on an element that has its own `transition-*` classes.** The reveal sets `transition-property: opacity, transform` and a 700ms duration, which replaces the element's `transition-all duration-500`, so its hover lift snaps instead of easing. The fix is a wrapper: reveal on the outer div, hover on the inner card — that is why `Skills` and `Projects` have an extra `div` per item. Cards with no transition of their own (`Contact`'s info cards) can take the reveal directly.
 - **Above-the-fold content uses `immediate`.** `<Reveal immediate>` skips the observer and plays on mount. The whole `About` hero uses it: on a short viewport the CTA sits just below the fold, and as a scroll reveal it would sit at `opacity: 0` until the visitor happened to scroll. Anything in the first screenful should be an entrance, not a scroll reveal.
 
-`prefers-reduced-motion: reduce` is honored in both layers — `animations.css` pins every variant to its final state with no transition, and `useInView` skips creating observers entirely. Smooth anchor scrolling is also disabled. Any new motion must degrade the same way.
+`prefers-reduced-motion: reduce` is honored in both layers — `animations.css` pins every variant to its final state with no transition, and `useInView` skips creating observers entirely. There is exactly one place that reads the media query: `src/animation/useReducedMotion.js`, in three shapes — `prefersReducedMotion()` for a one-shot read inside an effect that is about to bail out, `subscribeReducedMotion(cb)` for consumers holding the answer in a ref (timer callbacks, not the render pass), and the default `useReducedMotion()` hook when the preference decides what actually renders. Don't call `window.matchMedia` for this again. Smooth anchor scrolling is also disabled. Any new motion must degrade the same way.
 
 ## The MERN request journey (`src/components/skills/`)
 

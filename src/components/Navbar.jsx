@@ -3,41 +3,12 @@ import { IoLogoGithub } from "react-icons/io";
 import { FaLinkedin } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross1 } from "react-icons/rx";
+import { navLinks } from "../constants";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
   const [active, setActive] = useState("");
-  const menuitems = [
-    {
-      id: "about",
-      label: "About",
-    },
-    {
-      id: "skills",
-      label: "Skills",
-    },
-    {
-      id: "services",
-      label: "Services",
-    },
-    {
-      id: "experience",
-      label: "Experience",
-    },
-    {
-      id: "projects",
-      label: "Projects",
-    },
-    {
-      id: "education",
-      label: "Education",
-    },
-    {
-      id: "contact",
-      label: "Contact",
-    },
-  ];
   useEffect(() => {
     // Named handler: the previous version removed a brand-new arrow
     // function on cleanup, so the listener was never actually detached.
@@ -78,7 +49,7 @@ const Navbar = () => {
         {/* lg, not md: six items no longer clear the wordmark at ~800px,
             so the tablet range keeps the hamburger. */}
         <ul className="text-gray-300 hidden lg:flex space-x-6 xl:space-x-9 items-center justify-center text-center">
-          {menuitems.map((items) => (
+          {navLinks.map((items) => (
             <li key={items.id}>
               {/* One interactive element, not an <a> wrapping a <button>:
                   interactive-inside-interactive is invalid HTML and screen
@@ -139,7 +110,7 @@ const Navbar = () => {
             className="lg:hidden absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5  backdrop-blur-lg bg-black/60  shadow-lg rounded-lg px-4 py-3"
           >
             <ul className="text-gray-300 flex flex-col items-center space-y-4">
-              {menuitems.map((items) => (
+              {navLinks.map((items) => (
                 <li key={items.id}>
                   <a
                     href={`#${items.id}`}

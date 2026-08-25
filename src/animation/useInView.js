@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { prefersReducedMotion } from "./useReducedMotion";
+
 /**
  * The single piece of scroll-observation logic in the app. Every
  * reveal goes through here, so tuning thresholds is a one-file job.
@@ -32,11 +34,7 @@ const useInView = ({
     // No motion wanted, or no observer available: show it and stop.
     // Without this branch a reduced-motion visitor would still pay
     // for observers that can never change anything visually.
-    const reduced = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (reduced || typeof IntersectionObserver === "undefined") {
+    if (prefersReducedMotion() || typeof IntersectionObserver === "undefined") {
       setInView(true);
       return;
     }

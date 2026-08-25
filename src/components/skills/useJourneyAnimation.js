@@ -86,7 +86,10 @@ const useJourneyAnimation = () => {
 
     // ---- Settle -------------------------------------------
     schedule(() => {
-      setActiveStep(-1);
+      // Stay on the browser rather than dropping to -1: the packet has
+      // just come home, and unlighting node 0 reads as the response
+      // vanishing instead of arriving.
+      setActiveStep(0);
       setAnimating(false);
       setLogText("");
       setStatus({ text: "200 OK · 42ms", tone: "ok" });

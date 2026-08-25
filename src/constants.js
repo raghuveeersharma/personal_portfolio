@@ -52,6 +52,20 @@ import Vichar from "./assets/work_logo/Vichar.webp";
 import Benoit from "./assets/work_logo/Benoit.webp";
 import PistZerna from "./assets/work_logo/PistZerna.webp";
 
+// The single source of truth for anchor navigation. Navbar and Footer
+// both render this list; keeping two copies is how the footer ended up
+// missing Contact. Adding a section means adding its id here and nowhere
+// else.
+export const navLinks = [
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "services", label: "Services" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
+  { id: "education", label: "Education" },
+  { id: "contact", label: "Contact" },
+];
+
 export const SkillsInfo = [
   {
     title: "Frontend",
@@ -305,8 +319,8 @@ export const heroRoles = [
   300,
 ];
 
-// TODO: confirm these before the next deploy — see the note in the
-// hero spec. Three is the ceiling; a fourth crowds the row.
+// Two stats, and the hero grid is sized to match — see the grid-cols in
+// About. Three is the ceiling; a fourth crowds the row.
 export const heroStats = [
   { value: "1+", label: "years exp" },
   { value: "10+", label: "projects" },

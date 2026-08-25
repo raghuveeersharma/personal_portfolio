@@ -1,5 +1,5 @@
 import { Reveal } from "../animation";
-import { socialLinks } from "../constants";
+import { navLinks, socialLinks } from "../constants";
 
 const Footer = () => {
   // Smooth scroll function
@@ -20,20 +20,13 @@ const Footer = () => {
 
         {/* Navigation Links - Responsive */}
         <nav className="flex flex-wrap justify-center space-x-4 sm:space-x-6 mt-4">
-          {[
-            { name: "About", id: "about" },
-            { name: "Skills", id: "skills" },
-            { name: "Services", id: "services" },
-            { name: "Experience", id: "experience" },
-            { name: "Projects", id: "projects" },
-            { name: "Education", id: "education" },
-          ].map((item, index) => (
+          {navLinks.map((item) => (
             <button
-              key={index}
+              key={item.id}
               onClick={() => handleScroll(item.id)}
               className="hover:text-purple-500 text-sm sm:text-base my-1"
             >
-              {item.name}
+              {item.label}
             </button>
           ))}
         </nav>
@@ -59,7 +52,7 @@ const Footer = () => {
 
         {/* Copyright Text */}
         <p className="text-sm text-gray-400 mt-6 font-sans">
-          © 2025 Raghuveer Sharma. All rights reserved.
+          © {new Date().getFullYear()} Raghuveer Sharma. All rights reserved.
         </p>
       </Reveal>
     </footer>
