@@ -200,7 +200,7 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       colour. The card lost its whole surface on hover and receded, and that
       transparency was the only moment the blur was ever visible. Removed
       with the blur; the `hover:-translate-y-2` lift is the affordance.
-- [ ] **10 unused image assets** (~450kB) still in the repo: `react.svg` and
+- [x] **10 unused image assets** (~450kB) still in the repo: `react.svg` and
       `figma / netlify / springboot / gsap / angular / firebase / csharp /
       python / sass .png` under `src/assets/tech_logo/`. Not bundled, but they
       are repo weight and imply skills the site does not list.
@@ -236,7 +236,7 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 - [ ] **No scroll-spy.** The navbar's `active` state only updates on click, so
       it is wrong the moment anyone scrolls. `useInView` already exists —
       an observer over the sections is a ~20-line addition.
-- [ ] **The nav list is duplicated** between `menuitems` in
+- [x] **The nav list is duplicated** between `menuitems` in
       [`Navbar.jsx`](src/components/Navbar.jsx) and an inline array in
       [`Footer.jsx:23-30`](src/components/Footer.jsx#L23-L30), and the two
       have already drifted — **the footer is missing Contact.** Move it to
@@ -261,18 +261,18 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 - [ ] **Form field order** is Email → Name → Subject; Name first is
       conventional.
 - [ ] **No spam protection** on the contact form — consider a honeypot field.
-- [ ] **Footer copyright is hardcoded `© 2025`**
+- [x] **Footer copyright is hardcoded `© 2025`**
       ([`Footer.jsx:62`](src/components/Footer.jsx#L62)) and is now stale.
       Use `new Date().getFullYear()`.
-- [ ] **Stale `heroStats` TODO.** [`constants.js:308`](src/constants.js#L308)
+- [x] **Stale `heroStats` TODO.** [`constants.js:308`](src/constants.js#L308)
       still says "confirm these before the next deploy". Two stats sit in a
       `grid-cols-3`, leaving an empty third column on mobile — either add the
       third or change the grid.
-- [ ] **Hardcoded service count.** [`Services.jsx:77`](src/components/services/Services.jsx#L77)
+- [x] **Hardcoded service count.** [`Services.jsx:77`](src/components/services/Services.jsx#L77)
       uses `String(4)` instead of `services.length`.
-- [ ] **Services "Pause" button always shows `⏸`**, even when its label reads
+- [x] **Services "Pause" button always shows `⏸`**, even when its label reads
       "Resume".
-- [ ] **The journey packet snaps back.** The settle step in
+- [x] **The journey packet snaps back.** The settle step in
       `useJourneyAnimation` sets `activeStep(-1)` → `--pos: 0`, so the dot
       animates all the way back to the start after "200 OK". Leaving it at
       step 0 would read as "returned to the browser".
@@ -298,13 +298,13 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 
 ## 7. Code health
 
-- [ ] **Four separate `prefers-reduced-motion` implementations**:
+- [x] **Four separate `prefers-reduced-motion` implementations**:
       [`useInView.js`](src/animation/useInView.js),
       [`useScrollProgress.js`](src/animation/useScrollProgress.js),
       `About`'s local `useReducedMotion`, and `useServiceLoop`'s ref-based
       one. One shared hook in `src/animation/` would match how the rest of
       that directory is factored.
-- [ ] **`CLAUDE.md` is stale in two places**: it says `react-router-dom` and
+- [x] **`CLAUDE.md` is stale in two places**: it says `react-router-dom` and
       `react-scroll` are "installed but unused" (they are no longer in
       `package.json` at all), and it calls the `BlurBlob` + grid layer a
       "fixed background layer" when both are `absolute` and scroll away with
