@@ -9,7 +9,7 @@ import ICONS from "./icons.js";
  */
 const ToolsRow = () => (
   <div className="mt-10">
-    <p className="mb-3.5 font-sans text-[10px] tracking-[0.12em] text-[#555572] uppercase">
+    <p className="mb-3.5 font-sans text-[10px] tracking-[0.12em] text-hero-muted uppercase">
       Tools and ecosystem
     </p>
 

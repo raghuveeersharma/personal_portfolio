@@ -56,7 +56,7 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
           <IconComponent
             size={18}
             style={{
-              color: active ? service.color : "#555572",
+              color: active ? service.color : "#7a7a9c",
               transition: `color ${travelMs}ms ease`,
             }}
           />

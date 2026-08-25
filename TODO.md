@@ -14,8 +14,9 @@ re-verified against the code on 2026-08-23 and is still outstanding.
 
 ## 1. Accessibility
 
-The weakest area, and the one most likely to be caught by an automated
-screening tool pointed at the site.
+~~The weakest area, and the one most likely to be caught by an automated
+screening tool pointed at the site.~~ **All items in this section are now
+done** (verified with `npm run lint` and a production build on 2026-08-25).
 
 - [x] **Project cards are keyboard-unreachable.** ~~[`Projects.jsx:44`](src/components/Projects.jsx#L44)
       is a `div` with `onClick` — no `role`, no `tabIndex`, no key handler.
@@ -42,21 +43,43 @@ screening tool pointed at the site.
       **Done:** icon is now inside a `<button type="button">` with
       `aria-label`, `aria-expanded`, and `aria-controls="mobile-menu"`, wired
       to the mobile panel's new `id="mobile-menu"`.
-- [ ] **`<a href="#id"><button>` nesting** in both navbar menus is invalid
+- [x] **`<a href="#id"><button>` nesting** ~~in both navbar menus is invalid
       HTML (interactive inside interactive) and behaves unpredictably with
       assistive tech. Pick one: an anchor styled as a button, or a button that
-      scrolls.
-- [ ] **Contact form has no labels.** [`Contact.jsx:91-111`](src/components/Contact.jsx#L91-L111) —
+      scrolls.~~
+      **Done:** the anchor kept the `href` and the inner `<button>` went, in
+      both the desktop `<ul>` and the mobile sheet. Each link now carries its
+      own `onClick` (the handler that sets `active`, and on mobile also closes
+      the sheet), `aria-current` when active, and a `focus-visible` outline —
+      the nesting had left the desktop links with no visible focus state at
+      all. Also fixed while in there: the mobile menu mapped bare `<a>`
+      elements as direct children of a `<ul>`, which is equally invalid; they
+      are wrapped in `<li>` now.
+- [x] **Contact form has no labels.** ~~[`Contact.jsx:91-111`](src/components/Contact.jsx#L91-L111) —
       placeholder-only inputs, which disappear on typing and are not reliably
       announced. Add `<label>` (visually hidden is fine) and `autoComplete`
-      (`email`, `name`).
-- [ ] **Four stray `<h1>`s.** `About` owns the real one. `Skills` uses `h1`
+      (`email`, `name`).~~
+      **Done:** all four fields (including the `<textarea>`, which the range
+      above missed) get an `sr-only` `<label htmlFor>` against a new `id`, and
+      `autoComplete` is `email` / `name` / `off`. Also replaced
+      `focus:outline-none focus:border-purple-500`: a 1px border-colour change
+      was the only focus indicator on the whole form, so the fields now take
+      the same `focus-visible` outline as the nav links.
+      Not done: reordering to Name → Email, which is the separate §5 item.
+- [x] **Four stray `<h1>`s.** ~~`About` owns the real one. `Skills` uses `h1`
       for the section title ([`Skills.jsx:21`](src/components/Skills.jsx#L21))
       where every other section uses `h2`, and `Contact` uses `h1` for three
       card labels ([`Contact.jsx:152`](src/components/Contact.jsx#L152),
       [`163`](src/components/Contact.jsx#L163),
-      [`193`](src/components/Contact.jsx#L193)) that are not headings at all.
-- [ ] **Contrast failures.** Measured against the actual backgrounds these
+      [`193`](src/components/Contact.jsx#L193)) that are not headings at all.~~
+      **Done, but the three Contact labels became `h3`, not plain text.**
+      "Where to find me" / "Email me at" / "Call me at" each name the block
+      that follows it, so they *are* headings — the bug was the level, not the
+      element. `h3` is what the sibling form card in the same section already
+      uses under the `h2 CONTACT`, so the outline is now h2 → h3 ×4 with no
+      skipped level. `Skills` is `h2`, matching every other section. `About`
+      keeps the page's only `h1`.
+- [x] **Contrast failures.** Measured against the actual backgrounds these
       sit on; all fail WCAG AA (4.5:1 normal text, 3:1 large):
 
       | colour | on | ratio | used for |
@@ -68,9 +91,39 @@ screening tool pointed at the site.
 
       The accent one matters most: it is the only signal for which nav item is
       active. Lifting it to ~`#9d6ef5` clears 4.5:1 without changing the hue.
-- [ ] **`target="_blank"` without `rel="noopener noreferrer"`** on the modal's
+
+      **Done — all four ratios above were re-measured and were exact.** Fixes,
+      and two corrections to the table:
+
+      - `#8245ec` → new `--color-accent-text: #9d6ef5` token (5.79:1).
+        **It could not simply replace `--color-accent`:** white on `#9d6ef5`
+        is only 3.51:1, so lifting the shared token would have broken every
+        `bg-accent` button in the other direction. The two are now separate —
+        `--color-accent` for fills and borders, `--color-accent-text` for text
+        and icons on a dark ground — and that constraint is commented in
+        `theme.css` so they don't get merged later.
+      - **The footer was not affected.** It uses `text-purple-500`
+        (`#a855f7`, 5.13:1), which already passes; only `Navbar.jsx` had the
+        raw `#8245ec` as text. The row overstated the scope.
+      - `#555572` → `--color-hero-muted` lifted to `#7a7a9c` (4.56:1). This
+        was the widest fix — the literal appeared in nine components, all now
+        using the `text-hero-muted` utility instead of an arbitrary value.
+      - `#6C6C8A` → folded into the existing `--color-hero-dim` (`#8c8caa`,
+        5.77:1) rather than into `muted`. It was the *brighter* of the two
+        failing greys, so mapping both to one value would have flattened a
+        deliberate two-tier hierarchy into a single tone.
+      - `#3a3458` → `#796faa` (4.51:1) for the services counter and inactive
+        dots. Left alone at `#3a3458` in one place: the
+        `.service-stack-card:hover` border in `animations.css`, which is a
+        decorative hover edge, not a state indicator, and is not text.
+- [x] **`target="_blank"` without `rel="noopener noreferrer"`** ~~on the modal's
       VIEW CODE / LIVE links: [`Projects.jsx:124`](src/components/Projects.jsx#L124),
-      [`131`](src/components/Projects.jsx#L131).
+      [`131`](src/components/Projects.jsx#L131).~~
+      **Done.** Those two were the only ones actually missing it; the other
+      four `_blank` links (`About`, `Navbar` ×2, `Footer`) already had it,
+      though the two in `Navbar` had it as `rel=" noopener noreferrer"` with
+      a leading space — harmless, since the value is space-separated tokens,
+      but tidied. Audited: all six `_blank` sites now carry `rel`.
 
 ## 2. Performance
 
@@ -264,9 +317,11 @@ screening tool pointed at the site.
 
 ## Suggested order
 
-1. Accessibility (§1) — most impact, mostly mechanical.
-2. Lazy-load images + lazy EmailJS (§2) — biggest perf win for the effort.
-3. SEO head block (§3) — small, self-contained, high value for a portfolio.
+1. ~~Accessibility (§1)~~ — done.
+2. ~~Lazy-load images + lazy EmailJS (§2)~~ — done.
+3. **SEO head block (§3) — next.** Small, self-contained, and the highest
+   remaining value for a portfolio. Needs the deployed domain for the
+   canonical / OG URLs and an OG image.
 4. Layout unification (§4) — the container refactor touches every section, so
    do it in one pass rather than piecemeal.
 5. UX/content and polish (§5, §6).

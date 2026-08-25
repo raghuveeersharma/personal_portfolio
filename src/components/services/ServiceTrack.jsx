@@ -128,7 +128,7 @@ const ServiceTrack = ({ activeIndex, travelMs, onNodeClick }) => {
               <polyline
                 points="-3.5,-3.5 0,0 -3.5,3.5"
                 fill="none"
-                stroke={seg.isActive ? seg.color : "#3a3458"}
+                stroke={seg.isActive ? seg.color : "#796faa"}
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -174,7 +174,7 @@ const ServiceTrack = ({ activeIndex, travelMs, onNodeClick }) => {
         >
           Services
         </span>
-        <span className="service-circle-center-sub font-sans text-[8px] sm:text-[9px] tracking-[0.2em] uppercase text-[#555572]">
+        <span className="service-circle-center-sub font-sans text-[8px] sm:text-[9px] tracking-[0.2em] uppercase text-hero-muted">
           cycle
         </span>
       </div>

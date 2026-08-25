@@ -10,7 +10,7 @@ const LAST = journeyNodes.length - 1;
 
 // Status badge palette, keyed by the tone the hook reports.
 const STATUS_TONES = {
-  idle: { bg: "#111118", color: "#6C6C8A", border: "#2A2A3F" },
+  idle: { bg: "#111118", color: "#8c8caa", border: "#2A2A3F" },
   pending: { bg: "#1A1209", color: "#F59E0B", border: "#3A2A09" },
   ok: { bg: "#0D1A0D", color: "#4ADE80", border: "#1A3A1A" },
 };
@@ -100,7 +100,7 @@ const JourneyVisualizer = () => {
             AnimatePresence cross-fade. */}
         <span
           key={logText || "idle"}
-          className="journey-log-line font-mono text-[11px] text-[#6C6C8A]"
+          className="journey-log-line font-mono text-[11px] text-hero-dim"
         >
           {logText || 'Press "Send request" to begin'}
         </span>
@@ -146,7 +146,7 @@ const JourneyVisualizer = () => {
         )}
 
         {!hasRun && !animating && (
-          <span className="font-sans text-[11px] text-[#555572]">
+          <span className="font-sans text-[11px] text-hero-muted">
             Click any node to explore that skill
           </span>
         )}

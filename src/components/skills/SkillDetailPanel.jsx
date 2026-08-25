@@ -50,7 +50,7 @@ const SkillDetailPanel = ({ node, onClose }) => {
           type="button"
           onClick={onClose}
           aria-label={`Close ${node.label} details`}
-          className="cursor-pointer p-1 text-[#555572] transition-colors duration-200 hover:text-[#8C8CAA]"
+          className="cursor-pointer p-1 text-hero-muted transition-colors duration-200 hover:text-[#8C8CAA]"
         >
           <TbX size={16} aria-hidden="true" />
         </button>
@@ -83,7 +83,7 @@ const SkillDetailPanel = ({ node, onClose }) => {
       </ul>
 
       <div className="flex flex-wrap items-center gap-2">
-        <span className="font-sans text-[10px] text-[#555572]">Used in:</span>
+        <span className="font-sans text-[10px] text-hero-muted">Used in:</span>
         {node.detail.projects.map((project) => (
           <span
             key={project}
