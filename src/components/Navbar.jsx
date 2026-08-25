@@ -34,21 +34,24 @@ const Navbar = () => {
         scroll
           ? "bg-[#050414]/70 backdrop-blur-md shadow-md"
           : "bg-transparent"
-      } fixed top-0 w-full z-50 transition-all duration-300 ease-in-out px-[7vw] lg:px-[14vw]`}
+      } fixed inset-x-0 top-0 z-50 px-4 transition-all duration-300 ease-in-out sm:px-[6vw] lg:px-[8vw] xl:px-[14vw]`}
     >
-      <div className="text-white py-5 flex items-center justify-between">
-        <div className="font-semibold cursor-pointer text-lg">
-          {" "}
+      <div className="text-white py-3.5 sm:py-4 lg:py-5 flex items-center justify-between gap-3">
+        <a
+          href="#about"
+          onClick={() => handelactive("about")}
+          className="min-w-0 shrink font-semibold cursor-pointer whitespace-nowrap text-sm leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:text-lg"
+        >
           <span className="text-accent-text">&lt;</span>
           <span className="text-white">Raghuveer</span>
           <span className="text-accent-text">/</span>
           <span className="text-white">Sharma</span>
           <span className="text-accent-text">&gt;</span>
-        </div>
+        </a>
 
         {/* lg, not md: six items no longer clear the wordmark at ~800px,
             so the tablet range keeps the hamburger. */}
-        <ul className="text-gray-300 hidden lg:flex space-x-6 xl:space-x-9 items-center justify-center text-center">
+        <ul className="text-gray-300 hidden lg:flex items-center justify-center gap-5 text-center text-sm xl:gap-8 xl:text-base">
           {navLinks.map((items) => (
             <li key={items.id}>
               {/* One interactive element, not an <a> wrapping a <button>:
@@ -68,28 +71,30 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
-        <div className="flex md:space-x-4 space-x-2 ">
-          <a
-            href="https://github.com/raghuveeersharma"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-300 "
-          >
-            <IoLogoGithub className="text-white text-2xl mx-2 hover:text-accent-text" />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/raghuveer-sharma-810124252/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-300 "
-          >
-            <FaLinkedin className="text-white text-2xl mx-2 hover:text-accent-text" />
-          </a>
-        </div>
-        <div>
+        <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <a
+              href="https://github.com/raghuveeersharma"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid h-9 w-9 place-items-center rounded-sm text-white transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10"
+              aria-label="GitHub profile"
+            >
+              <IoLogoGithub className="text-xl sm:text-2xl" aria-hidden="true" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/raghuveer-sharma-810124252/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid h-9 w-9 place-items-center rounded-sm text-white transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10"
+              aria-label="LinkedIn profile"
+            >
+              <FaLinkedin className="text-xl sm:text-2xl" aria-hidden="true" />
+            </a>
+          </div>
           <button
             type="button"
-            className="lg:hidden"
+            className="grid h-9 w-9 place-items-center rounded-sm text-white transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10 lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -103,31 +108,31 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      <div>
-        {open && (
-          <div
-            id="mobile-menu"
-            className="lg:hidden absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5  backdrop-blur-lg bg-black/60  shadow-lg rounded-lg px-4 py-3"
-          >
-            <ul className="text-gray-300 flex flex-col items-center space-y-4">
-              {navLinks.map((items) => (
-                <li key={items.id}>
-                  <a
-                    href={`#${items.id}`}
-                    aria-current={active === items.id ? "true" : undefined}
-                    onClick={() => handleMobileNav(items.id)}
-                    className={`rounded-sm hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text ${
-                      active === items.id ? "text-accent-text" : ""
-                    }`}
-                  >
-                    {items.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {open && (
+        <div
+          id="mobile-menu"
+          className="absolute left-4 right-4 top-full mt-2 overflow-hidden rounded-md border border-white/10 bg-[#050414]/95 shadow-2xl backdrop-blur-xl sm:left-[6vw] sm:right-[6vw] lg:hidden"
+        >
+          <ul className="flex flex-col py-2 text-gray-200">
+            {navLinks.map((items) => (
+              <li key={items.id}>
+                <a
+                  href={`#${items.id}`}
+                  aria-current={active === items.id ? "true" : undefined}
+                  onClick={() => handleMobileNav(items.id)}
+                  className={`block px-4 py-3 text-center text-sm font-medium transition-colors hover:bg-white/5 hover:text-accent-text focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-accent-text ${
+                    active === items.id
+                      ? "bg-white/[0.03] text-accent-text"
+                      : ""
+                  }`}
+                >
+                  {items.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
