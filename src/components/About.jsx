@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import Tilt from "react-parallax-tilt";
-import { Reveal, Stagger } from "../animation";
+import { Reveal, Stagger, useReducedMotion } from "../animation";
 import {
   heroResume,
   heroRoles,
@@ -95,24 +94,6 @@ const CodeLines = ({ lines }) =>
           ))}
     </div>
   ));
-
-/* Local rather than exported: nothing else needs it yet, and
-   exporting a non-component from this file would trip
-   react-refresh/only-export-components. */
-const useReducedMotion = () => {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduced(query.matches);
-
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
-
-  return reduced;
-};
 
 const About = () => {
   const reduced = useReducedMotion();

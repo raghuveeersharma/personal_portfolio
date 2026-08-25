@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import { prefersReducedMotion } from "./useReducedMotion";
+
 /**
  * Tracks how far the reader has scrolled *through* an element and
  * writes it to a CSS custom property on that element as a 0→1 number.
@@ -27,11 +29,7 @@ const useScrollProgress = ({
     if (!node) return;
 
     // No motion wanted: show the finished state and never listen.
-    const reduced = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (reduced) {
+    if (prefersReducedMotion()) {
       node.style.setProperty(property, "1");
       return;
     }

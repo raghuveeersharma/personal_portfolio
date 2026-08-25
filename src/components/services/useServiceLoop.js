@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { services } from "../../constants.js";
+import {
+  prefersReducedMotion,
+  subscribeReducedMotion,
+} from "../../animation";
 
 const TOTAL = services.length;
 const TRAVEL_MS = 600;  // packet travel between adjacent nodes
@@ -30,13 +34,14 @@ const useServiceLoop = () => {
   const timerRef = useRef(null);
   const reducedMotion = useRef(false);
 
-  // Detect reduced motion once, on mount.
+  // A ref rather than state here too: the only readers are the timer
+  // callbacks below, so a change need not re-render — it just has to be
+  // visible the next time scheduleNext runs.
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    reducedMotion.current = mq.matches;
-    const onChange = (e) => { reducedMotion.current = e.matches; };
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    reducedMotion.current = prefersReducedMotion();
+    return subscribeReducedMotion((reduced) => {
+      reducedMotion.current = reduced;
+    });
   }, []);
 
   const clearTimer = useCallback(() => {
