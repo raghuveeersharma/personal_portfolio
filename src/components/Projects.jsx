@@ -206,6 +206,7 @@ const Projects = () => {
               <a
                 href={project.github}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="hover:bg-accent bg-gray-800 transition ease-in-out duration-500 cursor-pointer text-white w-1/2 px-4 py-2 rounded-lg font-sans text-sm"
               >
                 VIEW CODE
@@ -213,6 +214,7 @@ const Projects = () => {
               <a
                 href={project.webapp}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="hover:bg-accent bg-gray-800 transition ease-in-out duration-500 cursor-pointer text-white w-1/2 px-4 py-2 rounded-lg font-sans text-sm"
               >
                 LIVE
