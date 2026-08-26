@@ -34,8 +34,9 @@ const Navbar = () => {
         scroll
           ? "bg-[#050414]/70 backdrop-blur-md shadow-md"
           : "bg-transparent"
-      } fixed inset-x-0 top-0 z-50 px-4 transition-all duration-300 ease-in-out sm:px-[6vw] lg:px-[8vw] xl:px-[14vw]`}
+      } fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-in-out`}
     >
+      <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       <div className="text-white py-3.5 sm:py-4 lg:py-5 flex items-center justify-between gap-3">
         <a
           href="#about"
@@ -111,7 +112,7 @@ const Navbar = () => {
       {open && (
         <div
           id="mobile-menu"
-          className="absolute left-4 right-4 top-full mt-2 overflow-hidden rounded-md border border-white/10 bg-[#050414]/95 shadow-2xl backdrop-blur-xl sm:left-[6vw] sm:right-[6vw] lg:hidden"
+          className="absolute inset-x-0 top-full mt-2 overflow-hidden rounded-md border border-white/10 bg-[#050414]/95 shadow-2xl backdrop-blur-xl lg:hidden"
         >
           <ul className="flex flex-col py-2 text-gray-200">
             {navLinks.map((items) => (
@@ -133,6 +134,7 @@ const Navbar = () => {
           </ul>
         </div>
       )}
+      </div>
     </nav>
   );
 };

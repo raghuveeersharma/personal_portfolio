@@ -216,14 +216,22 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 
 ## 4. Layout consistency
 
-- [ ] **Content width jitters section to section.** `lg:px-[20vw]`
+- [x] **Content width jitters section to section.** ~~`lg:px-[20vw]`
       (Skills, Contact, Footer) vs `lg:px-[14vw]` (Services, Projects) vs
       `lg:px-[4vw]` (Experience, Education). On a 1440px screen that is a
       576px → 115px swing, so the left edge visibly jumps while scrolling.
       Replace the `vw` padding with one shared `max-w-*` container and a
       single padding scale — this also removes a class of `vw`-padding
       fragility that has already caused bugs (see the note about fixed pill
-      widths in `CLAUDE.md`).
+      widths in `CLAUDE.md`).~~
+      **Done:** every section (Skills, Services, Experience, Projects,
+      Education, Contact, Footer) and the Navbar now use the same inner
+      container: `mx-auto w-full max-w-[1100px] px-6 md:px-10`. The About
+      hero was already using a `max-w` approach and was aligned to the same
+      `1100px`. All scattered `px-[12vw] md:px-[7vw] lg:px-[Nvw]` values
+      have been removed. The mobile menu's `left-4 right-4 sm:left-[6vw]`
+      positioning was also simplified to `inset-x-0` since the parent
+      container already constrains its width.
 - [ ] **Section dividers do not match.** `Skills` / `Projects` / `Services`
       use `<hr className="w-32 h-1 text-accent">`
       ([`Skills.jsx:22`](src/components/Skills.jsx#L22),

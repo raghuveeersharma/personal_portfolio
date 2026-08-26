@@ -74,8 +74,9 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[14vw] relative "
+      className="py-24 pb-24 relative"
     >
+     <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       {/* section title */}
       <Reveal className="text-center mb-16">
         <h2 className="text-3xl sm:text-4xl font-bold text-gray-200">
@@ -143,6 +144,7 @@ const Projects = () => {
           </div>
         ))}
       </Stagger>
+     </div>
       {/* modal container */}
       {project && (
         <div
