@@ -7,7 +7,7 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[20vw] clip-path-custom"
+      className="py-24 pb-24 clip-path-custom"
       style={{
         backgroundImage:
           "linear-gradient(38.73deg, rgba(204, 0, 187, 0.15) 0%, rgba(201, 32, 184, 0) 50%), linear-gradient(141.27deg, rgba(0, 70, 209, 0) 50%, rgba(0, 70, 209, 0.15) 100%)",
@@ -16,6 +16,7 @@ const Skills = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
+     <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       {/* section title */}
       <Reveal className="text-center mb-8">
         <h2 className="text-3xl sm:text-4xl font-bold text-gray-100">SKILLS</h2>
@@ -95,6 +96,7 @@ const Skills = () => {
           </div>
         ))}
       </Stagger>
+     </div>
     </section>
   );
 };

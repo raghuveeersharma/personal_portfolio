@@ -5,7 +5,7 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[4vw] clip-path-custom-2"
+      className="py-24 pb-24 clip-path-custom-2"
       style={{
         backgroundImage:
           "linear-gradient(38.73deg, rgba(204, 0, 187, 0.15) 0%, rgba(201, 32, 184, 0) 50%), linear-gradient(141.27deg, rgba(0, 70, 209, 0) 50%, rgba(0, 70, 209, 0.15) 100%)",
@@ -14,6 +14,7 @@ const Experience = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
+     <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       {/* Section Title */}
       <Reveal className="text-center mb-16">
         <h2 className="text-4xl font-bold text-white">EXPERIENCE</h2>
@@ -123,6 +124,7 @@ const Experience = () => {
           ))}
         </Stagger>
       </div>
+     </div>
     </section>
   );
 };

@@ -132,7 +132,7 @@ const About = () => {
       {/* The spec's type scale was drawn against a ~1000px layout, so
           every size below steps up again at lg/xl. Left flat, the hero
           reads smaller than the section headings further down the page. */}
-      <div className="w-full mx-auto max-w-6xl xl:max-w-[1240px] px-6 md:px-12 py-20 lg:py-24">
+      <div className="w-full mx-auto max-w-[1300px] px-6 md:px-10 py-20 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-center">
           {/* ---------------- LEFT: identity ---------------- */}
           {/* Every reveal in the hero is `immediate`: it plays on mount

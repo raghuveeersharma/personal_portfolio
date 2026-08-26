@@ -11,7 +11,8 @@ const Footer = () => {
   };
 
   return (
-    <footer className="text-white pt-4 md:pt-8 py-8 px-[12vw] md:px-[7vw] lg:px-[20vw]">
+    <footer className="text-white pt-4 md:pt-8 py-8">
+     <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       <Reveal className="container mx-auto text-center">
         {/* Name / Logo */}
         <h2 className="text-xl font-semibold text-purple-500">
@@ -55,6 +56,7 @@ const Footer = () => {
           © {new Date().getFullYear()} Raghuveer Sharma. All rights reserved.
         </p>
       </Reveal>
+     </div>
     </footer>
   );
 };

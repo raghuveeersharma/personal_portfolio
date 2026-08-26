@@ -47,8 +47,9 @@ const Services = () => {
   return (
     <section
       id="services"
-      className="py-24 px-[12vw] md:px-[7vw] lg:px-[14vw]"
+      className="py-24"
     >
+     <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       {/* Header — matches the section title block idiom */}
       <Reveal className="text-center mb-10">
         <p className="font-sans text-[10px] tracking-[0.14em] text-hero-muted uppercase">
@@ -99,6 +100,7 @@ const Services = () => {
           </div>
         </div>
       </Reveal>
+     </div>
     </section>
   );
 };

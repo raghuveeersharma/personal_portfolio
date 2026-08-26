@@ -65,8 +65,9 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="flex flex-col items-center justify-center py-24 px-[12vw] md:px-[7vw] lg:px-[20vw]"
+      className="flex flex-col items-center justify-center py-24"
     >
+     <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10 flex flex-col items-center">
       {/* Section Title */}
       <Reveal className="text-center mb-16">
         <h2 className="text-4xl font-bold text-white">CONTACT</h2>
@@ -237,6 +238,7 @@ const Contact = () => {
           </p>
         </div>
       </Stagger>
+     </div>
     </section>
   );
 };
