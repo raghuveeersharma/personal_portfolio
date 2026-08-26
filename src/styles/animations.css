@@ -388,7 +388,15 @@
 .service-circle-track {
   position: relative;
   width: 100%;
+  /* Padding gives room for the half-node that overflows the circle
+     at every cardinal point. Without it the top node is clipped on
+     mobile (it sits at 10% of the container and translate(-50%,-50%)
+     lifts half of it above the top edge).
+     calc() uses the same --svc-circle-node-size set below so the
+     padding tracks the node size across breakpoints.               */
+  padding: calc(var(--svc-circle-node-size, 38px) / 2);
   aspect-ratio: 1 / 1;
+  box-sizing: border-box;
 }
 
 .service-circle-svg {

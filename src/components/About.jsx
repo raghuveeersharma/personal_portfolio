@@ -127,7 +127,7 @@ const About = () => {
        back on this element keeps the content clear of the navbar. */
     <section
       id="about"
-      className="-mt-20 min-h-screen bg-hero-bg flex items-center justify-center pt-20"
+      className="-mt-20 min-h-screen bg-hero-bg flex items-center justify-center pt-5"
     >
       {/* The spec's type scale was drawn against a ~1000px layout, so
           every size below steps up again at lg/xl. Left flat, the hero
