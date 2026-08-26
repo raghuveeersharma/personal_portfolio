@@ -51,6 +51,7 @@ import SyncDoc from "./assets/work_logo/SyncDoc.webp";
 import Vichar from "./assets/work_logo/Vichar.webp";
 import Benoit from "./assets/work_logo/Benoit.webp";
 import PistZerna from "./assets/work_logo/PistZerna.webp";
+import BadoniyaConstructions from "./assets/work_logo/BadoniyaConstructions.webp";
 
 // The single source of truth for anchor navigation. Navbar and Footer
 // both render this list; keeping two copies is how the footer ended up
@@ -547,6 +548,31 @@ export const projects = [
   },
   {
     id: 3,
+    title: "Badoniya Constructions",
+    description:
+      "Badoniya Constructions is a modern portfolio and marketing website for a construction and infrastructure firm, designed as a scroll-driven boutique-studio-style showcase. The website combines immersive project presentation with smooth scroll-based interactions, reusable motion primitives, structured content management, and a responsive visual experience built to showcase construction projects, company information, and client-facing content.",
+
+    image: BadoniyaConstructions,
+    imgW: 1856,
+    imgH: 965,
+
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "App Router",
+      "Tailwind CSS",
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis",
+      "React Server Components",
+    ],
+
+    github: "https://github.com/raghuveeersharma/Badoniya_constructions",
+    webapp: "https://badoniya-constructions.vercel.app/",
+  },
+  {
+    id: 4,
     title: "GymFlow",
     description:
       "GymFlow is a modern multi-tenant gym management platform that helps gym owners efficiently manage members, membership plans, payments, attendance, and business analytics from a single dashboard. It features secure authentication, role-based access, real-time dashboard insights, and a scalable architecture built with modern frontend technologies for a seamless management experience.",
@@ -571,7 +597,7 @@ export const projects = [
     webapp: "https://gymflow-fe.vercel.app/",
   },
   {
-    id: 4,
+    id: 5,
     title: "SyncDocs",
     description:
       "LocalFirst Docs is a collaborative document editor built with a local-first architecture, enabling users to create, edit, and collaborate on documents even without an internet connection. Powered by CRDT-based synchronization, it provides deterministic conflict resolution, real-time collaboration, version history, AI-assisted writing, and seamless offline-to-online synchronization while ensuring secure role-based access control.",
@@ -598,7 +624,7 @@ export const projects = [
     webapp: "https://sync-docs-tau.vercel.app",
   },
   {
-    id: 5,
+    id: 6,
     title: "LinkUP",
     description:
       "LinkUP is a modern, user-friendly web application designed to simplify social connection and communication. It enables users to create accounts, manage profiles, connect with others, and engage in meaningful digital interactions. Whether it's networking, sharing updates, or building an online presence, LinkUP makes it effortless and intuitive.",
@@ -620,7 +646,7 @@ export const projects = [
       "https://link-up-git-master-raghuveer-sharmas-projects.vercel.app/",
   },
   {
-    id: 6,
+    id: 7,
     title: "EcoRecycle",
     description:
       "EcoRecycle is an intelligent web application designed to promote sustainable waste management by leveraging AI-powered object detection and location-based recycling center recommendations.",
@@ -641,7 +667,7 @@ export const projects = [
     webapp: "https://eco-recycle-rho.vercel.app/",
   },
   {
-  id: 7,
+  id: 8,
   title: "Vichar",
   description:
     "Vichar is a modern multi-tenant note-taking application with a local-first architecture that enables users to create, organize, and manage rich-text notes securely. It features per-note AES-256 encryption, AI-powered writing assistance, offline-first synchronization with IndexedDB, installable PWA support, folder organization, secure JWT cookie authentication, and seamless online/offline note management.",
@@ -674,7 +700,7 @@ export const projects = [
   webapp: "https://vichar-three.vercel.app/",
 },
   {
-    id: 8,
+    id: 9,
     title: "PassOP",
     description:
       "PassOp is a responsive web application built with React.js that enables users to securely store and manage their website credentials, including usernames, passwords, and URLs, directly in their browser using local storage. Passwords are encrypted using AES encryption (CryptoJS) before being stored, providing a basic layer of security. To access or copy stored credentials, users are required to enter a master password.",
@@ -693,7 +719,7 @@ export const projects = [
     webapp: "https://password-manager-five-tan.vercel.app/",
   },
   {
-    id: 9,
+    id: 10,
     title: "E-BookStore",
     description:
       "E-BookStore web application using the MERN stack. The platform includes user authentication with login and logout functionality, and features protected routes that are accessible only to logged-in users. Books data is stored in MongoDB Atlas and fetched dynamically to display a collection of titles with details like name, author, and price.",
@@ -712,7 +738,7 @@ export const projects = [
     webapp: "https://book-store-web-flame.vercel.app/",
   },
   {
-    id: 10,
+    id: 11,
     title: "TextUtils",
     description:
       "A text Editor built on React.js, it can manipulate text like Convert to upper case, to lower case, Remove extra spaces, Copy to clipboard, Clear text, and Dark mode.",
@@ -724,7 +750,7 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Text_Util",
   },
   {
-    id: 11,
+    id: 12,
     title: "Portfolio Website",
     description:
       "Responsive portfolio showcasing my work. I use react-animation in it, and it is fully responsive.",
@@ -742,7 +768,7 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Portfolio/",
   },
   {
-    id: 12,
+    id: 13,
     title: "Todo App",
     description:
       "A simple todo app built on MERN stack. It saves users tasks in the database, and users can perform CRUD operations on tasks. The UI is fully responsive.",
