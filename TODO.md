@@ -254,6 +254,8 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       it there.
 - [ ] **13 projects × up to 14 tags each** is a wall of pills. Consider
       "featured 6 + show more", and cap tags at 4-5 with a `+N` overflow.
+- [ ] **GymFlow Project Image Broken**: The thumbnail image for the GymFlow project
+      fails to render across all viewport sizes (shows broken image icon).
 - [ ] **Three email addresses** in one Contact card
       ([`Contact.jsx:167-186`](src/components/Contact.jsx#L167-L186)) is
       choice paralysis — pick one. The card's fixed `h-52` is already
@@ -313,6 +315,26 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       the two bugs fixed in #7 were both the kind a single render test would
       have caught.
 
+## 8. Responsiveness & Mobile
+
+- [x] **Services Cycle Graphic Cut-off**: ~~At mobile viewports (e.g. 375px), the
+      circular track is cut off at the top (appears as a U-shape) and the top node
+      ("Frontend Engineering" icon) is missing entirely, showing only 3 of 4 nodes.~~
+      **Done:** the `.service-circle-track` container had no padding, so nodes
+      positioned at the circle boundary overflowed — the top node at `y ≈ 10%`
+      with `translate(-50%, -50%)` lifted half its box above the container's
+      top edge. Added `padding: calc(var(--svc-circle-node-size) / 2)` to give
+      every cardinal node room; the calc tracks the same CSS variable the
+      nodes use, so the fix scales across the three breakpoints (38 / 42 /
+      46px). Verified at 320px, 375px, 768px, and 1440px — all four nodes are
+      fully visible at every width.
+- [ ] **Experience Timeline Left-aligned**: At mobile and tablet viewports
+      (e.g. 375px, 768px), the timeline switches to a single column but is pushed
+      too far left, causing the circle logo icons to be cut off by the left
+      screen boundary.
+- [ ] **Education Section Sticky Header Overlap**: When navigating directly to the
+      Education section via mobile links, the sticky header overlaps the top card.
+
 ---
 
 ## Suggested order
@@ -324,5 +346,6 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
    canonical / OG URLs and an OG image.
 4. Layout unification (§4) — the container refactor touches every section, so
    do it in one pass rather than piecemeal.
-5. UX/content and polish (§5, §6).
-6. Code health (§7).
+5. Responsiveness & Mobile (§8).
+6. UX/content and polish (§5, §6).
+7. Code health (§7).
