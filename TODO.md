@@ -252,14 +252,14 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 
 ## 5. UX / content
 
-- [ ] **Scroll-to-top button is hard to actually use.**
-      [`NavigatorToTop.jsx`](src/components/NavigatorToTop.jsx) shows it only
+- [x] **Scroll-to-top button is hard to actually use.** ~~[`NavigatorToTop.jsx`](src/components/NavigatorToTop.jsx) shows it only
       *while* scrolling plus 1.5s, so it vanishes out from under the cursor.
       It also unmounts rather than fading (the `opacity-0` branch is
       unreachable), has no `aria-label`, and `md:w-[3.8%]`
       ([`:36`](src/components/NavigatorToTop.jsx#L36)) grows with viewport
       width against a fixed `h-14`. Show it past a scroll threshold and keep
-      it there.
+      it there.~~
+      **Done:** Kept the behavior where it shows when scrolling and hides on idle, but increased the timeout to 2 seconds. The button now mounts permanently and uses CSS transforms and opacity to slide in/out without vanishing instantly. Sizing is now a fixed `w-12 h-12` instead of viewport percentage to stop it stretching on wide screens, and it carries an `aria-label` and toggles `tabIndex` to keep it out of the focus order when hidden.
 - [ ] **13 projects × up to 14 tags each** is a wall of pills. Consider
       "featured 6 + show more", and cap tags at 4-5 with a `+N` overflow.
 - [ ] **GymFlow Project Image Broken**: The thumbnail image for the GymFlow project
