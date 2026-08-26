@@ -2,24 +2,25 @@ import { useState, useEffect, useRef } from "react";
 import { FaArrowUp } from "react-icons/fa";
 
 const NavigatorToTop = () => {
-  const [isScrolling, setIsScrolling] = useState(false);
-  // A plain `let` in the body was re-created on every render, so the
-  // pending timeout was never the one being cleared and the button
-  // flickered. The handle has to outlive renders.
+  const [showTopBtn, setShowTopBtn] = useState(false);
   const hideTimeout = useRef(null);
 
   useEffect(() => {
     const onScroll = () => {
-      if (window.scrollY === 0) {
-        setIsScrolling(false);
+      // Don't show if we are at the very top
+      if (window.scrollY < 100) {
+        setShowTopBtn(false);
         return;
       }
 
-      setIsScrolling(true); // Show while scrolling
+      // We are scrolling and past the top, show the button
+      setShowTopBtn(true);
 
-      // Hide once scrolling stops
+      // Reset the timer to hide the button after scrolling stops
       clearTimeout(hideTimeout.current);
-      hideTimeout.current = setTimeout(() => setIsScrolling(false), 1500);
+      hideTimeout.current = setTimeout(() => {
+        setShowTopBtn(false);
+      }, 2000); // 2 seconds after scroll stops
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -28,21 +29,19 @@ const NavigatorToTop = () => {
       clearTimeout(hideTimeout.current);
     };
   }, []);
+
   return (
-    <>
-      {isScrolling && (
-        <a
-          href="#about"
-          className={`fixed md:bottom-0 bottom-2 right-0 z-50 transform bg-[#8245ec]/30 text-white rounded-xl shadow-md md:w-[3.8%] w-10 h-14 transition-opacity duration-700  ${
-            isScrolling ? "opacity-100" : "opacity-0 "
-          }`}
-        >
-          <div className="cursor-pointer hover:text-slate-300 hover:scale-105 duration-100 text-3xl text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <FaArrowUp />
-          </div>
-        </a>
-      )}
-    </>
+    <a
+      href="#about"
+      aria-label="Scroll to top"
+      // Prevent tabbing to it when invisible
+      tabIndex={showTopBtn ? 0 : -1}
+      className={`fixed bottom-6 right-6 z-50 flex h-12 w-12 md:bottom-10 md:right-10 items-center justify-center rounded-xl bg-accent/30 text-white shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-accent/50 ${
+        showTopBtn ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0 pointer-events-none"
+      }`}
+    >
+      <FaArrowUp className="text-xl" />
+    </a>
   );
 };
 
