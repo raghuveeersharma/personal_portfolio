@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IoLogoGithub } from "react-icons/io";
 import { FaLinkedin } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross1 } from "react-icons/rx";
 import { navLinks } from "../constants";
+import useScrollSpy from "../animation/useScrollSpy";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
-  const [active, setActive] = useState("");
+
+  // Stable array reference so the observer isn't torn down on every render.
+  const sectionIds = useMemo(() => navLinks.map((l) => l.id), []);
+  const active = useScrollSpy(sectionIds);
+
   useEffect(() => {
     // Named handler: the previous version removed a brand-new arrow
     // function on cleanup, so the listener was never actually detached.
@@ -18,14 +23,10 @@ const Navbar = () => {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const handelactive = (id) => {
-    setActive(id);
-  };
 
   // The mobile sheet has to close itself: without this it stayed open on
   // top of the section the visitor had just jumped to.
-  const handleMobileNav = (id) => {
-    setActive(id);
+  const handleMobileNav = () => {
     setOpen(false);
   };
   return (
@@ -40,7 +41,7 @@ const Navbar = () => {
       <div className="text-white py-3.5 sm:py-4 lg:py-5 flex items-center justify-between gap-3">
         <a
           href="#about"
-          onClick={() => handelactive("about")}
+
           className="min-w-0 shrink font-semibold cursor-pointer whitespace-nowrap text-sm leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:text-lg"
         >
           <span className="text-accent-text">&lt;</span>
@@ -62,7 +63,6 @@ const Navbar = () => {
               <a
                 href={`#${items.id}`}
                 aria-current={active === items.id ? "true" : undefined}
-                onClick={() => handelactive(items.id)}
                 className={`rounded-sm hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text ${
                   active === items.id ? "text-accent-text" : ""
                 }`}
@@ -120,7 +120,7 @@ const Navbar = () => {
                 <a
                   href={`#${items.id}`}
                   aria-current={active === items.id ? "true" : undefined}
-                  onClick={() => handleMobileNav(items.id)}
+                  onClick={() => handleMobileNav()}
                   className={`block px-4 py-3 text-center text-sm font-medium transition-colors hover:bg-white/5 hover:text-accent-text focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-accent-text ${
                     active === items.id
                       ? "bg-white/[0.03] text-accent-text"
