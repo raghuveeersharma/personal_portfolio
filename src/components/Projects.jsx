@@ -82,7 +82,7 @@ const Projects = () => {
         <h2 className="text-3xl sm:text-4xl font-bold text-gray-200">
           PROJECTS
         </h2>
-        <hr className="w-48 h-1 text-accent mx-auto" />
+        <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
         <p className="text-gray-400 mt-4 font-semibold">
           Throughout my academic & professional journey, I have worked on
           various projects that demonstrate my expertise in modern technologies.

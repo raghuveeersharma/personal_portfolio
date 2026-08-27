@@ -20,7 +20,7 @@ const Skills = () => {
       {/* section title */}
       <Reveal className="text-center mb-8">
         <h2 className="text-3xl sm:text-4xl font-bold text-gray-100">SKILLS</h2>
-        <hr className="w-32 h-1 text-accent mx-auto" />
+        <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
         <p className="text-gray-400 font-semibold mt-5 text-lg">
           Full Stack Developer skilled in MERN stack with expertise in React.js,
           Next.js, Tailwind CSS, Node.js, Express.js and MongoDB. Proficient in

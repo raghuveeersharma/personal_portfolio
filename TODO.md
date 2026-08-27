@@ -253,15 +253,18 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       have been removed. The mobile menu's `left-4 right-4 sm:left-[6vw]`
       positioning was also simplified to `inset-x-0` since the parent
       container already constrains its width.
-- [ ] **Section dividers do not match.** `Skills` / `Projects` / `Services`
-      use `<hr className="w-32 h-1 text-accent">`
-      ([`Skills.jsx:22`](src/components/Skills.jsx#L22),
-      [`Projects.jsx:24`](src/components/Projects.jsx#L24),
-      [`Services.jsx:60`](src/components/services/Services.jsx#L60)), which
-      renders a **1px** border in `currentColor` — `h-1` on an `hr` sets a
-      height nothing paints. Experience / Education / Contact use
+- [x] **Section dividers do not match.** ~~`Skills` / `Projects` / `Services`
+      use `<hr className="w-32 h-1 text-accent">`, which renders a **1px**
+      border in `currentColor` — `h-1` on an `hr` sets a height nothing
+      paints. Experience / Education / Contact use
       `<div className="w-32 h-1 bg-purple-500">` and get the intended 4px
-      bar. Pick one; the `div` is the one that works.
+      bar.~~
+      **Done:** all six sections now use the same
+      `<div className="w-32 h-1 bg-accent mx-auto mt-4">` — a `<div>` with
+      `bg-accent` (`#8245ec`) instead of the broken `<hr>`. The three that
+      had `bg-purple-500` were also switched to the `bg-accent` design token
+      for consistency. Projects was additionally narrowed from `w-48` to
+      `w-32` to match every other section.
 - [ ] **No scroll-spy.** The navbar's `active` state only updates on click, so
       it is wrong the moment anyone scrolls. `useInView` already exists —
       an observer over the sections is a ~20-line addition.
