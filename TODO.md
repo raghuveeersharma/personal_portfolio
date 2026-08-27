@@ -207,12 +207,33 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 
 ## 3. SEO / metadata
 
-- [ ] **No metadata at all** in [`index.html`](index.html): no
+- [x] **No metadata at all** ~~in [`index.html`](index.html): no
       `<meta name="description">`, no Open Graph or Twitter card (so every
       shared link renders as a bare URL), no canonical, no `theme-color`, no
       `Person` JSON-LD. No `robots.txt` or `sitemap.xml` either. For a
       portfolio whose whole job is being found and shared, this is the biggest
-      gap outside accessibility.
+      gap outside accessibility.~~
+      **Done:** Full SEO head block added to `index.html`:
+      - `<title>` updated to "Raghuveer Sharma — Full-Stack MERN Developer"
+      - `<meta name="description">` with a keyword-rich summary
+      - `<meta name="author">`, `<meta name="keywords">`
+      - `<link rel="canonical">`, `<meta name="theme-color">` (#050414),
+        `<meta name="color-scheme">` (dark)
+      - Full Open Graph tags: `og:type`, `og:url`, `og:title`,
+        `og:description`, `og:image` (with width/height/alt), `og:locale`,
+        `og:site_name`
+      - Twitter Card: `summary_large_image` with title, description, image,
+        and alt text
+      - JSON-LD `Person` schema with `name`, `url`, `image`, `jobTitle`,
+        `description`, `sameAs` (GitHub, LinkedIn, LeetCode), and
+        `knowsAbout` (11 technologies)
+      - Generated `og-image.png` (1024×1024, dark hero-style card) placed in
+        `public/`
+      - `public/robots.txt` — allows all crawlers, references sitemap
+      - `public/sitemap.xml` — single `<url>` for the SPA root
+      All URLs currently use `raghuveersharma.vercel.app` as the domain —
+      update the canonical, OG, Twitter, JSON-LD, robots.txt, and sitemap
+      URLs when the real domain is known.
 
 ## 4. Layout consistency
 
@@ -349,11 +370,8 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 
 1. ~~Accessibility (§1)~~ — done.
 2. ~~Lazy-load images + lazy EmailJS (§2)~~ — done.
-3. **SEO head block (§3) — next.** Small, self-contained, and the highest
-   remaining value for a portfolio. Needs the deployed domain for the
-   canonical / OG URLs and an OG image.
-4. Layout unification (§4) — the container refactor touches every section, so
-   do it in one pass rather than piecemeal.
+3. ~~SEO head block (§3)~~ — done.
+4. **Remaining layout items (§4) — next.** Section dividers and scroll-spy.
 5. Responsiveness & Mobile (§8).
 6. UX/content and polish (§5, §6).
 7. Code health (§7).
