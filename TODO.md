@@ -265,9 +265,17 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       had `bg-purple-500` were also switched to the `bg-accent` design token
       for consistency. Projects was additionally narrowed from `w-48` to
       `w-32` to match every other section.
-- [ ] **No scroll-spy.** The navbar's `active` state only updates on click, so
+- [x] **No scroll-spy.** ~~The navbar's `active` state only updates on click, so
       it is wrong the moment anyone scrolls. `useInView` already exists —
-      an observer over the sections is a ~20-line addition.
+      an observer over the sections is a ~20-line addition.~~
+      **Done:** new `useScrollSpy` hook in `src/animation/useScrollSpy.js`
+      uses a single `IntersectionObserver` with multiple thresholds
+      (`[0, 0.1, 0.2, 0.3, 0.4, 0.5]`) and `rootMargin: "-80px 0px -35% 0px"`
+      to track which section is closest to the viewport top. The hook is the
+      sole source of truth for `active` in `Navbar.jsx` — the old click-only
+      `setActive` / `handelactive` handlers are removed entirely. Section IDs
+      are derived from the shared `navLinks` constant via a `useMemo` to keep
+      the observer reference stable.
 - [x] **The nav list is duplicated** between `menuitems` in
       [`Navbar.jsx`](src/components/Navbar.jsx) and an inline array in
       [`Footer.jsx:23-30`](src/components/Footer.jsx#L23-L30), and the two
@@ -374,7 +382,7 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 1. ~~Accessibility (§1)~~ — done.
 2. ~~Lazy-load images + lazy EmailJS (§2)~~ — done.
 3. ~~SEO head block (§3)~~ — done.
-4. **Remaining layout items (§4) — next.** Section dividers and scroll-spy.
-5. Responsiveness & Mobile (§8).
+4. ~~Remaining layout items (§4)~~ — done.
+5. **Responsiveness & Mobile (§8) — next.**
 6. UX/content and polish (§5, §6).
 7. Code health (§7).
