@@ -368,10 +368,14 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       nodes use, so the fix scales across the three breakpoints (38 / 42 /
       46px). Verified at 320px, 375px, 768px, and 1440px — all four nodes are
       fully visible at every width.
-- [ ] **Experience Timeline Left-aligned**: At mobile and tablet viewports
+- [x] **Experience Timeline Left-aligned**: At mobile and tablet viewports
       (e.g. 375px, 768px), the timeline switches to a single column but is pushed
       too far left, causing the circle logo icons to be cut off by the left
       screen boundary.
+      **Done:** Shifted the timeline spine and circle to `left-6 md:left-8` on
+      mobile viewports, and increased the left padding of the content row to
+      `pl-16 md:pl-20` to accommodate the shift. Applied this fix to both
+      Experience and Education sections for consistency.
 - [ ] **Education Section Sticky Header Overlap**: When navigating directly to the
       Education section via mobile links, the sticky header overlaps the top card.
 

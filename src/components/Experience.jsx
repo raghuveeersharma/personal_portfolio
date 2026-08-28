@@ -31,7 +31,7 @@ const Experience = () => {
             -translate-x-1/2 at every width so the rule is centred on the
             same axis as the node circles; `sm:-translate-x-0` used to leave
             it 2px to their right. */}
-        <ScrollProgressLine className="absolute left-0 lg:left-1/2 transform -translate-x-1/2 w-1 rounded-full bg-white/15 h-full" />
+        <ScrollProgressLine className="absolute left-6 md:left-8 lg:left-1/2 transform -translate-x-1/2 w-1 rounded-full bg-white/15 h-full" />
 
         {/* Experience Entries */}
         <Stagger step={160} as="div">
@@ -46,12 +46,12 @@ const Experience = () => {
               // not a margin on a `w-full` card — that overflowed the track
               // by the width of the margin and only stayed invisible because
               // the section's own padding absorbed it.
-              className={`flex flex-col lg:flex-row items-center mb-16 pl-8 lg:pl-0 ${
+              className={`flex flex-col lg:flex-row items-center mb-16 pl-16 md:pl-20 lg:pl-0 ${
                 index % 2 === 0 ? "lg:justify-start" : "lg:justify-end"
               }`}
             >
               {/* Timeline Circle */}
-              <div className="absolute left-0 lg:left-1/2 transform -translate-x-1/2 bg-gray-400 border-4 border-accent w-12 h-12 lg:w-16 lg:h-16 rounded-full flex justify-center items-center z-10">
+              <div className="absolute left-6 md:left-8 lg:left-1/2 transform -translate-x-1/2 bg-gray-400 border-4 border-accent w-12 h-12 lg:w-16 lg:h-16 rounded-full flex justify-center items-center z-10">
                 <img
                   src={exp.img}
                   alt={exp.company}
