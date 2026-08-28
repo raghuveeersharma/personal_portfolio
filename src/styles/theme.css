@@ -126,9 +126,12 @@
     letter-spacing: -0.02em;
   }
 
-  /* The navbar is fixed at ~76px; without this, anchor jumps
-     land with the heading tucked underneath it. */
+  /* The navbar is fixed at ~56-76px depending on breakpoint;
+     without this, anchor jumps land with the heading tucked
+     underneath it.  7rem gives comfortable clearance on every
+     viewport, including tablet where the hamburger menu is
+     still active and the navbar padding is larger. */
   :where(section[id]) {
-    scroll-margin-top: 6rem;
+    scroll-margin-top: 7rem;
   }
 }
