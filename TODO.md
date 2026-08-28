@@ -368,12 +368,22 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       nodes use, so the fix scales across the three breakpoints (38 / 42 /
       46px). Verified at 320px, 375px, 768px, and 1440px — all four nodes are
       fully visible at every width.
-- [ ] **Experience Timeline Left-aligned**: At mobile and tablet viewports
+- [x] **Experience Timeline Left-aligned**: At mobile and tablet viewports
       (e.g. 375px, 768px), the timeline switches to a single column but is pushed
       too far left, causing the circle logo icons to be cut off by the left
       screen boundary.
-- [ ] **Education Section Sticky Header Overlap**: When navigating directly to the
+      **Done:** Shifted the timeline spine and circle to `left-6 md:left-8` on
+      mobile viewports, and increased the left padding of the content row to
+      `pl-16 md:pl-20` to accommodate the shift. Applied this fix to both
+      Experience and Education sections for consistency.
+- [x] **Education Section Sticky Header Overlap**: When navigating directly to the
       Education section via mobile links, the sticky header overlaps the top card.
+      **Done:** Increased `scroll-margin-top` from `6rem` to `7rem` on all
+      `section[id]` elements in `theme.css`. The navbar on mobile is ~56px
+      (`py-3.5`), on tablet ~64px (`py-4`), and on desktop ~76px (`py-5`);
+      7rem (112px) gives comfortable clearance at every breakpoint, including
+      when arriving via the mobile hamburger menu whose close animation can
+      race with the smooth scroll.
 
 ---
 
@@ -383,6 +393,6 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 2. ~~Lazy-load images + lazy EmailJS (§2)~~ — done.
 3. ~~SEO head block (§3)~~ — done.
 4. ~~Remaining layout items (§4)~~ — done.
-5. **Responsiveness & Mobile (§8) — next.**
-6. UX/content and polish (§5, §6).
+5. ~~Responsiveness & Mobile (§8)~~ — done.
+6. **UX/content and polish (§5, §6) — next.**
 7. Code health (§7).
