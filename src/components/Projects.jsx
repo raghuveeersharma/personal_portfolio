@@ -83,7 +83,7 @@ const Projects = () => {
           PROJECTS
         </h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-4 font-semibold">
+        <p className="text-gray-400 mt-4">
           Throughout my academic & professional journey, I have worked on
           various projects that demonstrate my expertise in modern technologies.
           My projects primarily utilize the MERN stack (MongoDB, Express.js,
@@ -109,7 +109,7 @@ const Projects = () => {
               onKeyDown={handleProjectKeyDown(project)}
               // bg-gray-900 is opaque — a backdrop-filter here only cost
               // a compositor layer for a blur nothing could ever show.
-              className="h-full bg-gray-900 rounded-2xl border border-white hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+              className="h-full bg-gray-900 rounded-2xl border border-white/10 hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
             >
               <div className="p-4">
                 <img
@@ -156,7 +156,7 @@ const Projects = () => {
             duration={300}
             // Opaque panel; the dimming behind it is the overlay's
             // bg-black/70, not a blur of the page.
-            className="bg-gray-900 lg:w-full w-[90%] max-w-xl rounded-2xl border border-white shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden relative"
+            className="bg-gray-900 lg:w-full w-[90%] max-w-xl rounded-2xl border border-white/10 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden relative"
           >
             <div
               ref={modalRef}

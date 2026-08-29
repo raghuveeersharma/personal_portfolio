@@ -21,7 +21,7 @@ const Skills = () => {
       <Reveal className="text-center mb-8">
         <h2 className="text-3xl sm:text-4xl font-bold text-gray-100">SKILLS</h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 font-semibold mt-5 text-lg">
+        <p className="text-gray-400 mt-5 text-lg">
           Full Stack Developer skilled in MERN stack with expertise in React.js,
           Next.js, Tailwind CSS, Node.js, Express.js and MongoDB. Proficient in
           building responsive, scalable web applications with a focus on
@@ -50,7 +50,7 @@ const Skills = () => {
               // opaque background rather than layering over it — which
               // dropped the card's surface to the page colour and made the
               // hovered card recede. The lift is the whole affordance.
-              className="h-full bg-gray-900 px-6 sm:px-8 py-8 sm:py-4 rounded-2xl border border-white
+              className="h-full bg-gray-900 px-6 sm:px-8 py-8 sm:py-4 rounded-2xl border border-white/10
           shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transition-all duration-500 ease-in-out transform hover:-translate-y-2"
             >
               <h3 className="text-2xl sm:text-3xl font-semibold text-gray-400 mb-4 text-center">
@@ -59,12 +59,12 @@ const Skills = () => {
 
               {/* Skill Items - 3 per row on larger screens */}
               <Tilt
-                tiltMaxAngleX={20}
-                tiltMaxAngleY={20}
+                tiltMaxAngleX={8}
+                tiltMaxAngleY={8}
                 perspective={1000}
-                scale={1.05}
+                scale={1}
                 transitionSpeed={1000}
-                gyroscope={true}
+                gyroscope={false}
               >
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full">
                   {category.skills.map((skill) => (
