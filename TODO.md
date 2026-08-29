@@ -321,22 +321,40 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 
 ## 6. Visual polish
 
-- [ ] **`border border-white`** on every card (Skills, Projects ×2,
+- [x] **`border border-white`** ~~on every card (Skills, Projects ×2,
       Experience, Education) is the heaviest stylistic choice on the page and
       reads dated next to the genuinely good hero and MERN-journey work.
       `border-white/10` plus the existing purple glow would match the newer
-      sections.
-- [ ] **Contact breaks the colour system**: `#ff0077` headings and a
+      sections.~~
+      **Done:** all five card sites (Skills card, Project card, Project modal,
+      Experience timeline card, Education timeline card) changed from
+      `border-white` to `border-white/10`. The purple glow
+      (`shadow-[0_0_20px_1px_rgba(130,69,236,0.3)]`) now provides the card
+      definition instead of the hard white edge.
+- [x] **Contact breaks the colour system**: ~~`#ff0077` headings and a
       `from-purple-600 to-pink-500` gradient button are the only pink and the
-      only gradient CTA on an otherwise purple site.
-- [ ] **Competing motion in Skills.** The card lifts on hover
+      only gradient CTA on an otherwise purple site.~~
+      **Done:** the three info-card headings ("Where to find me", "Email me at",
+      "Call me at") now use `text-accent-text` (`#9d6ef5`) instead of
+      `#ff0077`. The submit button switched from `bg-gradient-to-r
+      from-purple-600 to-pink-500` to a solid `bg-accent` with
+      `hover:bg-accent-deep`, matching every other CTA on the site.
+- [x] **Competing motion in Skills.** ~~The card lifts on hover
       (`hover:-translate-y-2`) while the `Tilt` inside rotates 20° and scales
       1.05 ([`Skills.jsx:55`](src/components/Skills.jsx#L55)), with
       `gyroscope={true}` ([`:60`](src/components/Skills.jsx#L60)) so it also
-      reacts to phone tilt. Two transforms fighting over one hover.
-- [ ] **Body copy is set heavy.** Section descriptions use
+      reacts to phone tilt. Two transforms fighting over one hover.~~
+      **Done:** `tiltMaxAngleX/Y` reduced from 20° to 8°, `scale` set to 1
+      (no scaling), `gyroscope` disabled. The card still responds to cursor
+      position with a gentle perspective shift, but no longer fights the
+      parent's hover lift or reacts to device orientation.
+- [x] **Body copy is set heavy.** ~~Section descriptions use
       `text-lg font-semibold` for what is running prose; regular weight would
-      let the headings lead.
+      let the headings lead.~~
+      **Done:** removed `font-semibold` from the section description `<p>` in
+      all six sections: Skills, Services, Projects, Experience, Education, and
+      Contact. Headings keep `font-bold`/`font-semibold` and now clearly lead
+      the visual hierarchy.
 
 ## 7. Code health
 
@@ -394,5 +412,6 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
 3. ~~SEO head block (§3)~~ — done.
 4. ~~Remaining layout items (§4)~~ — done.
 5. ~~Responsiveness & Mobile (§8)~~ — done.
-6. **UX/content and polish (§5, §6) — next.**
-7. Code health (§7).
+6. ~~Visual polish (§6)~~ — done.
+7. **UX/content (§5) — next.**
+8. Code health (§7).
