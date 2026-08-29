@@ -19,7 +19,7 @@ const Education = () => {
       <Reveal className="text-center mb-16">
         <h2 className="text-4xl font-bold text-white">EDUCATION</h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-4 text-lg font-semibold">
+        <p className="text-gray-400 mt-4 text-lg">
           My education has been a journey of learning and development. Here are
           the details of my academic background
         </p>
@@ -72,7 +72,7 @@ const Education = () => {
                 // justify-start/end flex item does not move the item at all.
                 // Which side it lands on is the row's justify-*, so no
                 // margin ternary is needed (or wanted — see git log).
-                className="w-full lg:w-[calc(50%-3.5rem)] p-4 sm:p-8 rounded-2xl border border-white bg-gray-900 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transform transition-transform duration-300 hover:scale-105"
+                className="w-full lg:w-[calc(50%-3.5rem)] p-4 sm:p-8 rounded-2xl border border-white/10 bg-gray-900 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transform transition-transform duration-300 hover:scale-105"
               >
                 {/* Flex container for image and text */}
                 <div className="flex items-center space-x-6">
