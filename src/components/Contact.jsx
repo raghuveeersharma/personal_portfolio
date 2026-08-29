@@ -72,7 +72,7 @@ const Contact = () => {
       <Reveal className="text-center mb-16">
         <h2 className="text-4xl font-bold text-white">CONTACT</h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-4 text-lg font-semibold">
+        <p className="text-gray-400 mt-4 text-lg">
           I’d love to hear from you—reach out for any opportunities or
           questions!
         </p>
@@ -152,7 +152,7 @@ const Contact = () => {
           <button
             type="submit"
             disabled={sending}
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-500 py-3 text-white font-semibold rounded-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-accent py-3 text-white font-semibold rounded-md hover:bg-accent-deep transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {sending ? "Sending..." : "Send"}
           </button>
@@ -183,7 +183,7 @@ const Contact = () => {
           <span className="text-5xl lg:pt-2">
             <IoLocationOutline />
           </span>
-          <h3 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
+          <h3 className="text-accent-text font-bold md:text-2xl text-lg mt-5">
             Where to find me
           </h3>
           <p className="mt-4 text-slate-400">
@@ -194,7 +194,7 @@ const Contact = () => {
           <span className="text-5xl">
             <MdOutlineEmail />
           </span>
-          <h3 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
+          <h3 className="text-accent-text font-bold md:text-2xl text-lg mt-5">
             Email me at
           </h3>
           <p className="mt-4 text-slate-400">
@@ -224,7 +224,7 @@ const Contact = () => {
           <span className="text-5xl lg:pt-2">
             <IoCallOutline />
           </span>
-          <h3 className="text-[#ff0077] font-bold md:text-2xl text-lg mt-5">
+          <h3 className="text-accent-text font-bold md:text-2xl text-lg mt-5">
             Call me at
           </h3>
           <p className="mt-4 text-slate-400">

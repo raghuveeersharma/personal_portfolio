@@ -59,7 +59,7 @@ const Services = () => {
           SERVICES
         </h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 font-semibold mt-5 text-lg max-w-[560px] mx-auto">
+        <p className="text-gray-400 mt-5 text-lg max-w-[560px] mx-auto">
           End-to-end product development — from UI design and responsive
           frontends to robust APIs, databases, and cloud deployment.
         </p>
