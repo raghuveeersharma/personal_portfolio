@@ -5,10 +5,39 @@ import { Reveal, Stagger } from "../animation";
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
+const FEATURED_COUNT = 6;
+const CARD_TAG_CAP = 4;
+const MODAL_TAG_CAP = 5;
+
+/** Render a capped list of tag pills with a "+N" overflow indicator. */
+const TagList = ({ tags, cap }) => {
+  const visible = tags.slice(0, cap);
+  const overflow = tags.length - cap;
+  return (
+    <>
+      {visible.map((tag, index) => (
+        <span
+          key={index}
+          className="inline-block bg-gray-800 text-purple-400 text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full"
+        >
+          {tag}
+        </span>
+      ))}
+      {overflow > 0 && (
+        <span className="inline-block bg-gray-800/60 text-gray-400 text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full">
+          +{overflow} more
+        </span>
+      )}
+    </>
+  );
+};
+
 const Projects = () => {
   const [project, setProject] = useState(null);
+  const [showAll, setShowAll] = useState(false);
   const modalRef = useRef(null);
   const lastFocusedRef = useRef(null);
+  const visibleProjects = showAll ? projects : projects.slice(0, FEATURED_COUNT);
   const handelOpenProject = (project) => (event) => {
     lastFocusedRef.current = event.currentTarget;
     setProject(project);
@@ -97,7 +126,7 @@ const Projects = () => {
         step={80}
         className="grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
       >
-        {projects.map((project) => (
+        {visibleProjects.map((project) => (
           // Wrapper carries the reveal so the card keeps its own
           // transition-transform duration-300 for the hover lift.
           <div key={project.id}>
@@ -130,20 +159,64 @@ const Projects = () => {
                   {project.description}
                 </p>
                 <div>
-                  {project.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-block bg-gray-800 text-purple-400 text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  <TagList tags={project.tags} cap={CARD_TAG_CAP} />
                 </div>
               </div>
             </div>
           </div>
         ))}
       </Stagger>
+      {/* show more / show less toggle */}
+      {projects.length > FEATURED_COUNT && (
+        <Reveal className="mt-12 text-center">
+          <button
+            type="button"
+            onClick={() => setShowAll((prev) => !prev)}
+            className="group relative inline-flex items-center gap-2 px-8 py-3 rounded-full border border-white/10 bg-gray-900 text-gray-300 text-sm font-medium tracking-wide transition-all duration-300 hover:border-purple-500/40 hover:text-white hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.25)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+          >
+            {showAll ? (
+              <>
+                Show Less
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-transform duration-300 group-hover:-translate-y-0.5"
+                >
+                  <polyline points="18 15 12 9 6 15" />
+                </svg>
+              </>
+            ) : (
+              <>
+                Show All Projects
+                <span className="text-purple-400 text-xs font-semibold">
+                  +{projects.length - FEATURED_COUNT}
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-transform duration-300 group-hover:translate-y-0.5"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </>
+            )}
+          </button>
+        </Reveal>
+      )}
      </div>
       {/* modal container */}
       {project && (
@@ -194,14 +267,7 @@ const Projects = () => {
                 {project.description}
               </p>
               <div>
-                {project.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="inline-block bg-gray-800 text-purple-400 text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                <TagList tags={project.tags} cap={MODAL_TAG_CAP} />
               </div>
             </div>
             <div className="flex justify-center text-sm md:text-lg items-center text-center gap-4 mb-4 md:mb-6 px-10">

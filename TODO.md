@@ -292,8 +292,15 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       width against a fixed `h-14`. Show it past a scroll threshold and keep
       it there.~~
       **Done:** Kept the behavior where it shows when scrolling and hides on idle, but increased the timeout to 2 seconds. The button now mounts permanently and uses CSS transforms and opacity to slide in/out without vanishing instantly. Sizing is now a fixed `w-12 h-12` instead of viewport percentage to stop it stretching on wide screens, and it carries an `aria-label` and toggles `tabIndex` to keep it out of the focus order when hidden.
-- [ ] **13 projects × up to 14 tags each** is a wall of pills. Consider
-      "featured 6 + show more", and cap tags at 4-5 with a `+N` overflow.
+- [x] **13 projects × up to 14 tags each** ~~is a wall of pills. Consider
+      "featured 6 + show more", and cap tags at 4-5 with a `+N` overflow.~~
+      **Done:** extracted a shared `TagList` component that caps visible pills
+      and appends a dimmed `+N more` indicator when there are more. Cards show
+      4 tags (`CARD_TAG_CAP`), the modal shows 5 (`MODAL_TAG_CAP`). The grid
+      initially renders only the first 6 projects (`FEATURED_COUNT`); a
+      "Show All Projects +8" / "Show Less" toggle button below the grid reveals
+      the rest. The button matches the site's design system (rounded-full,
+      `border-white/10`, purple hover glow, `focus-visible` ring).
 - [ ] **GymFlow Project Image Broken**: The thumbnail image for the GymFlow project
       fails to render across all viewport sizes (shows broken image icon).
 - [ ] **Three email addresses** in one Contact card
