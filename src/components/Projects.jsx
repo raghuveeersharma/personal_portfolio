@@ -11,8 +11,9 @@ const MODAL_TAG_CAP = 5;
 
 /** Render a capped list of tag pills with a "+N" overflow indicator. */
 const TagList = ({ tags, cap }) => {
-  const visible = tags.slice(0, cap);
-  const overflow = tags.length - cap;
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? tags : tags.slice(0, cap);
+  const overflow = expanded ? 0 : tags.length - cap;
   return (
     <>
       {visible.map((tag, index) => (
@@ -24,9 +25,16 @@ const TagList = ({ tags, cap }) => {
         </span>
       ))}
       {overflow > 0 && (
-        <span className="inline-block bg-gray-800/60 text-gray-400 text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setExpanded(true);
+          }}
+          className="inline-block bg-gray-800/60 hover:bg-gray-700 text-gray-400 hover:text-white text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+        >
           +{overflow} more
-        </span>
+        </button>
       )}
     </>
   );
@@ -138,9 +146,9 @@ const Projects = () => {
               onKeyDown={handleProjectKeyDown(project)}
               // bg-gray-900 is opaque — a backdrop-filter here only cost
               // a compositor layer for a blur nothing could ever show.
-              className="h-full bg-gray-900 rounded-2xl border border-white/10 hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+              className="group h-full bg-gray-900 rounded-2xl border border-white/10 hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
             >
-              <div className="p-4">
+              <div className="relative p-4">
                 <img
                   src={project.image}
                   alt={project.title}
@@ -150,6 +158,34 @@ const Projects = () => {
                   decoding="async"
                   className="w-full h-48 object-cover rounded-2xl mb-2 p-2"
                 />
+                {/* Hover overlay with Live button */}
+                <div className="absolute inset-0 m-4 rounded-2xl bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto">
+                  <a
+                    href={project.webapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-accent text-white text-sm font-semibold tracking-wide shadow-lg hover:bg-accent-deep transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    Live
+                  </a>
+                </div>
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-semibold mb-2 text-gray-100">
