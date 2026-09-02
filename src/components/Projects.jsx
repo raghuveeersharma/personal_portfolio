@@ -1,13 +1,10 @@
 import { projects } from "../constants";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Reveal, Stagger } from "../animation";
-
-const FOCUSABLE_SELECTOR =
-  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
 const FEATURED_COUNT = 6;
 const CARD_TAG_CAP = 4;
-const MODAL_TAG_CAP = 5;
 
 /** Render a capped list of tag pills with a "+N" overflow indicator. */
 const TagList = ({ tags, cap }) => {
@@ -29,6 +26,7 @@ const TagList = ({ tags, cap }) => {
           type="button"
           onClick={(e) => {
             e.stopPropagation();
+            e.preventDefault();
             setExpanded(true);
           }}
           className="inline-block bg-gray-800/60 hover:bg-gray-700 text-gray-400 hover:text-white text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
@@ -41,73 +39,9 @@ const TagList = ({ tags, cap }) => {
 };
 
 const Projects = () => {
-  const [project, setProject] = useState(null);
   const [showAll, setShowAll] = useState(false);
-  const modalRef = useRef(null);
-  const lastFocusedRef = useRef(null);
   const visibleProjects = showAll ? projects : projects.slice(0, FEATURED_COUNT);
-  const handelOpenProject = (project) => (event) => {
-    lastFocusedRef.current = event.currentTarget;
-    setProject(project);
-  };
-  const handleCloseProject = () => {
-    setProject(null);
-  };
-  // Cards are divs (a real <button> may not contain the <h3>), so Enter/Space
-  // have to be wired up by hand to match native button activation.
-  const handleProjectKeyDown = (project) => (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      lastFocusedRef.current = event.currentTarget;
-      setProject(project);
-    }
-  };
-  const handleBackdropClick = (event) => {
-    if (event.target === event.currentTarget) {
-      handleCloseProject();
-    }
-  };
 
-  // Dialog behaviour: lock body scroll, trap focus inside the panel, close on
-  // Escape, and return focus to the card that opened it.
-  useEffect(() => {
-    if (!project) return undefined;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const node = modalRef.current;
-    const focusables = node
-      ? Array.from(node.querySelectorAll(FOCUSABLE_SELECTOR))
-      : [];
-    (focusables[0] || node)?.focus();
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        handleCloseProject();
-        return;
-      }
-      if (event.key !== "Tab" || focusables.length === 0) return;
-
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKeyDown);
-      lastFocusedRef.current?.focus();
-    };
-  }, [project]);
-  // Function to handle opening a project
   return (
     <section
       id="projects"
@@ -138,15 +72,12 @@ const Projects = () => {
           // Wrapper carries the reveal so the card keeps its own
           // transition-transform duration-300 for the hover lift.
           <div key={project.id}>
-            <div
-              role="button"
-              tabIndex={0}
+            <Link
+              to={`/project/${project.id}`}
               aria-label={`View details for ${project.title}`}
-              onClick={handelOpenProject(project)}
-              onKeyDown={handleProjectKeyDown(project)}
               // bg-gray-900 is opaque — a backdrop-filter here only cost
               // a compositor layer for a blur nothing could ever show.
-              className="group h-full bg-gray-900 rounded-2xl border border-white/10 hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+              className="group block h-full bg-gray-900 rounded-2xl border border-white/10 hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
             >
               <div className="relative p-4">
                 <img
@@ -198,7 +129,7 @@ const Projects = () => {
                   <TagList tags={project.tags} cap={CARD_TAG_CAP} />
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </Stagger>
@@ -254,80 +185,6 @@ const Projects = () => {
         </Reveal>
       )}
      </div>
-      {/* modal container */}
-      {project && (
-        <div
-          className="fixed top-0 inset-0 mx-auto h-screen flex items-center justify-center z-50 bg-black/70"
-          onClick={handleBackdropClick}
-        >
-          <Reveal
-            variant="zoom-in"
-            duration={300}
-            // Opaque panel; the dimming behind it is the overlay's
-            // bg-black/70, not a blur of the page.
-            className="bg-gray-900 lg:w-full w-[90%] max-w-xl rounded-2xl border border-white/10 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden relative"
-          >
-            <div
-              ref={modalRef}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="project-modal-title"
-              tabIndex={-1}
-            >
-            <div className="flex justify-end ">
-              <button
-                className="text-white text-3xl font-semibold mr-4 hover:text-purple-400 transition duration-300"
-                onClick={handleCloseProject}
-                aria-label="Close project details"
-              >
-                &times;
-              </button>
-            </div>
-            <div className="p-4">
-              <img
-                src={project.image}
-                alt={project.title}
-                width={project.imgW}
-                height={project.imgH}
-                className="w-full h-56 object-cover rounded-2xl"
-              />
-            </div>
-            <div className="p-4 md:p-6">
-              <h3
-                id="project-modal-title"
-                className="text-2xl font-semibold mb-2 text-gray-100"
-              >
-                {project.title}
-              </h3>
-              <p className="text-gray-400 mb-1 md:mb-4 pt-2 md:pt-5 ">
-                {project.description}
-              </p>
-              <div>
-                <TagList tags={project.tags} cap={MODAL_TAG_CAP} />
-              </div>
-            </div>
-            <div className="flex justify-center text-sm md:text-lg items-center text-center gap-4 mb-4 md:mb-6 px-10">
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:bg-accent bg-gray-800 transition ease-in-out duration-500 cursor-pointer text-white w-1/2 px-4 py-2 rounded-lg font-sans text-sm"
-              >
-                VIEW CODE
-              </a>
-              <a
-                href={project.webapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:bg-accent bg-gray-800 transition ease-in-out duration-500 cursor-pointer text-white w-1/2 px-4 py-2 rounded-lg font-sans text-sm"
-              >
-                LIVE
-              </a>
-            </div>
-            </div>
-          </Reveal>
-        </div>
-      )}
     </section>
   );
 };
