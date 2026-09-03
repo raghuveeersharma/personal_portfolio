@@ -1,12 +1,20 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import { Reveal } from "../animation";
 import { navLinks, socialLinks } from "../constants";
 
 const Footer = () => {
-  // Smooth scroll function
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Smooth scroll on home page; navigate to /#section from other pages
   const handleScroll = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+    if (location.pathname === "/") {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate(`/#${sectionId}`);
     }
   };
 

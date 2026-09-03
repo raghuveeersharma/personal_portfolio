@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { projects } from "../constants";
 import { Reveal, Stagger } from "../animation";
 import BlurBlob from "../BlurBlob";
+import Footer from "../components/Footer";
 import { useEffect } from "react";
 
 const ProjectDetail = () => {
@@ -490,6 +491,8 @@ const ProjectDetail = () => {
             </div>
           </Reveal>
         </div>
+
+        <Footer />
       </div>
     </div>
   );
