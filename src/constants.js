@@ -52,6 +52,7 @@ import Vichar from "./assets/work_logo/Vichar.webp";
 import Benoit from "./assets/work_logo/Benoit.webp";
 import PistZerna from "./assets/work_logo/PistZerna.webp";
 import BadoniyaConstructions from "./assets/work_logo/BadoniyaConstructions.webp";
+import Ironhaus from "./assets/work_logo/Ironhaus.webp";
 
 // The single source of truth for anchor navigation. Navbar and Footer
 // both render this list; keeping two copies is how the footer ended up
@@ -647,6 +648,30 @@ export const projects = [
   },
   {
     id: 7,
+    title: "IRONHAUS",
+    description:
+      "IRONHAUS is a cinematic, conversion-focused website for a boutique strength and conditioning gym in Brooklyn. The platform features an immersive landing page with animated statistics, training programs, coaches, timetable, pricing, gallery, testimonials, BMI calculator, FAQ, and contact form, along with dedicated booking, program, and trainer pages. Built with a strong focus on performance, accessibility, responsive interactions, and smooth motion-driven user experiences.",
+    image: Ironhaus,
+    imgW: 1853,
+    imgH: 963,
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "App Router",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Server Actions",
+      "Dynamic Routing",
+      "Responsive Design",
+      "Accessibility",
+      "SEO",
+    ],
+    github: "https://github.com/raghuveeersharma/ironhaus",
+    webapp: "https://ironhaus-orcin.vercel.app/",
+  },
+  {
+    id: 8,
     title: "EcoRecycle",
     description:
       "EcoRecycle is an intelligent web application designed to promote sustainable waste management by leveraging AI-powered object detection and location-based recycling center recommendations.",
@@ -667,7 +692,7 @@ export const projects = [
     webapp: "https://eco-recycle-rho.vercel.app/",
   },
   {
-  id: 8,
+  id: 9,
   title: "Vichar",
   description:
     "Vichar is a modern multi-tenant note-taking application with a local-first architecture that enables users to create, organize, and manage rich-text notes securely. It features per-note AES-256 encryption, AI-powered writing assistance, offline-first synchronization with IndexedDB, installable PWA support, folder organization, secure JWT cookie authentication, and seamless online/offline note management.",
@@ -700,7 +725,7 @@ export const projects = [
   webapp: "https://vichar-three.vercel.app/",
 },
   {
-    id: 9,
+    id: 10,
     title: "PassOP",
     description:
       "PassOp is a responsive web application built with React.js that enables users to securely store and manage their website credentials, including usernames, passwords, and URLs, directly in their browser using local storage. Passwords are encrypted using AES encryption (CryptoJS) before being stored, providing a basic layer of security. To access or copy stored credentials, users are required to enter a master password.",
@@ -719,7 +744,7 @@ export const projects = [
     webapp: "https://password-manager-five-tan.vercel.app/",
   },
   {
-    id: 10,
+    id: 11,
     title: "E-BookStore",
     description:
       "E-BookStore web application using the MERN stack. The platform includes user authentication with login and logout functionality, and features protected routes that are accessible only to logged-in users. Books data is stored in MongoDB Atlas and fetched dynamically to display a collection of titles with details like name, author, and price.",
@@ -738,7 +763,7 @@ export const projects = [
     webapp: "https://book-store-web-flame.vercel.app/",
   },
   {
-    id: 11,
+    id: 12,
     title: "TextUtils",
     description:
       "A text Editor built on React.js, it can manipulate text like Convert to upper case, to lower case, Remove extra spaces, Copy to clipboard, Clear text, and Dark mode.",
@@ -750,7 +775,7 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Text_Util",
   },
   {
-    id: 12,
+    id: 13,
     title: "Portfolio Website",
     description:
       "Responsive portfolio showcasing my work. I use react-animation in it, and it is fully responsive.",
@@ -768,7 +793,7 @@ export const projects = [
     webapp: "https://raghuveeersharma.github.io/Portfolio/",
   },
   {
-    id: 13,
+    id: 14,
     title: "Todo App",
     description:
       "A simple todo app built on MERN stack. It saves users tasks in the database, and users can perform CRUD operations on tasks. The UI is fully responsive.",
