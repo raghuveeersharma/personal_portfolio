@@ -18,8 +18,9 @@ import mysqlLogo from "./assets/tech_logo/mysql.webp";
 import mongodbLogo from "./assets/tech_logo/mongodb.webp";
 import cLogo from "./assets/tech_logo/c.webp";
 import cppLogo from "./assets/tech_logo/cpp.webp";
-import javaLogo from "./assets/tech_logo/java.webp";
 import typescriptLogo from "./assets/tech_logo/typescript.webp";
+import pythonLogo from "./assets/tech_logo/python.svg";
+import fastapiLogo from "./assets/tech_logo/fastapi.svg";
 import gitLogo from "./assets/tech_logo/git.webp";
 import githubLogo from "./assets/tech_logo/github.webp";
 import vscodeLogo from "./assets/tech_logo/vscode.webp";
@@ -91,6 +92,7 @@ export const SkillsInfo = [
       { name: "MySQL", logo: mysqlLogo, logoW: 128, logoH: 126 },
       { name: "MongoDB", logo: mongodbLogo, logoW: 128, logoH: 128 },
       { name: "PostgreSQL", logo: postgreLogo, logoW: 128, logoH: 128 },
+      { name: "FastAPI", logo: fastapiLogo, logoW: 128, logoH: 128 },
     ],
   },
   {
@@ -98,7 +100,7 @@ export const SkillsInfo = [
     skills: [
       { name: "C", logo: cLogo, logoW: 128, logoH: 128 },
       { name: "C++", logo: cppLogo, logoW: 128, logoH: 128 },
-      { name: "Java", logo: javaLogo, logoW: 128, logoH: 128 },
+      { name: "Python", logo: pythonLogo, logoW: 128, logoH: 128 },
       { name: "JavaScript", logo: javascriptLogo, logoW: 128, logoH: 128 },
       { name: "TypeScript", logo: typescriptLogo, logoW: 128, logoH: 128 },
     ],
