@@ -23,7 +23,7 @@ const useJourneyAnimation = () => {
   const [direction, setDirection] = useState("fwd");
   const [logText, setLogText] = useState("");
   const [status, setStatus] = useState(null);
-  const [packetColor, setPacketColor] = useState("#8B7CF8");
+  const [packetColor, setPacketColor] = useState("var(--hero-accent)");
   const [hasRun, setHasRun] = useState(false);
 
   const timeouts = useRef([]);
@@ -77,7 +77,7 @@ const useJourneyAnimation = () => {
       const node = journeyNodes[i];
       schedule(() => {
         setActiveStep(i);
-        setPacketColor("#4ADE80");
+        setPacketColor("var(--success)");
         setLogText(node.responseLog);
         setStatus({ text: "200 OK", tone: "ok" });
       }, t);
@@ -93,7 +93,7 @@ const useJourneyAnimation = () => {
       setAnimating(false);
       setLogText("");
       setStatus({ text: "200 OK · 42ms", tone: "ok" });
-      setPacketColor("#8B7CF8");
+      setPacketColor("var(--hero-accent)");
       setDirection("fwd");
     }, t);
   }, [animating, clearAll]);

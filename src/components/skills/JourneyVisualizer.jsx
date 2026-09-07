@@ -8,11 +8,25 @@ import useJourneyAnimation from "./useJourneyAnimation.js";
 
 const LAST = journeyNodes.length - 1;
 
-// Status badge palette, keyed by the tone the hook reports.
+/* Status badge palette, keyed by the tone the hook reports. The
+   literals these replaced were exactly the status tokens, so this is
+   a rename rather than a re-colour. */
 const STATUS_TONES = {
-  idle: { bg: "#111118", color: "#8c8caa", border: "#2A2A3F" },
-  pending: { bg: "#1A1209", color: "#F59E0B", border: "#3A2A09" },
-  ok: { bg: "#0D1A0D", color: "#4ADE80", border: "#1A3A1A" },
+  idle: {
+    bg: "var(--surface)",
+    color: "var(--hero-dim)",
+    border: "var(--border)",
+  },
+  pending: {
+    bg: "var(--warning-wash)",
+    color: "var(--warning)",
+    border: "var(--warning-line)",
+  },
+  ok: {
+    bg: "var(--success-wash)",
+    color: "var(--success)",
+    border: "var(--success-line)",
+  },
 };
 
 /**
@@ -44,7 +58,7 @@ const JourneyVisualizer = () => {
       variant="fade-up"
       delay={150}
       duration={550}
-      className="rounded-2xl border-[0.5px] border-[#1E1E2E] bg-[#111118] p-6 sm:p-8"
+      className="rounded-2xl border-[0.5px] border-border-subtle bg-surface p-6 sm:p-8"
     >
       {/* ---- Node track ------------------------------------- */}
       <div
@@ -54,11 +68,18 @@ const JourneyVisualizer = () => {
       >
         <div className="journey-spine" aria-hidden="true" />
         <div className="journey-fill" aria-hidden="true" />
+        {/* The packet colour arrives as a raw brand hue from
+            constants.js (or a token, on the idle and return passes),
+            so it goes through the brand-hue scope like everything
+            else — otherwise it stays a pale mid-tone dot on a light
+            track. `--brand-edge` is the border/dot strength, which
+            holds 3:1 for every hue. */}
         <div
-          className="journey-packet"
+          className="brand-hue journey-packet"
           aria-hidden="true"
           style={{
-            backgroundColor: packetColor,
+            "--brand-color": packetColor,
+            backgroundColor: "var(--brand-edge)",
             opacity: packetVisible ? 1 : 0,
             transform: packetVisible ? "scale(1)" : "scale(0)",
           }}
@@ -80,16 +101,18 @@ const JourneyVisualizer = () => {
 
       {/* ---- Log bar ---------------------------------------- */}
       <div
-        className="mb-5 flex min-h-9 items-center gap-2.5 rounded-lg border-[0.5px] border-[#1E1E2E] bg-[#0A0A10] px-4 py-2"
+        className="mb-5 flex min-h-9 items-center gap-2.5 rounded-lg border-[0.5px] border-border-subtle bg-surface-sunken px-4 py-2"
         role="status"
         aria-live="polite"
       >
         <span
           className="shrink-0 rounded-full px-[7px] py-[2px] font-sans text-[9px] font-medium"
           style={{
-            background: forward ? "#0D1729" : "#0D1A0D",
-            color: forward ? "#60A5FA" : "#4ADE80",
-            border: `0.5px solid ${forward ? "#0D2545" : "#1A3A1A"}`,
+            background: forward ? "var(--info-wash)" : "var(--success-wash)",
+            color: forward ? "var(--info)" : "var(--success)",
+            border: `0.5px solid ${
+              forward ? "var(--info-line)" : "var(--success-line)"
+            }`,
           }}
         >
           {forward ? "→ REQ" : "← RES"}
@@ -108,7 +131,7 @@ const JourneyVisualizer = () => {
         {animating && (
           <span
             aria-hidden="true"
-            className="journey-cursor font-mono text-[11px] text-[#8B7CF8]"
+            className="journey-cursor font-mono text-[11px] text-hero-accent"
           >
             |
           </span>
@@ -121,8 +144,12 @@ const JourneyVisualizer = () => {
           type="button"
           onClick={run}
           disabled={animating}
-          className="flex items-center gap-1.5 rounded-lg px-5 py-2.5 font-sans text-[13px] font-semibold text-white transition-[background-color,transform] duration-200 enabled:hover:scale-[1.02] enabled:active:scale-[0.98] disabled:cursor-not-allowed"
-          style={{ background: animating ? "#534AB7" : "#8B7CF8" }}
+          className="flex items-center gap-1.5 rounded-lg px-5 py-2.5 font-sans text-[13px] font-semibold text-accent-contrast transition-[background-color,transform] duration-200 enabled:hover:scale-[1.02] enabled:active:scale-[0.98] disabled:cursor-not-allowed"
+          style={{
+            background: animating
+              ? "var(--hero-accent-dim)"
+              : "var(--hero-accent)",
+          }}
         >
           {animating ? (
             <TbLoader2 size={13} className="journey-spin" aria-hidden="true" />

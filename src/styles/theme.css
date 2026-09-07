@@ -90,6 +90,7 @@
   --content-muted: #9ca3af; /* 8.00:1 — the workhorse body dim */
   --content-subtle: #6b7280; /* 4.20:1 — LARGE TEXT ONLY, see note */
   --content-inverse: #050414; /* text on a light fill */
+  --content-accent: #796faa; /* violet-tinted dim text, Services only */
 
   /* `--content-subtle` is 4.20:1 on bg-base, which is AA for
      large text (3:1) but under the 4.5:1 body threshold. It is
@@ -106,11 +107,17 @@
   --border-subtle: #1e1e2e; /* hairline — was border-white/10 */
   --border-faint: #12111f; /* fainter still — was border-white/5 */
   --border-strong: #3a3458; /* emphasis, focus rings */
+  --border-accent: #4a3f73; /* violet-tinted: service node resting ring */
+  --track-line: #241d3d; /* the service circle's inactive arc */
 
   /* Hover/active tint for a row on a dark ground — the old
      `hover:bg-white/5`. Lightens in dark, darkens in light, so
      it cannot be folded into `--surface-*`. */
   --surface-hover: #12111f;
+
+  /* The contact form's panel, which runs more violet than the
+     neutral surfaces around it. */
+  --surface-accent: #0d081f;
 
   /* -- Accent -----------------------------------------------
      Two accents, not one, and they are not interchangeable:
@@ -132,6 +139,12 @@
      own alpha because the overlay sits directly on the ground. */
   --glow: #a855f7;
   --grid-line: #4f4f4f2e;
+  --progress-tip: #d8b4fe; /* pale end of the timeline gradient */
+
+  /* The magenta/blue wash behind Skills, Experience and Education.
+     Was the same inline `backgroundImage` pasted into all three. */
+  --section-wash-a: rgba(204, 0, 187, 0.15);
+  --section-wash-b: rgba(0, 70, 209, 0.15);
 
   /* -- Status ------------------------------------------------ */
   --success: #4ade80;
@@ -206,17 +219,21 @@
     --surface: #ffffff;
     --surface-raised: #ffffff;
     --surface-sunken: #f1f1f7;
+    --surface-accent: #faf8ff;
 
     --content: #14141f; /* 18.27:1 on surface */
     --content-soft: #3d3d52; /* 10.56:1 */
     --content-muted: #5a5a72; /* 6.69:1 */
     --content-subtle: #6e6e88; /* 4.94:1 on surface, 4.63:1 on bg-base */
     --content-inverse: #ffffff;
+    --content-accent: #6a5f96; /* 5.69:1 on surface */
 
     --border: #dcdce8;
     --border-subtle: #e9e9f2;
     --border-faint: #f2f2f8;
     --border-strong: #8b8ba6; /* 3.31:1 — meets AA for a control boundary */
+    --border-accent: #cfc4ec;
+    --track-line: #e4dff4;
     --surface-hover: #eeeef5;
 
     --accent: #8245ec; /* unchanged; white on it, 5.23:1 */
@@ -231,6 +248,14 @@
        #4f4f4f2e over white is invisible. */
     --glow: #8245ec;
     --grid-line: #1414201a;
+    /* Darkens rather than lightens: the dark gradient fades *up* to
+       a pale lilac, which vanishes against a white page. */
+    --progress-tip: #6f3bce;
+
+    /* Much fainter: at dark's 0.15 the same two gradients turn a
+       white page muddy rather than atmospheric. */
+    --section-wash-a: rgba(204, 0, 187, 0.05);
+    --section-wash-b: rgba(0, 70, 209, 0.05);
 
     --success: #15803d; /* 5.02:1; 4.64:1 on its own wash */
     --success-wash: #eafaf0;
@@ -280,17 +305,21 @@
   --surface: #ffffff;
   --surface-raised: #ffffff;
   --surface-sunken: #f1f1f7;
+  --surface-accent: #faf8ff;
 
   --content: #14141f;
   --content-soft: #3d3d52;
   --content-muted: #5a5a72;
   --content-subtle: #6e6e88;
   --content-inverse: #ffffff;
+  --content-accent: #6a5f96;
 
   --border: #dcdce8;
   --border-subtle: #e9e9f2;
   --border-faint: #f2f2f8;
   --border-strong: #8b8ba6;
+  --border-accent: #cfc4ec;
+  --track-line: #e4dff4;
   --surface-hover: #eeeef5;
 
   --accent: #8245ec;
@@ -301,6 +330,9 @@
 
   --glow: #8245ec;
   --grid-line: #1414201a;
+  --progress-tip: #6f3bce;
+  --section-wash-a: rgba(204, 0, 187, 0.05);
+  --section-wash-b: rgba(0, 70, 209, 0.05);
 
   --success: #15803d;
   --success-wash: #eafaf0;
@@ -353,17 +385,21 @@
   --color-surface-raised: var(--surface-raised);
   --color-surface-sunken: var(--surface-sunken);
   --color-surface-hover: var(--surface-hover);
+  --color-surface-accent: var(--surface-accent);
 
   --color-content: var(--content);
   --color-content-soft: var(--content-soft);
   --color-content-muted: var(--content-muted);
   --color-content-subtle: var(--content-subtle);
   --color-content-inverse: var(--content-inverse);
+  --color-content-accent: var(--content-accent);
 
   --color-border: var(--border);
   --color-border-subtle: var(--border-subtle);
   --color-border-faint: var(--border-faint);
   --color-border-strong: var(--border-strong);
+  --color-border-accent: var(--border-accent);
+  --color-track-line: var(--track-line);
 
   --color-accent: var(--accent);
   --color-accent-deep: var(--accent-deep);
@@ -470,91 +506,124 @@
 }
 
 /* ============================================================
-   5. Theme-conditional component colour
+   5. Per-item brand hues
 
-   One rule, and it lives here rather than in animations.css
-   (which is motion only) or index.css (which holds utilities)
-   because it is entirely a theming concern: the same element
-   takes hand-authored colours in dark and derived ones in light.
+   The one place that resolves a technology's own colour into
+   something usable in both themes. It lives here rather than in
+   animations.css (motion only) or index.css (utilities) because
+   it is entirely a theming concern.
 
-   ---- The per-item colour problem ---------------------------
-   `constants.js` gives every technology a brand hue plus a
-   hand-picked dark `bg`/`border` — deliberately not tokens,
-   since nothing outside those sections consumes them. Dark is
-   frozen, so those literals have to survive verbatim; but they
-   are dark surfaces and mean nothing on a light page, and
-   hand-picking a light twin for each of ~20 entries is a lot of
-   values to keep in sync.
+   ---- The problem ------------------------------------------
+   `constants.js` gives every technology and service a brand hue,
+   and most entries also carry a hand-picked dark `bg`/`border` —
+   deliberately not tokens, since nothing outside those sections
+   consumes them. Dark is frozen, so those literals must survive
+   verbatim; but they are dark surfaces and mean nothing on a
+   light page, and hand-picking a light twin for each of ~20
+   entries is a lot of values to keep in sync.
 
-   So the two themes are handled asymmetrically:
+   ---- The contract -----------------------------------------
+   An element (or any ancestor) sets these as custom properties:
 
-     dark  — reads the literals straight off the element, passed
-             in as --chip-bg / --chip-border. Exact, unchanged.
-     light — ignores them and derives everything from the brand
-             hue with `color-mix`, the same trick the journey
-             cards already use.
+     --brand-color    the brand hue           (required)
+     --brand-bg       dark surface literal    (optional)
+     --brand-border   dark border literal     (optional)
 
-   Inline styles set only the custom properties, never the
-   colour properties themselves. That is what lets these rules
-   win in light: an inline `background-color` would outrank any
-   selector here.
+   and reads back, anywhere in its subtree:
 
-   ---- Why 55% ------------------------------------------------
-   The text mix is the constrained one: it has to clear AA on
-   the 10%-tinted background for *every* hue in constants.js.
-   Measured across all twelve, 55% gives a worst case of 4.85:1
-   (Tailwind's pale blue #7dd3fc); at 60% that same hue drops to
-   4.19:1 and fails. Do not raise it without re-measuring.
+     --brand-ink      text and icons
+     --brand-edge     borders, dots, glows
+     --brand-surface  tinted background
+     --brand-line     hairline/divider
+
+   dark  passes the literals through untouched, and derives only
+         what the data does not carry.
+   light ignores the literals and derives everything from the hue.
+
+   Consumers therefore each get *one* rule, no `dark:` prefixes
+   and no duplicated arms — all the per-theme branching is here.
+
+   Inline styles must set only the input custom properties, never
+   `background-color`/`color` directly: an inline colour property
+   would outrank every selector below.
+
+   ---- The percentages are measured -------------------------
+   `--brand-ink` at 55% is the tightest: it has to clear AA on the
+   10%-tinted surface for *every* hue in constants.js. Worst case
+   4.85:1 (Tailwind's pale #7dd3fc); at 60% that hue drops to
+   4.19:1 and fails. `--brand-edge` at 70% is bounded by the 3:1
+   floor for a meaningful boundary — worst case 3.35:1 on the
+   surface, 3.19:1 on its own tint; 75% fails both. Do not change
+   either without re-measuring every hue.
    ============================================================ */
-.tech-chip {
-  color: var(--chip-color);
-  background-color: var(--chip-bg);
-  border-color: var(--chip-border);
+.brand-hue {
+  --brand-ink: var(--brand-color);
+  --brand-edge: var(--brand-color);
+  --brand-surface: var(--brand-bg, var(--bg-subtle));
+  --brand-line: var(--brand-border, var(--brand-color));
 }
 
-/* Light, step 1: a legible neutral chip.
-   This is not dead code. The build inserts its own fallback for
-   any `color-mix` it cannot resolve at compile time, and because
-   the mix arguments here are custom properties it cannot resolve
-   *any* of them — the fallback it picks is the bare brand hue for
-   all three properties at once, which in light mode means
-   hue-on-hue: an invisible label. So the neutral chip is
-   declared first and the mixes are gated behind @supports below,
-   which suppresses that substitution. Anything without
-   `color-mix` (pre-2023 browsers) lands here instead. */
+/* Light without `color-mix`: a legible neutral, no hue.
+
+   This is not dead code, and it has to sit *before* the
+   @supports block. The build generates its own fallback for any
+   `color-mix` it cannot resolve at compile time; every argument
+   here is a custom property, so it can resolve none of them and
+   substitutes the bare brand hue for each property at once —
+   which in light mode means hue-on-hue, an invisible label.
+   Gating the mixes behind @supports suppresses that, and
+   pre-2023 browsers land here instead. */
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .tech-chip {
-    color: var(--content);
-    background-color: var(--bg-subtle);
-    border-color: var(--border);
+  :root:not([data-theme="dark"]) .brand-hue {
+    --brand-ink: var(--content);
+    --brand-edge: var(--border-strong);
+    --brand-surface: var(--bg-subtle);
+    --brand-line: var(--border);
   }
 }
 
-:root[data-theme="light"] .tech-chip {
-  color: var(--content);
-  background-color: var(--bg-subtle);
-  border-color: var(--border);
+:root[data-theme="light"] .brand-hue {
+  --brand-ink: var(--content);
+  --brand-edge: var(--border-strong);
+  --brand-surface: var(--bg-subtle);
+  --brand-line: var(--border);
 }
 
-/* Light, step 2: the real thing, hue derived. */
 @supports (color: color-mix(in srgb, red 50%, #000)) {
+  /* Dark derives only the surface, and only for the entries that
+     carry no literal (the services, which are hue-only). The mix
+     reproduces the old `tintedBg()` helper exactly: 12% of the
+     hue over the page ground. */
+  .brand-hue {
+    --brand-surface: var(
+      --brand-bg,
+      color-mix(in srgb, var(--brand-color) 12%, var(--bg-base))
+    );
+  }
+
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) .tech-chip {
-      color: color-mix(in srgb, var(--chip-color) 55%, #000);
-      background-color: color-mix(
-        in srgb,
-        var(--chip-color) 10%,
-        var(--surface)
-      );
-      border-color: color-mix(in srgb, var(--chip-color) 30%, var(--surface));
+    :root:not([data-theme="dark"]) .brand-hue {
+      --brand-ink: color-mix(in srgb, var(--brand-color) 55%, #000);
+      --brand-edge: color-mix(in srgb, var(--brand-color) 70%, #000);
+      --brand-surface: color-mix(in srgb, var(--brand-color) 10%, var(--surface));
+      --brand-line: color-mix(in srgb, var(--brand-color) 30%, var(--surface));
     }
   }
 
-  :root[data-theme="light"] .tech-chip {
-    color: color-mix(in srgb, var(--chip-color) 55%, #000);
-    background-color: color-mix(in srgb, var(--chip-color) 10%, var(--surface));
-    border-color: color-mix(in srgb, var(--chip-color) 30%, var(--surface));
+  :root[data-theme="light"] .brand-hue {
+    --brand-ink: color-mix(in srgb, var(--brand-color) 55%, #000);
+    --brand-edge: color-mix(in srgb, var(--brand-color) 70%, #000);
+    --brand-surface: color-mix(in srgb, var(--brand-color) 10%, var(--surface));
+    --brand-line: color-mix(in srgb, var(--brand-color) 30%, var(--surface));
   }
+}
+
+/* The hero's stack chips and the journey's tool chips: identical
+   treatment, so one class. */
+.tech-chip {
+  color: var(--brand-ink);
+  background-color: var(--brand-surface);
+  border-color: var(--brand-line);
 }
 
 @layer base {

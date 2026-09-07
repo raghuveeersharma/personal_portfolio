@@ -17,7 +17,7 @@ const MernJourney = () => (
       <p className="font-sans text-[10px] tracking-[0.14em] text-hero-muted uppercase">
         Technical skills
       </p>
-      <h3 className="mt-2 font-display text-2xl font-bold text-[#E8E8F4] sm:text-[28px]">
+      <h3 className="mt-2 font-display text-2xl font-bold text-hero-text sm:text-[28px]">
         The MERN stack in action
       </h3>
       <p className="mt-1.5 max-w-[480px] text-[13px] text-hero-dim">

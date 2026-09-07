@@ -1,13 +1,13 @@
 # Adding a light theme — implementation plan
 
-Status: **Phases 1–3 complete.** Phases 4–5 not started.
+Status: **Phases 1–4 complete.** Phase 5 not started.
 
 | Phase | State |
 | --- | --- |
 | 1 — Token foundation and theme plumbing | ✅ landed |
 | 2 — App shell and the toggle UI | ✅ landed |
 | 3 — The hero (`About.jsx`) | ✅ landed |
-| 4 — Content sections and the data-layer colours | not started |
+| 4 — Content sections and the data-layer colours | ✅ landed |
 | 5 — Motion layer, accessibility audit, and docs | not started |
 
 ## Ground rule: dark is the baseline and it does not change
@@ -526,6 +526,102 @@ Also in this phase:
 intentional per-brand hues, and no `text-gray-*` / `text-white` /
 `bg-gray-*` remain.
 
+#### ✅ What landed
+
+Both exit criteria met. Across all of `src`, zero `text-white`,
+`text-gray-*`, `bg-gray-*`, `text-slate-*`, `border-gray-*` or
+`*-purple-*` classes remain, and the only hex literals left in
+`src/components` and `src/pages` are the three editor traffic-light
+dots in `About`.
+
+**`constants.js` was not touched.** That was the goal of the
+`.tech-chip` work in Phase 3 and it held: every per-technology and
+per-service colour is now consumed through the `.brand-hue` contract,
+so the data keeps its hand-picked dark literals verbatim.
+
+**The resolver was generalised.** `.tech-chip`'s two-theme arms became
+`.brand-hue`, a single scope that resolves a brand hue into four
+outputs — `--brand-ink` (text/icons), `--brand-edge` (borders, dots,
+glows), `--brand-surface` (tinted background), `--brand-line`
+(hairline). Dark passes the literals through and derives only what the
+data lacks; light derives everything. Six consumers now share it —
+hero chips, tool chips, journey nodes, the detail panel, service nodes
+and cards, the service track's SVG segments — and each needs exactly
+one rule with no `dark:` prefix and no duplicated arms. All the
+per-theme branching lives in one place.
+
+`--brand-edge` is new this phase and its 70% is measured the same way
+55% was: bounded by the 3:1 floor for a meaningful boundary, worst case
+3.35:1 on the surface and 3.19:1 on its own tint. 75% fails both.
+
+**Three JS colour helpers were deleted rather than themed:**
+
+- `JourneyNode`'s `node.color + "99"` — string-concatenated hex alpha
+  only works on a literal, and the colour is now a variable. Replaced
+  with `color-mix(… 60%, transparent)`, which is the same value in dark.
+- `ServiceNode`'s `tintedBg()` mixed a hue at 12% over the page
+  background in JS, which meant hardcoding `#050414` as the base.
+  `--brand-surface` does that mix in CSS against `--bg-base`, so it
+  follows the theme. Dark output is identical.
+- `--node-color` turned out to be write-only — the CSS that once read it
+  is gone — so it went with `tintedBg()`.
+
+**Two things the sweep caught that a class-level pass would have
+missed:**
+
+- `node.packetColor` flows from `constants.js` straight into an inline
+  `backgroundColor`, so the travelling packet would have stayed a pale
+  raw hue on a light track. It now goes through `--brand-edge`.
+- Four focus rings in `Projects` were hardcoded as
+  `outline-[#9d6ef5]` — the literal value of `--accent-text`. A focus
+  ring that does not follow the theme is an accessibility bug, not a
+  cosmetic one.
+
+**The wash gradient became `.section-wash`.** The identical inline
+`backgroundImage` object was pasted into `Skills`, `Experience` and
+`Education`, so its colours were written six times. Light needs the
+opacity dropped from 0.15 to 0.05 — at dark's value the two gradients
+turn a white page muddy rather than atmospheric.
+
+**Deliberately left unthemed**, each with a comment saying why: the
+company/school logo plates stay `bg-white` in both themes (the logos
+are dark artwork drawn for a light plate; theming it would make them
+unreadable), and the project card's `bg-black/60` hover scrim stays
+dark because it exists to carry white text and an accent button.
+
+**Verified:** `npm run lint` clean, `npm run build` green. Eighteen dark
+token values that had to be byte-identical were diffed against their
+original literals in the built CSS — all exact. The resolver's four
+arms were checked for correct source order in the compiled output.
+
+#### Scope adjustment: `animations.css` surfaces came forward
+
+The plan put all of `animations.css` in Phase 5. Its thirteen colour
+literals turned out to split along a real boundary rather than a
+convenient one: the journey spine and fill, the service card border,
+hover border and icon well are plain section *surfaces*, and leaving
+them dark-only would have left visible dark bars inside sections that
+were otherwise finished. Those are done here (all exact carry-overs),
+along with the timeline gradient's stops — light needs
+`--progress-tip` to *darken* rather than lighten, since the dark
+gradient fades up to a pale lilac that vanishes on white.
+
+Phase 5 keeps what actually belongs to the glow policy: the single
+remaining literal, `rgba(130, 69, 236, 0.55)` on the timeline spine's
+`box-shadow`.
+
+#### Normalisations this phase
+
+| Was | Now | Dark effect |
+| --- | --- | --- |
+| `border-gray-700` (skill pills) | `border` `#2a2a3f` | Slightly darker, cooler |
+| `border-gray-600` (form inputs) | `border-strong` `#3a3458` | Cooler; light twin meets the 3:1 control-boundary floor |
+| `bg-gray-700` (project tag hover) | `surface-raised` | Darker; the hover still lightens from `surface/60` |
+| `#0d0c18` (inactive service card), `#0A0A10` (journey log bar) | `surface-sunken` `#0d0d14` | Imperceptible |
+| `#534AB7` (journey button, running) | `hero-accent-dim` `#6c5ce7` | Lighter, still clearly darker than the idle state |
+| `bg-white/15` (timeline spine) | `border` `#2a2a3f` | Near-exact — the translucent value computed to `#2b2a3a` |
+| `text-slate-400` `#94a3b8` | `content-muted` `#9ca3af` | Near-exact; drops an unintended cool/neutral split |
+
 ---
 
 ### Phase 5 — Motion layer, accessibility audit, and docs
@@ -617,6 +713,11 @@ its own decision outside this workstream.
 - **`ProjectDetail` uses `--content-subtle` for small copy** in ten
   places (metadata labels, truncated URLs), which is where the failure
   above actually bites hardest. Worth revisiting together with it.
+- **`bg-bg-subtle` is an awkward utility name**, produced by the
+  `--color-bg-subtle` token. It works, but `bg-subtle` would read
+  better. Renaming the token is a mechanical change across one
+  consumer, and was left alone rather than churn a phase-4 file for
+  cosmetics.
 - **The light availability badge sits at 4.64:1** (`--success` on
   `--success-wash`). That passes AA but with little margin, and the
   badge text is 11px. Not a failure, but the first thing to adjust if

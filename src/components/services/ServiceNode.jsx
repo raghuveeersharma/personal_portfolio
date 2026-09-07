@@ -1,20 +1,16 @@
 import PropTypes from "prop-types";
 import SERVICE_ICONS from "./serviceIcons.js";
 
-// Neutral resting palette — matches the MERN journey's inactive state.
-const RESTING_FILL = "#0a0918";
-const RESTING_BORDER = "#4a3f73";
+/* Neutral resting palette — matches the MERN journey's inactive state.
 
-// Mix a service colour at ~12% over the page background (#050414)
-// to get a solid opaque dark tint. The spine runs behind the node,
-// so the dot MUST be fully opaque to mask it.
-const tintedBg = (hex) => {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  const mix = (c, base) => Math.round(base + (c - base) * 0.12);
-  return `rgb(${mix(r, 5)}, ${mix(g, 4)}, ${mix(b, 20)})`;
-};
+   `tintedBg()` used to live here: it mixed the service colour at 12%
+   over the page background in JS, which meant hardcoding #050414 as
+   the base. `--brand-surface` does the same mix in CSS against
+   `--bg-base`, so it follows the theme and the helper is gone. The
+   dark result is identical. The dot still has to be fully opaque —
+   the spine runs behind it and the node is what masks it. */
+const RESTING_FILL = "var(--bg-subtle)";
+const RESTING_BORDER = "var(--border-accent)";
 
 /**
  * One node on the circular service track. Purely presentational —
@@ -32,9 +28,14 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
       onClick={onClick}
       aria-label={`${service.title}`}
       aria-pressed={active}
-      className="service-node group relative z-[2] flex items-center justify-center cursor-pointer"
+      className="brand-hue service-node group relative z-[2] flex items-center justify-center cursor-pointer"
       style={{
-        "--node-color": service.color,
+        /* Hue only: the services carry no dark bg/border literals, so
+           `--brand-surface` is derived in both themes.
+
+           This replaced `--node-color`, which nothing read: the CSS
+           that once consumed it is gone, so it was only being set. */
+        "--brand-color": service.color,
       }}
     >
       {/* The circular dot */}
@@ -43,10 +44,10 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
         style={{
           width: "var(--svc-circle-node-size, 42px)",
           height: "var(--svc-circle-node-size, 42px)",
-          backgroundColor: active ? tintedBg(service.color) : RESTING_FILL,
-          border: `1.5px solid ${active ? service.color : RESTING_BORDER}`,
+          backgroundColor: active ? "var(--brand-surface)" : RESTING_FILL,
+          border: `1.5px solid ${active ? "var(--brand-edge)" : RESTING_BORDER}`,
           boxShadow: active
-            ? `0 0 14px ${service.color}55, 0 0 28px ${service.color}22`
+            ? `0 0 14px color-mix(in srgb, var(--brand-edge) 33%, transparent), 0 0 28px color-mix(in srgb, var(--brand-edge) 13%, transparent)`
             : "none",
           transition: `border-color ${travelMs}ms ease, background-color ${travelMs}ms ease, box-shadow ${travelMs}ms ease`,
         }}
@@ -56,7 +57,7 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
           <IconComponent
             size={18}
             style={{
-              color: active ? service.color : "#7a7a9c",
+              color: active ? "var(--brand-ink)" : "var(--hero-muted)",
               transition: `color ${travelMs}ms ease`,
             }}
           />
@@ -74,7 +75,8 @@ const ServiceNode = ({ service, isActive, travelMs, onClick }) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            boxShadow: `0 0 14px ${service.color}55`,
+            boxShadow:
+              "0 0 14px color-mix(in srgb, var(--brand-edge) 33%, transparent)",
           }}
         />
       )}

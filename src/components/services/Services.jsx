@@ -55,11 +55,11 @@ const Services = () => {
         <p className="font-sans text-[10px] tracking-[0.14em] text-hero-muted uppercase">
           What I offer
         </p>
-        <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-gray-100">
+        <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-content">
           SERVICES
         </h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-5 text-lg max-w-[560px] mx-auto">
+        <p className="text-content-muted mt-5 text-lg max-w-[560px] mx-auto">
           End-to-end product development — from UI design and responsive
           frontends to robust APIs, databases, and cloud deployment.
         </p>
@@ -70,11 +70,18 @@ const Services = () => {
         <div className="service-layout">
           {/* Counter */}
           <div className="service-layout__counter font-sans text-xs font-bold" aria-hidden="true">
-            <span style={{ color: services?.[activeIndex]?.color ?? "#8245ec" }}>
+            <span
+              className="brand-hue"
+              style={{
+                "--brand-color":
+                  services?.[activeIndex]?.color ?? "var(--accent)",
+                color: "var(--brand-ink)",
+              }}
+            >
               {String(activeIndex + 1).padStart(2, "0")}
             </span>
-            <span className="text-[#796faa]"> / </span>
-            <span className="text-[#796faa]">
+            <span className="text-content-accent"> / </span>
+            <span className="text-content-accent">
               {String(services.length).padStart(2, "0")}
             </span>
           </div>

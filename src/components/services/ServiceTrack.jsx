@@ -99,16 +99,25 @@ const ServiceTrack = ({ activeIndex, travelMs, onNodeClick }) => {
         {/* Each segment — inactive ones are the muted spine colour,
             the active one (leading to the current node) is coloured. */}
         {segments.map((seg, i) => (
+          /* Each segment is its own brand-hue scope, since each
+             carries a different service colour. `stroke` moves into
+             `style` because a var() reference is only reliably
+             substituted in a CSS declaration, not in an SVG
+             presentation attribute. */
           <path
             key={i}
+            className="brand-hue"
             d={seg.path}
             fill="none"
-            stroke={seg.isActive ? seg.color : "#241d3d"}
             strokeWidth={seg.isActive ? 2.5 : 1.5}
             strokeLinecap="round"
             style={{
+              "--brand-color": seg.color,
+              stroke: seg.isActive
+                ? "var(--brand-edge)"
+                : "var(--track-line)",
               filter: seg.isActive
-                ? `drop-shadow(0 0 6px ${seg.color}66)`
+                ? "drop-shadow(0 0 6px color-mix(in srgb, var(--brand-edge) 40%, transparent))"
                 : "none",
               transition: `stroke ${travelMs}ms ease, stroke-width ${travelMs}ms ease, filter ${travelMs}ms ease`,
             }}
@@ -126,13 +135,17 @@ const ServiceTrack = ({ activeIndex, travelMs, onNodeClick }) => {
               transform={`translate(${arrow.x}, ${arrow.y}) rotate(${arrow.angle})`}
             >
               <polyline
+                className="brand-hue"
                 points="-3.5,-3.5 0,0 -3.5,3.5"
                 fill="none"
-                stroke={seg.isActive ? seg.color : "#796faa"}
                 strokeWidth="1"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 style={{
+                  "--brand-color": seg.color,
+                  stroke: seg.isActive
+                    ? "var(--brand-edge)"
+                    : "var(--content-accent)",
                   transition: `stroke ${travelMs}ms ease`,
                 }}
               />
@@ -166,10 +179,11 @@ const ServiceTrack = ({ activeIndex, travelMs, onNodeClick }) => {
       {/* Center label */}
       <div className="service-circle-center" aria-hidden="true">
         <span
-          className="service-circle-center-label font-sans text-[10px] sm:text-xs tracking-[0.14em] uppercase"
-          style={{ 
-            color: activeColor,
-            transition: `color ${travelMs}ms ease`
+          className="brand-hue service-circle-center-label font-sans text-[10px] sm:text-xs tracking-[0.14em] uppercase"
+          style={{
+            "--brand-color": activeColor,
+            color: "var(--brand-ink)",
+            transition: `color ${travelMs}ms ease`,
           }}
         >
           Services
