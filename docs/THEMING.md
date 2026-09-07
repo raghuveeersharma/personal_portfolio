@@ -705,9 +705,25 @@ this plan.
 
 #### The contrast audit
 
-Measured over the token values parsed out of `theme.css`, 46 pairs per
-theme, against AA: 4.5:1 for body text, 3:1 for large text and genuine
-UI boundaries.
+`npm run audit:contrast` (`scripts/audit-contrast.js`) — 46 pairs per
+theme against AA (4.5:1 body text, 3:1 large text and genuine UI
+boundaries), plus both `.brand-hue` percentages against every brand hue
+in `constants.js`.
+
+It reads the real values out of `theme.css` and `constants.js` rather
+than keeping its own palette, so it cannot drift from what ships, and it
+is wired into `package.json` so the numbers below stay reproducible when
+tokens change. It exits non-zero on a light failure, a **new** dark
+failure, or a mix percentage that stops clearing its floor. Dark's eight
+known failures are baselined in the script itself, pointing back at the
+follow-ups section here.
+
+Three negative tests were run to confirm the check can actually fail:
+paling a light token, regressing a non-baselined dark token, and raising
+`--brand-edge` from 70% to 80%. All three exit non-zero. The script also
+independently reproduces the two worst cases the `theme.css` part 5
+comment claims — 4.85:1 ink and 3.19:1 edge, both on Tailwind's pale
+`#7dd3fc`.
 
 **Light: 0 failures.** That is the deliverable and it is clean.
 

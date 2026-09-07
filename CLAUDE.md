@@ -9,9 +9,12 @@ npm run dev       # Vite dev server (default http://localhost:5173)
 npm run build     # production build to dist/
 npm run preview   # serve the built dist/ locally
 npm run lint      # ESLint over all .js/.jsx
+npm run audit:contrast   # WCAG contrast over the theme tokens, both themes
 ```
 
-There is no test runner configured in this project — `npm run lint` plus a manual pass in `npm run dev` is the full verification loop.
+There is no test runner configured in this project. `npm run lint`, `npm run audit:contrast` and a manual pass in `npm run dev` are the full verification loop.
+
+`audit:contrast` reads the real values out of `src/styles/theme.css` and `src/constants.js` rather than keeping its own copy, so it cannot drift from what ships. It exits non-zero on a light-theme failure, on a **new** dark failure, or if either `.brand-hue` mix percentage stops clearing its floor for any brand hue. Dark's known failures are baselined in the script with a pointer to `docs/THEMING.md`; adding to that list means dark got worse, which is a regression rather than a baseline update. Run it after touching any colour.
 
 ## Stack
 
