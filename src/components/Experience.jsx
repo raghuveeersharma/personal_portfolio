@@ -5,21 +5,14 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="py-24 pb-24 clip-path-custom-2"
-      style={{
-        backgroundImage:
-          "linear-gradient(38.73deg, rgba(204, 0, 187, 0.15) 0%, rgba(201, 32, 184, 0) 50%), linear-gradient(141.27deg, rgba(0, 70, 209, 0) 50%, rgba(0, 70, 209, 0.15) 100%)",
-        backgroundBlendMode: "overlay",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="section-wash py-24 pb-24 clip-path-custom-2"
     >
      <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       {/* Section Title */}
       <Reveal className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-white">EXPERIENCE</h2>
+        <h2 className="text-4xl font-bold text-content">EXPERIENCE</h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-4 text-lg">
+        <p className="text-content-muted mt-4 text-lg">
           A short timeline of the teams I have built with — from my first
           frontend internship to full-time full-stack work
         </p>
@@ -31,7 +24,7 @@ const Experience = () => {
             -translate-x-1/2 at every width so the rule is centred on the
             same axis as the node circles; `sm:-translate-x-0` used to leave
             it 2px to their right. */}
-        <ScrollProgressLine className="absolute left-6 md:left-8 lg:left-1/2 transform -translate-x-1/2 w-1 rounded-full bg-white/15 h-full" />
+        <ScrollProgressLine className="absolute left-6 md:left-8 lg:left-1/2 transform -translate-x-1/2 w-1 rounded-full bg-border h-full" />
 
         {/* Experience Entries */}
         <Stagger step={160} as="div">
@@ -51,7 +44,7 @@ const Experience = () => {
               }`}
             >
               {/* Timeline Circle */}
-              <div className="absolute left-6 md:left-8 lg:left-1/2 transform -translate-x-1/2 bg-gray-400 border-4 border-accent w-12 h-12 lg:w-16 lg:h-16 rounded-full flex justify-center items-center z-10">
+              <div className="absolute left-6 md:left-8 lg:left-1/2 transform -translate-x-1/2 bg-content-muted border-4 border-accent w-12 h-12 lg:w-16 lg:h-16 rounded-full flex justify-center items-center z-10">
                 <img
                   src={exp.img}
                   alt={exp.company}
@@ -72,11 +65,15 @@ const Experience = () => {
                 // justify-start/end flex item does not move the item at all.
                 // Which side it lands on is the row's justify-*, so no
                 // margin ternary is needed (or wanted — see git log).
-                className="w-full lg:w-[calc(50%-3.5rem)] p-4 sm:p-8 rounded-2xl border border-white/10 bg-gray-900 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transform transition-transform duration-300 hover:scale-105"
+                className="w-full lg:w-[calc(50%-3.5rem)] p-4 sm:p-8 rounded-2xl border border-border-subtle bg-surface dark:shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transform transition-transform duration-300 hover:scale-105"
               >
                 {/* Flex container for logo and text */}
                 <div className="flex items-center space-x-6">
                   {/* Company Logo */}
+                  {/* Stays white in both themes: these are company
+                      logos drawn as dark artwork for a light plate, so
+                      theming the plate would make them unreadable. On
+                      light it simply blends into the card. */}
                   <div className="w-24 h-16 bg-white rounded-md overflow-hidden flex items-center justify-center">
                     <img
                       src={exp.img}
@@ -92,28 +89,28 @@ const Experience = () => {
                   {/* Role, Company and Date */}
                   <div className="flex flex-col justify-between">
                     <div>
-                      <h3 className="text-xl sm:text-xl font-semibold text-white">
+                      <h3 className="text-xl sm:text-xl font-semibold text-content">
                         {exp.role}
                       </h3>
-                      <h4 className="text-md sm:text-sm text-gray-300">
+                      <h4 className="text-md sm:text-sm text-content-soft">
                         {exp.company}
                       </h4>
                     </div>
                     {/* Date at the bottom */}
-                    <p className="text-sm text-gray-500 mt-2 font-sans">
+                    <p className="text-sm text-content-subtle mt-2 font-sans">
                       {exp.date} &middot; {exp.type}
                     </p>
                   </div>
                 </div>
 
-                <p className="mt-4 text-gray-400">{exp.desc}</p>
+                <p className="mt-4 text-content-muted">{exp.desc}</p>
 
                 {/* Tech used */}
                 <div className="mt-4">
                   {exp.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="inline-block bg-gray-800 text-purple-400 text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full"
+                      className="inline-block bg-surface-raised text-accent-text text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full"
                     >
                       {skill}
                     </span>

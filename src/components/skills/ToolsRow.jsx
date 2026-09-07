@@ -20,18 +20,19 @@ const ToolsRow = () => (
         return (
           <div
             key={tool.label}
-            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5"
+            /* Same chip treatment as the hero's stack chips, so the
+               same two classes: `brand-hue` resolves the hue for the
+               active theme, `tech-chip` paints with the result. */
+            className="brand-hue tech-chip flex items-center gap-1.5 rounded-lg border-[0.5px] px-3 py-1.5"
             style={{
-              background: tool.bg,
-              border: `0.5px solid ${tool.border}`,
+              "--brand-color": tool.color,
+              "--brand-bg": tool.bg,
+              "--brand-border": tool.border,
               "--reveal-distance": "8px",
             }}
           >
-            <Icon size={14} color={tool.color} aria-hidden="true" />
-            <span
-              className="font-sans text-[11px] font-medium"
-              style={{ color: tool.color }}
-            >
+            <Icon size={14} color="currentColor" aria-hidden="true" />
+            <span className="font-sans text-[11px] font-medium">
               {tool.label}
             </span>
           </div>

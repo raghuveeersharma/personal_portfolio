@@ -42,13 +42,62 @@ Section components are self-contained and share a layout idiom worth matching: `
 
 `src/index.css` is the single entry point and does nothing but import, in order: Tailwind, then `src/styles/theme.css` (tokens), then `src/styles/animations.css` (motion). Keep it that way — token definitions must be loaded before the utilities that consume them.
 
-`src/styles/theme.css` holds the `@theme` block. Font families are defined there as `--font-serif` / `--font-sans`, which is what generates the `font-serif` / `font-sans` utilities.
+`src/styles/theme.css` is organised in six numbered parts, and which part a value belongs in is the first thing to get right — see Theming below. Font families are defined in part 4 as `--font-serif` / `--font-sans`, which is what generates the `font-serif` / `font-sans` utilities.
 
 **Typography: the body font is a serif.** `@layer base` sets `font-family: var(--font-serif)` on `body`, so serif is inherited by default and you do not add `font-serif` to individual components. `font-sans` is the opt-out for small mechanical text (badges, tags, code-ish labels). Note that several older components still carry a literal `font-sans` class on their `<section>` — that is legacy and should be removed when you touch those files, not copied.
 
 The serif stack prefers Anthropic's licensed faces (`Copernicus`, `Tiempos Text`) if they are ever self-hosted in `public/fonts/`, and falls back to **Newsreader** (loaded from Google Fonts in `index.html`) which is the free face that actually renders today. See `docs/FONTS.md` for the swap procedure. Do not add a second webfont request without removing one — the page still makes exactly one, and the four families it needs are asked for in a single `css2` URL.
 
 `About` is the one section that sets type deliberately, because it is a hero rather than prose: `--font-display` (Syne) for the name and `--font-mono` (Fira Code) for the code panel, alongside the hero-only colour tokens (`--color-hero-*`) in `theme.css`. Nowhere else should reach for those.
+
+## Theming (light / dark)
+
+The site is dark by default and light is an addition, not a redesign. **Dark's appearance is frozen**: every dark token value is the literal that used to be hardcoded in the component it came from. Changing one is a regression even if the new value looks better. `docs/THEMING.md` has the full history, the measured contrast tables, and the open follow-ups.
+
+**Colour goes in a token, never in a component.** There are no `#hex` colours left in `src/components` (bar three deliberate ones) and no `text-gray-*` / `text-white` / `bg-gray-*` anywhere. If you find yourself typing a colour into JSX, the answer is a token.
+
+### The mechanism: `@theme inline`
+
+A plain `@theme` variable is resolved at build time, so `bg-surface` would compile to a fixed hex and could never follow the theme. Part 3 of `theme.css` uses **`@theme inline`**, which makes the utility emit the *reference* — `background-color: var(--surface)` — re-resolving whenever the raw value is redefined. That is the whole theming mechanism.
+
+Two consequences:
+
+- An `inline` token is **not** emitted as a CSS variable. `var(--color-surface)` does not exist at runtime; handwritten CSS reads the raw `var(--surface)` instead.
+- The raw values live in parts 1 and 2 as plain custom properties, in three blocks: bare `:root` (dark, the default and the no-JS fallback), `@media (prefers-color-scheme: light)` guarded by `:not([data-theme="dark"])`, and `:root[data-theme="light"]`. Static tokens that never swap — fonts, keyframes — stay in the plain `@theme` of part 4.
+
+### Tokens, by role
+
+Ground `ink` (the page) / `bg-subtle` / `surface` / `surface-raised` / `surface-sunken` / `surface-hover` / `surface-accent`. Content `content` / `-soft` / `-muted` / `-subtle` / `-inverse` / `-accent`. Lines `border` / `-subtle` / `-faint` / `-strong` (violet emphasis) / `-neutral` and `-neutral-soft` (the grey scale, for real controls) / `-accent`. Accent `accent` (fills) / `accent-deep` / `accent-text` (text) / `accent-contrast` (on a fill) / `accent-wash`. Status `success` / `warning` / `info`, each with `-wash` and `-line`. Plus the hero-only `hero-*` set and the editor's `code-*` syntax palette.
+
+**`accent` and `accent-text` are not interchangeable.** `#8245ec` fails AA as text on dark; white on `#9d6ef5` fails as a fill. Fills and borders take `accent`, text and icons take `accent-text`. The same split is why the neutral border scale exists separately from `border-strong`.
+
+### `dark:` is for structure, not colour
+
+The variant is registered in part 1 with **two arms** — the attribute, plus `@media not all and (prefers-color-scheme: light)` — because dark is the default, so "dark is active" means "light is not active". A single `[data-theme="dark"]` selector silently misses everyone on `system` with a dark OS.
+
+Use `dark:` only where the themes differ *structurally*: an opacity, a glow's presence, whether an ambient effect renders. Anything that is "this colour becomes that colour" is a token. **A `dark:` prefix sitting next to a plain colour class means a token was missed.**
+
+Glows are the standing example. A bloom that reads as emitted light on dark reads as an out-of-focus smear on white, so the accent `box-shadow`s are `dark:`-gated and light simply does without. `BlurBlob` is the other: its colour is a token (`--glow`), and only the opacity is gated.
+
+### Per-item colours: the `.brand-hue` contract
+
+`constants.js` gives each technology and service its own hue, and most entries also carry a hand-picked dark `bg`/`border`. These are deliberately **not** `@theme` tokens — nothing outside those sections consumes them — and `constants.js` was not modified to add a light theme. Instead, part 5 of `theme.css` resolves them.
+
+An element (or any ancestor) sets `--brand-color`, optionally `--brand-bg` and `--brand-border`, and adds the `brand-hue` class. Its subtree can then read `--brand-ink` (text/icons), `--brand-edge` (borders, dots, glows), `--brand-surface` (tinted background) and `--brand-line` (hairline). Dark passes the literals through and derives only what the data lacks; light derives everything from the hue. Consumers therefore each need **one** rule, no `dark:` and no duplicated arms.
+
+Three rules for working with it:
+
+- **Inline styles set only the input custom properties**, never `background-color` or `color` directly. An inline colour property outranks every selector in the stylesheet, so the light arms would never win.
+- **The percentages are measured, not chosen.** `--brand-ink` at 55% is bounded by AA on the 10%-tinted surface across every hue in `constants.js` (worst case 4.85:1; 60% fails). `--brand-edge` at 70% is bounded by the 3:1 boundary floor (worst 3.19:1; 75% fails). Re-measure every hue before touching either.
+- **Never string-concatenate hex alpha.** `node.color + "99"` only works on a literal, and these are variables now. Use `color-mix(in srgb, var(--brand-ink) 60%, transparent)`.
+
+### The swap
+
+`src/theme/` owns the preference and nothing else — no colour values. Three states, not two: `system` is the default and writes **no** attribute, leaving `prefers-color-scheme` in charge, which is why the toggle is a three-way cycle rather than a switch. `useTheme()` returns `{ theme, resolvedTheme, setTheme, cycleTheme }`; read `theme` to render a control, `resolvedTheme` only when the answer decides what gets *drawn*. **Needing `resolvedTheme` for a colour means a token is missing.**
+
+An inline blocking script in `index.html` stamps the stored theme before the bundle runs — as a module or an effect it lands after first paint and flashes dark at anyone who chose light. It duplicates the storage key by necessity; keep it in sync with `src/theme/themeStorage.js`.
+
+The cross-fade is deliberately narrow (part 6). It is a short-lived `theme-switching` class on `<html>`, listing only colour properties, wrapped in `:where()` so it has **zero specificity** — any element with its own `transition-*` utility keeps it — and excluding `[data-reveal]` so a reveal caught mid-flight cannot have its `transition-property` replaced and snap. A global `transition: all` here would break exactly what the Scroll animations section warns about. It is skipped entirely under reduced motion, in both the provider and the CSS.
 
 ## Scroll animations
 

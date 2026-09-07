@@ -387,13 +387,13 @@ const About = () => {
                      directly. An inline colour would outrank the
                      light-theme rules in theme.css, which derive the
                      surfaces from the brand hue instead of using
-                     these dark literals. */
+                     these dark literals. See the .brand-hue contract. */
                   style={{
-                    "--chip-color": chip.text,
-                    "--chip-bg": chip.bg,
-                    "--chip-border": chip.border,
+                    "--brand-color": chip.text,
+                    "--brand-bg": chip.bg,
+                    "--brand-border": chip.border,
                   }}
-                  className="tech-chip rounded-[20px] border px-3 py-1 lg:px-3.5 lg:py-1.5 font-sans text-[10px] lg:text-[11px] font-medium tracking-[0.03em]"
+                  className="brand-hue tech-chip rounded-[20px] border px-3 py-1 lg:px-3.5 lg:py-1.5 font-sans text-[10px] lg:text-[11px] font-medium tracking-[0.03em]"
                 >
                   {chip.label}
                 </span>

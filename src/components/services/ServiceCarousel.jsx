@@ -36,15 +36,18 @@ const ServiceCarousel = ({
                 onDotClick(i);
               }
             }}
-            className={`service-stack-card ${
+            className={`brand-hue service-stack-card ${
               isActive ? "service-stack-card--active" : ""
             }`}
             style={{
               "--card-color": svc.color,
-              borderColor: isActive ? `${svc.color}44` : "#1E1E2E",
+              "--brand-color": svc.color,
+              borderColor: isActive
+                ? "color-mix(in srgb, var(--brand-edge) 27%, transparent)"
+                : "var(--border-subtle)",
               background: isActive
-                ? `linear-gradient(135deg, ${svc.color}0A 0%, #111118 100%)`
-                : "#0d0c18",
+                ? "linear-gradient(135deg, color-mix(in srgb, var(--brand-edge) 4%, transparent) 0%, var(--surface) 100%)"
+                : "var(--surface-sunken)",
             }}
             aria-expanded={isActive && expanded}
           >
@@ -55,7 +58,7 @@ const ServiceCarousel = ({
                   <IconComponent
                     size={18}
                     style={{
-                      color: isActive ? svc.color : "#7a7a9c",
+                      color: isActive ? "var(--brand-ink)" : "var(--hero-muted)",
                       transition: `color ${travelMs}ms ease`,
                     }}
                   />
@@ -64,7 +67,7 @@ const ServiceCarousel = ({
               <h3
                 className="service-stack-card__title font-semibold text-sm sm:text-base"
                 style={{
-                  color: isActive ? "#E8E8F4" : "#8C8CAA",
+                  color: isActive ? "var(--hero-text)" : "var(--hero-dim)",
                   transition: `color ${travelMs}ms ease`,
                 }}
               >
@@ -73,7 +76,7 @@ const ServiceCarousel = ({
               <span
                 className="service-stack-card__index font-sans text-xs font-bold ml-auto"
                 style={{
-                  color: isActive ? svc.color : "#796faa",
+                  color: isActive ? "var(--brand-ink)" : "var(--content-accent)",
                   transition: `color ${travelMs}ms ease`,
                 }}
               >
@@ -84,7 +87,7 @@ const ServiceCarousel = ({
             {/* Description — only shown for active card */}
             {isActive && (
               <div className="service-stack-card__body">
-                <p className="text-[12px] sm:text-[13px] leading-relaxed text-[#8C8CAA] mt-2">
+                <p className="text-[12px] sm:text-[13px] leading-relaxed text-hero-dim mt-2">
                   {expanded ? svc.full : svc.short}
                 </p>
               </div>
@@ -108,14 +111,15 @@ const ServiceCarousel = ({
               aria-selected={activeIndex === i}
               aria-label={s.title}
               onClick={() => onDotClick(i)}
-              className="w-2 h-2 rounded-full cursor-pointer transition-[background-color,transform,box-shadow] duration-300"
+              className="brand-hue w-2 h-2 rounded-full cursor-pointer transition-[background-color,transform,box-shadow] duration-300"
               style={{
+                "--brand-color": s.color,
                 backgroundColor:
-                  activeIndex === i ? s.color : "#2A2A3F",
+                  activeIndex === i ? "var(--brand-edge)" : "var(--border)",
                 transform: activeIndex === i ? "scale(1.35)" : "scale(1)",
                 boxShadow:
                   activeIndex === i
-                    ? `0 0 8px ${s.color}55`
+                    ? "0 0 8px color-mix(in srgb, var(--brand-edge) 33%, transparent)"
                     : "none",
               }}
             />
@@ -127,7 +131,7 @@ const ServiceCarousel = ({
         <button
           type="button"
           onClick={onCardClick}
-          className="service-pause-btn font-sans text-[10px] tracking-wide uppercase flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#2A2A3F] text-hero-muted bg-[#0a0918] cursor-pointer transition-[border-color,color] duration-200 hover:border-[#4a3f73] hover:text-[#8C8CAA]"
+          className="service-pause-btn font-sans text-[10px] tracking-wide uppercase flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border text-hero-muted bg-bg-subtle cursor-pointer transition-[border-color,color] duration-200 hover:border-border-accent hover:text-hero-dim"
         >
           <span className="text-[10px]" aria-hidden="true">
             {expanded ? "▶" : "⏸"}

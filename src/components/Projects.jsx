@@ -16,7 +16,7 @@ const TagList = ({ tags, cap }) => {
       {visible.map((tag, index) => (
         <span
           key={index}
-          className="inline-block bg-gray-800 text-purple-400 text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full"
+          className="inline-block bg-surface-raised text-accent-text text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full"
         >
           {tag}
         </span>
@@ -29,7 +29,7 @@ const TagList = ({ tags, cap }) => {
             e.preventDefault();
             setExpanded(true);
           }}
-          className="inline-block bg-gray-800/60 hover:bg-gray-700 text-gray-400 hover:text-white text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+          className="inline-block bg-surface/60 hover:bg-surface-raised text-content-muted hover:text-content text-xs font-semibold font-sans mr-2 px-2 py-1 mb-2 rounded-full cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
         >
           +{overflow} more
         </button>
@@ -50,11 +50,11 @@ const Projects = () => {
      <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       {/* section title */}
       <Reveal className="text-center mb-16">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-200">
+        <h2 className="text-3xl sm:text-4xl font-bold text-content">
           PROJECTS
         </h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-4">
+        <p className="text-content-muted mt-4">
           Throughout my academic & professional journey, I have worked on
           various projects that demonstrate my expertise in modern technologies.
           My projects primarily utilize the MERN stack (MongoDB, Express.js,
@@ -75,9 +75,9 @@ const Projects = () => {
             <Link
               to={`/project/${project.id}`}
               aria-label={`View details for ${project.title}`}
-              // bg-gray-900 is opaque — a backdrop-filter here only cost
+              // bg-surface is opaque — a backdrop-filter here only cost
               // a compositor layer for a blur nothing could ever show.
-              className="group block h-full bg-gray-900 rounded-2xl border border-white/10 hover:shadow-purple-500/50 shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+              className="group block h-full bg-surface rounded-2xl border border-border-subtle dark:hover:shadow-accent/50 dark:shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
             >
               <div className="relative p-4">
                 <img
@@ -90,6 +90,9 @@ const Projects = () => {
                   className="w-full h-48 object-cover rounded-2xl mb-2 p-2"
                 />
                 {/* Hover overlay with Live button */}
+                {/* A scrim over the screenshot, not a surface: it
+                    stays dark in both themes because it exists to
+                    carry the white label and accent button above it. */}
                 <div className="absolute inset-0 m-4 rounded-2xl bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto">
                   <a
                     href={project.webapp}
@@ -97,7 +100,7 @@ const Projects = () => {
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     onKeyDown={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-accent text-white text-sm font-semibold tracking-wide shadow-lg hover:bg-accent-deep transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-accent text-content text-sm font-semibold tracking-wide shadow-lg hover:bg-accent-deep transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -119,10 +122,10 @@ const Projects = () => {
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-2 text-gray-100">
+                <h3 className="text-2xl font-semibold mb-2 text-content">
                   {project.title}
                 </h3>
-                <p className="text-gray-400 mb-4 pt-5 line-clamp-3">
+                <p className="text-content-muted mb-4 pt-5 line-clamp-3">
                   {project.description}
                 </p>
                 <div>
@@ -139,7 +142,7 @@ const Projects = () => {
           <button
             type="button"
             onClick={() => setShowAll((prev) => !prev)}
-            className="group relative inline-flex items-center gap-2 px-8 py-3 rounded-full border border-white/10 bg-gray-900 text-gray-300 text-sm font-medium tracking-wide transition-all duration-300 hover:border-purple-500/40 hover:text-white hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.25)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9d6ef5]"
+            className="group relative inline-flex items-center gap-2 px-8 py-3 rounded-full border border-border-subtle bg-surface text-content-soft text-sm font-medium tracking-wide transition-all duration-300 hover:border-accent/40 hover:text-content dark:hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.25)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
           >
             {showAll ? (
               <>
@@ -162,7 +165,7 @@ const Projects = () => {
             ) : (
               <>
                 Show All Projects
-                <span className="text-purple-400 text-xs font-semibold">
+                <span className="text-accent-text text-xs font-semibold">
                   +{projects.length - FEATURED_COUNT}
                 </span>
                 <svg

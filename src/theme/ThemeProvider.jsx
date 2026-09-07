@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { prefersReducedMotion } from "../animation";
 import {
   DEFAULT_THEME,
   THEMES,
@@ -8,6 +9,7 @@ import {
 } from "./themeContext";
 import {
   applyTheme,
+  beginThemeTransition,
   readStoredTheme,
   subscribeSystemTheme,
   systemTheme,
@@ -37,6 +39,11 @@ const ThemeProvider = ({ children }) => {
 
   const resolvedTheme = theme === "system" ? resolvedSystem : theme;
 
+  /* The first application is not a swap — it is the page arriving at
+     the theme it was already painted in by the blocking script. Fading
+     that would be a flash with extra steps. */
+  const isFirstApply = useRef(true);
+
   /* Only meaningful while the preference is `system`, but the
      subscription is unconditional: the OS can change underneath an
      explicit choice, and we want `resolvedSystem` already correct if
@@ -44,6 +51,14 @@ const ThemeProvider = ({ children }) => {
   useEffect(() => subscribeSystemTheme(setResolvedSystem), []);
 
   useEffect(() => {
+    /* Read the preference here rather than holding it in state: this
+       runs only on a swap, and `prefersReducedMotion` is the project's
+       one-shot reader for exactly this case. */
+    if (!isFirstApply.current && !prefersReducedMotion()) {
+      beginThemeTransition();
+    }
+    isFirstApply.current = false;
+
     applyTheme(theme);
   }, [theme]);
 

@@ -70,9 +70,9 @@ const Contact = () => {
      <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10 flex flex-col items-center">
       {/* Section Title */}
       <Reveal className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-white">CONTACT</h2>
+        <h2 className="text-4xl font-bold text-content">CONTACT</h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-4 text-lg">
+        <p className="text-content-muted mt-4 text-lg">
           I’d love to hear from you—reach out for any opportunities or
           questions!
         </p>
@@ -82,9 +82,9 @@ const Contact = () => {
       <Reveal
         variant="rise"
         delay={120}
-        className="mt-8 w-full max-w-md bg-[#0d081f] p-6 rounded-lg shadow-lg border border-gray-700"
+        className="mt-8 w-full max-w-md bg-surface-accent p-6 rounded-lg shadow-lg border border-border"
       >
-        <h3 className="text-xl font-semibold text-white text-center">
+        <h3 className="text-xl font-semibold text-content text-center">
           Connect With Me <span className="ml-1">🚀</span>
         </h3>
 
@@ -107,7 +107,7 @@ const Contact = () => {
             placeholder="Your Email"
             autoComplete="email"
             required
-            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-purple-500"
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
 
           <label htmlFor="contact-name" className="sr-only">
@@ -120,7 +120,7 @@ const Contact = () => {
             placeholder="Your Name"
             autoComplete="name"
             required
-            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-purple-500"
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
 
           <label htmlFor="contact-subject" className="sr-only">
@@ -133,7 +133,7 @@ const Contact = () => {
             placeholder="Subject"
             autoComplete="off"
             required
-            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-purple-500"
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
 
           <label htmlFor="contact-message" className="sr-only">
@@ -145,14 +145,14 @@ const Contact = () => {
             placeholder="Message"
             rows="4"
             required
-            className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-purple-500"
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
 
           {/* Send Button */}
           <button
             type="submit"
             disabled={sending}
-            className="w-full bg-accent py-3 text-white font-semibold rounded-md hover:bg-accent-deep transition disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full bg-accent py-3 text-content font-semibold rounded-md hover:bg-accent-deep transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {sending ? "Sending..." : "Send"}
           </button>
@@ -179,25 +179,25 @@ const Contact = () => {
         step={120}
         className="flex flex-col lg:flex-row items-center text-center justify-center lg:gap-56 gap-12 md:pb-6 pb-0 mt-28"
       >
-        <div className="flex flex-col items-center text-center text-white w-full lg:w-56 h-52 pt-0 hover:scale-105 duration-700 ">
+        <div className="flex flex-col items-center text-center text-content w-full lg:w-56 h-52 pt-0 hover:scale-105 duration-700 ">
           <span className="text-5xl lg:pt-2">
             <IoLocationOutline />
           </span>
           <h3 className="text-accent-text font-bold md:text-2xl text-lg mt-5">
             Where to find me
           </h3>
-          <p className="mt-4 text-slate-400">
+          <p className="mt-4 text-content-muted">
             Raj nagar, Indore, Madhya Pradesh
           </p>
         </div>
-        <div className="flex flex-col items-center text-center text-white w-full lg:w-56 h-52 pt-0 hover:scale-105 duration-700 ">
+        <div className="flex flex-col items-center text-center text-content w-full lg:w-56 h-52 pt-0 hover:scale-105 duration-700 ">
           <span className="text-5xl">
             <MdOutlineEmail />
           </span>
           <h3 className="text-accent-text font-bold md:text-2xl text-lg mt-5">
             Email me at
           </h3>
-          <p className="mt-4 text-slate-400">
+          <p className="mt-4 text-content-muted">
             <a
               href="mailto:sharmaraghu157@gmail.com"
               className="hover:underline"
@@ -220,18 +220,18 @@ const Contact = () => {
             </a>
           </p>
         </div>
-        <div className="flex flex-col items-center text-center text-white w-full lg:w-56 h-52 pt-0 hover:scale-105 duration-700">
+        <div className="flex flex-col items-center text-center text-content w-full lg:w-56 h-52 pt-0 hover:scale-105 duration-700">
           <span className="text-5xl lg:pt-2">
             <IoCallOutline />
           </span>
           <h3 className="text-accent-text font-bold md:text-2xl text-lg mt-5">
             Call me at
           </h3>
-          <p className="mt-4 text-slate-400">
+          <p className="mt-4 text-content-muted">
             {" "}
             <a
               href="tel:+919575136951"
-              className="hover:underline text-slate-400 text-sm md:text-lg relative z-20"
+              className="hover:underline text-content-muted text-sm md:text-lg relative z-20"
             >
               +91 95751 36951
             </a>

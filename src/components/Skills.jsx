@@ -7,21 +7,14 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="py-24 pb-24 clip-path-custom"
-      style={{
-        backgroundImage:
-          "linear-gradient(38.73deg, rgba(204, 0, 187, 0.15) 0%, rgba(201, 32, 184, 0) 50%), linear-gradient(141.27deg, rgba(0, 70, 209, 0) 50%, rgba(0, 70, 209, 0.15) 100%)",
-        backgroundBlendMode: "overlay", // optional: helps blend if you want
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="section-wash py-24 pb-24 clip-path-custom"
     >
      <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       {/* section title */}
       <Reveal className="text-center mb-8">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-100">SKILLS</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-content">SKILLS</h2>
         <div className="w-32 h-1 bg-accent mx-auto mt-4"></div>
-        <p className="text-gray-400 mt-5 text-lg">
+        <p className="text-content-muted mt-5 text-lg">
           Full Stack Developer skilled in MERN stack with expertise in React.js,
           Next.js, Tailwind CSS, Node.js, Express.js and MongoDB. Proficient in
           building responsive, scalable web applications with a focus on
@@ -44,16 +37,16 @@ const Skills = () => {
           // lift snap instantly.
           <div key={category.title} className="w-full sm:w-[48%] mb-10">
             <div
-              // No backdrop-blur: `bg-gray-900` is opaque, so there is
+              // No backdrop-blur: `bg-surface` is opaque, so there is
               // nothing behind the card to blur. It used to become visible
               // on hover only because `hover:bg-black/5` *replaced* the
               // opaque background rather than layering over it — which
               // dropped the card's surface to the page colour and made the
               // hovered card recede. The lift is the whole affordance.
-              className="h-full bg-gray-900 px-6 sm:px-8 py-8 sm:py-4 rounded-2xl border border-white/10
-          shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transition-all duration-500 ease-in-out transform hover:-translate-y-2"
+              className="h-full bg-surface px-6 sm:px-8 py-8 sm:py-4 rounded-2xl border border-border-subtle
+          dark:shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] transition-all duration-500 ease-in-out transform hover:-translate-y-2"
             >
-              <h3 className="text-2xl sm:text-3xl font-semibold text-gray-400 mb-4 text-center">
+              <h3 className="text-2xl sm:text-3xl font-semibold text-content-muted mb-4 text-center">
                 {category.title}
               </h3>
 
@@ -74,7 +67,7 @@ const Skills = () => {
                       // wider than a grid column on a small phone (12vw
                       // section padding + the card's px-6), so the pills
                       // used to spill over the card's own border.
-                      className="flex min-w-0 h-12 w-full items-center justify-center gap-x-1.5 rounded-3xl border-2 border-gray-700 bg-transparent px-2 py-2 text-center"
+                      className="flex min-w-0 h-12 w-full items-center justify-center gap-x-1.5 rounded-3xl border-2 border-border-neutral-soft bg-transparent px-2 py-2 text-center"
                     >
                       <img
                         src={skill.logo}
@@ -85,7 +78,7 @@ const Skills = () => {
                         decoding="async"
                         className="w-4 h-4 sm:w-6 sm:h-6 shrink-0 rounded"
                       />
-                      <span className="min-w-0 font-sans text-[11px] leading-tight text-gray-300 sm:text-xs">
+                      <span className="min-w-0 font-sans text-[11px] leading-tight text-content-soft sm:text-xs">
                         {skill.name}
                       </span>
                     </div>
