@@ -1,12 +1,301 @@
 /* ============================================================
    Design tokens (Tailwind v4 — this file replaces tailwind.config.js)
 
-   Everything declared in @theme is emitted as a CSS variable on
-   :root AND generates the matching Tailwind utility, so
-   --font-serif  ->  font-serif
-   --color-accent -> text-accent / bg-accent / border-accent
+   Read this before adding a colour anywhere.
+
+   The file has four parts, in order:
+
+     1. the `dark` custom variant          — escape hatch, see below
+     2. raw swappable values               — plain CSS custom properties,
+                                             one block per theme
+     3. `@theme inline` semantic tokens    — the names components use
+     4. `@theme` static tokens             — fonts, keyframes; never swap
+
+   ---- Why `@theme inline` (part 3) --------------------------
+   A plain `@theme` variable is resolved at build time, so
+   `bg-surface` would compile to a fixed hex and could never
+   follow the theme. `inline` makes the generated utility emit
+   the *reference* instead — `background-color: var(--surface)`
+   — which re-resolves whenever `--surface` is redefined. That
+   is the whole theming mechanism. If you add a colour token and
+   it stops responding to the theme, you put it in the wrong
+   block.
+
+   Consequence: an `inline` token is NOT itself emitted as a CSS
+   variable. `var(--color-surface)` does not exist at runtime —
+   reach for the raw `var(--surface)` in handwritten CSS, or use
+   the `bg-surface` / `text-surface` utility in markup.
+
+   ---- Dark is the baseline ----------------------------------
+   The site is dark and stays dark by default; light is an
+   addition. Every dark value below is the literal that was
+   hardcoded in the component it came from, carried over
+   unchanged. Changing a dark value is a regression, not an
+   improvement. See docs/THEMING.md.
    ============================================================ */
 
+/* Escape hatch, for use only where dark and light differ
+   *structurally* rather than by colour — an opacity, a glow
+   spread, whether an ambient effect renders at all. If you find
+   yourself writing `dark:` next to a plain colour class, the
+   colour wanted a token instead. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ============================================================
+   1. Raw values — dark (the default, and the no-JS fallback)
+
+   Declared on bare `:root` so that a visitor with no stored
+   preference and no `data-theme` attribute gets the dark site,
+   which is what the light-preference override below is written
+   to step over.
+
+   Contrast ratios in comments are measured, not estimated.
+   ============================================================ */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* -- Ground: page, then surfaces stacked on top of it ------ */
+  --bg-base: #050414; /* the page itself */
+  --bg-subtle: #0a0918; /* faint banding against bg-base */
+  --surface: #111118; /* default card */
+  --surface-raised: #1a1a24; /* card on a card, hover state */
+  --surface-sunken: #0d0d14; /* inset wells, code panels */
+
+  /* -- Content: the text scale, lightest to dimmest ---------- */
+  --content: #ffffff; /* 20.31:1 on bg-base */
+  --content-soft: #d1d5db; /* 14.13:1 */
+  --content-muted: #9ca3af; /* 8.00:1 — the workhorse body dim */
+  --content-subtle: #6b7280; /* 4.20:1 — LARGE TEXT ONLY, see note */
+  --content-inverse: #050414; /* text on a light fill */
+
+  /* `--content-subtle` is 4.20:1 on bg-base, which is AA for
+     large text (3:1) but under the 4.5:1 body threshold. It is
+     carried over as-is because it is the existing dark value and
+     dark is frozen; do not use it for new small copy. Logged as
+     a follow-up in docs/THEMING.md. */
+
+  /* -- Lines ------------------------------------------------- */
+  --border: #2a2a3f; /* default divider */
+  --border-subtle: #1e1e2e; /* barely-there hairline */
+  --border-strong: #3a3458; /* emphasis, focus rings */
+
+  /* -- Accent -----------------------------------------------
+     Two accents, not one, and they are not interchangeable:
+     `--accent` is for fills and borders, `--accent-text` for
+     text and icons. #8245ec is only 3.88:1 on bg-base so it
+     fails AA as text, while white on #9d6ef5 is 3.51:1 so a
+     fill would fail in the other direction. */
+  --accent: #8245ec; /* fills — white on it, 5.23:1 */
+  --accent-deep: #6f3bce; /* pressed / gradient end */
+  --accent-text: #9d6ef5; /* text — 5.79:1 on bg-base */
+  --accent-contrast: #ffffff; /* text placed ON an accent fill */
+  --accent-wash: #131025; /* accent-tinted surface */
+
+  /* -- Status ------------------------------------------------ */
+  --success: #4ade80;
+  --success-wash: #0d1a0d;
+  --warning: #f59e0b;
+  --warning-wash: #1a1209;
+  --info: #60a5fa;
+  --info-wash: #0d1729;
+
+  /* -- Hero palette -----------------------------------------
+     Scoped to About, which runs a cooler violet than the site
+     accent and its own near-black. Kept separate rather than
+     folded into the tokens above so the hero can keep that
+     relationship in both themes. Nothing outside About should
+     reach for these. */
+  --hero-bg: #0d0d14;
+  --hero-surface: #111118;
+  --hero-card: #1a1a24;
+  --hero-border: #2a2a3f;
+  --hero-accent: #8b7cf8;
+  --hero-accent-dim: #6c5ce7;
+  --hero-green: #4ade80;
+  --hero-amber: #f59e0b;
+  --hero-blue: #60a5fa;
+  --hero-text: #e8e8f4; /* 15.47:1 on hero-surface */
+  --hero-dim: #8c8caa; /* 5.77:1 on hero-surface */
+  --hero-muted: #7a7a9c; /* 4.56:1 on hero-surface, 4.92:1 on bg-base */
+}
+
+/* ============================================================
+   2. Raw values — light
+
+   Picked directly against a white ground rather than by
+   inverting the dark set, which is what stops light mode
+   looking like washed-out grey. Two consequences worth knowing:
+
+   - The status hues had to be darkened outright. #4ade80 is
+     1.74:1 on white and #f59e0b is 2.15:1 — the dark theme's
+     greens and ambers are invisible as light-mode text.
+   - `--accent` survives unchanged. #8245ec happens to be 5.23:1
+     against white *and* carries white text at 5.23:1, so the
+     brand purple works as a light-mode fill with no shift.
+
+   The light block is written twice, deliberately:
+   once for `prefers-color-scheme` (the "system" setting, which
+   sets no attribute) and once for an explicit `data-theme`
+   choice. The `:not([data-theme="dark"])` guard is what lets an
+   explicit dark choice win over a light OS preference.
+   ============================================================ */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+
+    --bg-base: #f7f7fb;
+    --bg-subtle: #eeeef5;
+    --surface: #ffffff;
+    --surface-raised: #ffffff;
+    --surface-sunken: #f1f1f7;
+
+    --content: #14141f; /* 18.27:1 on surface */
+    --content-soft: #3d3d52; /* 10.56:1 */
+    --content-muted: #5a5a72; /* 6.69:1 */
+    --content-subtle: #6e6e88; /* 4.94:1 on surface, 4.63:1 on bg-base */
+    --content-inverse: #ffffff;
+
+    --border: #dcdce8;
+    --border-subtle: #e9e9f2;
+    --border-strong: #8b8ba6; /* 3.31:1 — meets AA for a control boundary */
+
+    --accent: #8245ec; /* unchanged; white on it, 5.23:1 */
+    --accent-deep: #6f3bce; /* white on it, 6.58:1 */
+    --accent-text: #7c3aed; /* 5.70:1 on surface */
+    --accent-contrast: #ffffff;
+    --accent-wash: #f3edfe;
+
+    --success: #15803d; /* 5.02:1 */
+    --success-wash: #eafaf0;
+    --warning: #b45309; /* 5.02:1 */
+    --warning-wash: #fdf4e7;
+    --info: #1d4ed8; /* 6.70:1 */
+    --info-wash: #eaf1fe;
+
+    /* Drafted here so the shell has something to render against;
+       Phase 3 finalises the hero. */
+    --hero-bg: #f4f4f9;
+    --hero-surface: #ffffff;
+    --hero-card: #f7f7fc;
+    --hero-border: #e2e2ee;
+    --hero-accent: #6b5bd6; /* 5.13:1 — keeps the cooler-than-brand violet */
+    --hero-accent-dim: #4c3fbf; /* 7.58:1 */
+    --hero-green: #15803d;
+    --hero-amber: #b45309;
+    --hero-blue: #1d4ed8;
+    --hero-text: #14141f;
+    --hero-dim: #5a5a72;
+    --hero-muted: #6e6e88;
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-base: #f7f7fb;
+  --bg-subtle: #eeeef5;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f1f1f7;
+
+  --content: #14141f;
+  --content-soft: #3d3d52;
+  --content-muted: #5a5a72;
+  --content-subtle: #6e6e88;
+  --content-inverse: #ffffff;
+
+  --border: #dcdce8;
+  --border-subtle: #e9e9f2;
+  --border-strong: #8b8ba6;
+
+  --accent: #8245ec;
+  --accent-deep: #6f3bce;
+  --accent-text: #7c3aed;
+  --accent-contrast: #ffffff;
+  --accent-wash: #f3edfe;
+
+  --success: #15803d;
+  --success-wash: #eafaf0;
+  --warning: #b45309;
+  --warning-wash: #fdf4e7;
+  --info: #1d4ed8;
+  --info-wash: #eaf1fe;
+
+  --hero-bg: #f4f4f9;
+  --hero-surface: #ffffff;
+  --hero-card: #f7f7fc;
+  --hero-border: #e2e2ee;
+  --hero-accent: #6b5bd6;
+  --hero-accent-dim: #4c3fbf;
+  --hero-green: #15803d;
+  --hero-amber: #b45309;
+  --hero-blue: #1d4ed8;
+  --hero-text: #14141f;
+  --hero-dim: #5a5a72;
+  --hero-muted: #6e6e88;
+}
+
+/* ============================================================
+   3. Semantic tokens
+
+   `inline`, so each of these compiles to `var(--raw)` and
+   follows the theme. Add colour tokens here and nowhere else.
+   ============================================================ */
+@theme inline {
+  --color-bg-base: var(--bg-base);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+
+  --color-content: var(--content);
+  --color-content-soft: var(--content-soft);
+  --color-content-muted: var(--content-muted);
+  --color-content-subtle: var(--content-subtle);
+  --color-content-inverse: var(--content-inverse);
+
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-text: var(--accent-text);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-accent-wash: var(--accent-wash);
+
+  --color-success: var(--success);
+  --color-success-wash: var(--success-wash);
+  --color-warning: var(--warning);
+  --color-warning-wash: var(--warning-wash);
+  --color-info: var(--info);
+  --color-info-wash: var(--info-wash);
+
+  /* `ink` predates the token set and means "the page ground".
+     Kept as an alias so existing markup keeps working; prefer
+     `bg-base` in new code. */
+  --color-ink: var(--bg-base);
+
+  --color-hero-bg: var(--hero-bg);
+  --color-hero-surface: var(--hero-surface);
+  --color-hero-card: var(--hero-card);
+  --color-hero-border: var(--hero-border);
+  --color-hero-accent: var(--hero-accent);
+  --color-hero-accent-dim: var(--hero-accent-dim);
+  --color-hero-green: var(--hero-green);
+  --color-hero-amber: var(--hero-amber);
+  --color-hero-blue: var(--hero-blue);
+  --color-hero-text: var(--hero-text);
+  --color-hero-dim: var(--hero-dim);
+  --color-hero-muted: var(--hero-muted);
+}
+
+/* ============================================================
+   4. Static tokens — identical in both themes, so plain
+   `@theme`: these are emitted as real CSS variables and can be
+   read with `var()` from handwritten CSS.
+   ============================================================ */
 @theme {
   /* ---- Typography ------------------------------------------
      Anthropic's own faces (Copernicus for display, Tiempos Text
@@ -34,44 +323,6 @@
   /* The hero's code panel. Ligature-friendly mono. */
   --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas,
     monospace;
-
-  /* ---- Brand ---------------------------------------------- */
-  --color-accent: #8245ec;
-  --color-accent-deep: #6f3bce;
-  --color-ink: #050414;
-
-  /* Text-weight accent. #8245ec is only 3.88:1 on --color-ink, so it
-     fails AA as *text* — which matters because the accent is the only
-     signal for which nav item is active. This lifts it to 5.79:1 at the
-     same hue.
-
-     It is NOT interchangeable with --color-accent: white on #9d6ef5 is
-     3.51:1, so a button that swapped bg-accent for this would fail in
-     the other direction. Use --color-accent for fills and borders,
-     --color-accent-text for text and icons on a dark ground. */
-  --color-accent-text: #9d6ef5;
-
-  /* ---- Hero palette ----------------------------------------
-     Scoped to the hero, which runs a cooler violet than the
-     site accent (#8245ec) and its own near-black. Kept as
-     tokens rather than arbitrary values so the panel, chips and
-     badges cannot drift apart.
-  --------------------------------------------------------- */
-  --color-hero-bg: #0d0d14;
-  --color-hero-surface: #111118;
-  --color-hero-card: #1a1a24;
-  --color-hero-border: #2a2a3f;
-  --color-hero-accent: #8b7cf8;
-  --color-hero-accent-dim: #6c5ce7;
-  --color-hero-green: #4ade80;
-  --color-hero-amber: #f59e0b;
-  --color-hero-blue: #60a5fa;
-  --color-hero-text: #e8e8f4;
-  --color-hero-dim: #8c8caa; /* 5.77:1 on --color-hero-surface */
-  /* Was #555572 — 2.62:1, the most-used contrast failure on the page
-     (hero eyebrow, journey node labels, every section eyebrow). 4.56:1
-     on --color-hero-surface, 4.92:1 on --color-ink. */
-  --color-hero-muted: #7a7a9c;
 
   /* ---- Ambient motion -------------------------------------
      `animate-blob` was already used by BlurBlob.jsx but no
@@ -116,7 +367,10 @@
     font-optical-sizing: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--color-ink);
+    /* The raw var, not `var(--color-ink)`: `inline` tokens are
+       not emitted as variables. See the header. */
+    background-color: var(--bg-base);
+    color: var(--content);
   }
 
   /* Newsreader's default tracking is loose at display sizes. */

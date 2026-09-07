@@ -20,8 +20,32 @@
          ./src/assets/ href only resolved under the dev server. -->
     <link rel="icon" type="image/svg+xml" href="/person.svg" />
     <link rel="canonical" href="https://raghuveersharma.vercel.app/" />
+    <!-- Dark is the default, so this is the correct value for a first
+         paint with no stored preference. ThemeProvider rewrites it from
+         the resolved --bg-base on mount and on every change. -->
     <meta name="theme-color" content="#050414" />
-    <meta name="color-scheme" content="dark" />
+
+    <!-- No static color-scheme meta: it is declared per theme in
+         src/styles/theme.css so scrollbars and form controls follow the
+         toggle rather than being pinned to dark. -->
+
+    <!-- Stamp the stored theme before the bundle runs.
+         Must be inline and blocking: as a module or an effect this runs
+         after first paint, and a visitor whose choice is light would see
+         the dark page flash first. Keep it dependency-free and in sync
+         with src/theme/themeStorage.js — same key, same three values. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("portfolio-theme");
+          if (stored === "light" || stored === "dark") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {
+          /* Storage blocked; fall through to the CSS default. */
+        }
+      })();
+    </script>
 
     <!-- ── Open Graph ────────────────────────────────────────── -->
     <meta property="og:type" content="website" />
