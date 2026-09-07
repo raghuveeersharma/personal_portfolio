@@ -16,17 +16,17 @@ const ProjectDetail = () => {
 
   if (!project) {
     return (
-      <div className="bg-[#050414] min-h-screen flex items-center justify-center">
+      <div className="bg-ink min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-200 mb-4">
+          <h1 className="text-4xl font-bold text-content mb-4">
             Project Not Found
           </h1>
-          <p className="text-gray-400 mb-8">
+          <p className="text-content-muted mb-8">
             The project you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-white font-semibold transition-all duration-300 hover:bg-accent-deep hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.4)]"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-content font-semibold transition-all duration-300 hover:bg-accent-deep dark:hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.4)]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,22 +56,22 @@ const ProjectDetail = () => {
     currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
 
   return (
-    <div className="bg-[#050414] min-h-screen relative">
+    <div className="bg-ink min-h-screen relative">
       <BlurBlob
         position={{ top: "20%", left: "15%" }}
         size={{ width: "25%", height: "35%" }}
       />
 
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+      <div className="absolute inset-0 grid-lines"></div>
 
       <div className="relative">
         {/* Sticky top bar */}
-        <div className="sticky top-0 z-50 bg-[#050414]/80 backdrop-blur-xl border-b border-white/5">
+        <div className="sticky top-0 z-50 bg-ink/80 backdrop-blur-xl border-b border-border-faint">
           <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
             <div className="flex items-center justify-between py-4">
               <Link
                 to="/#projects"
-                className="group inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300 font-sans text-sm"
+                className="group inline-flex items-center gap-2 text-content-muted hover:text-content transition-colors duration-300 font-sans text-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@ const ProjectDetail = () => {
                 All Projects
               </Link>
 
-              <span className="text-gray-500 font-sans text-xs tracking-wider uppercase">
+              <span className="text-content-subtle font-sans text-xs tracking-wider uppercase">
                 {String(currentIndex + 1).padStart(2, "0")} /{" "}
                 {String(projects.length).padStart(2, "0")}
               </span>
@@ -102,14 +102,14 @@ const ProjectDetail = () => {
         {/* Hero image section */}
         <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10 pt-8 md:pt-12">
           <Reveal variant="fade-up">
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_40px_1px_rgba(130,69,236,0.2)] group">
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050414] via-transparent to-transparent z-10 pointer-events-none" />
+            <div className="relative rounded-2xl overflow-hidden border border-border-subtle dark:shadow-[0_0_40px_1px_rgba(130,69,236,0.2)] group">
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent z-10 pointer-events-none" />
               {typeof project.image === "string" &&
               !project.image.startsWith("/") &&
               !project.image.startsWith("http") &&
               !project.image.startsWith("data:") ? (
-                <div className="w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[500px] bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                  <span className="text-6xl font-bold text-gray-600 font-sans">
+                <div className="w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[500px] bg-gradient-to-br from-surface-raised to-surface flex items-center justify-center">
+                  <span className="text-6xl font-bold text-content-subtle font-sans">
                     {project.title}
                   </span>
                 </div>
@@ -132,13 +132,13 @@ const ProjectDetail = () => {
             {/* Left column: Title, description */}
             <div className="lg:col-span-2">
               <Reveal variant="fade-up">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-100 mb-6 leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-content mb-6 leading-tight">
                   {project.title}
                 </h1>
               </Reveal>
 
               <Reveal variant="fade-up" delay={100}>
-                <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-10">
+                <p className="text-content-muted text-base sm:text-lg leading-relaxed mb-10">
                   {project.description}
                 </p>
               </Reveal>
@@ -146,7 +146,7 @@ const ProjectDetail = () => {
               {/* Tech stack grid */}
               <Reveal variant="fade-up" delay={200}>
                 <div className="mb-10">
-                  <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider font-sans mb-5 flex items-center gap-2">
+                  <h2 className="text-sm font-semibold text-content-subtle uppercase tracking-wider font-sans mb-5 flex items-center gap-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -168,7 +168,7 @@ const ProjectDetail = () => {
                       {project.tags.map((tag, index) => (
                         <span
                           key={index}
-                          className="inline-flex items-center px-3.5 py-1.5 rounded-full text-sm font-sans font-medium bg-gray-800/80 text-purple-300 border border-purple-500/15 transition-all duration-300 hover:border-purple-500/40 hover:bg-gray-800 hover:shadow-[0_0_12px_1px_rgba(130,69,236,0.15)]"
+                          className="inline-flex items-center px-3.5 py-1.5 rounded-full text-sm font-sans font-medium bg-surface-raised/80 text-accent-text border border-accent/15 transition-all duration-300 hover:border-accent/40 hover:bg-surface-raised dark:hover:shadow-[0_0_12px_1px_rgba(130,69,236,0.15)]"
                         >
                           {tag}
                         </span>
@@ -186,7 +186,7 @@ const ProjectDetail = () => {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-white/10 bg-gray-900 text-gray-300 font-sans text-sm font-medium transition-all duration-300 hover:border-purple-500/40 hover:text-white hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.2)]"
+                      className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-border-subtle bg-surface text-content-soft font-sans text-sm font-medium transition-all duration-300 hover:border-accent/40 hover:text-content dark:hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.2)]"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -209,7 +209,7 @@ const ProjectDetail = () => {
                       href={project.webapp}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-accent text-white font-sans text-sm font-medium transition-all duration-300 hover:bg-accent-deep hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.4)]"
+                      className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-accent text-content font-sans text-sm font-medium transition-all duration-300 hover:bg-accent-deep dark:hover:shadow-[0_0_20px_1px_rgba(130,69,236,0.4)]"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -238,8 +238,8 @@ const ProjectDetail = () => {
               <Reveal variant="fade-left" delay={200}>
                 <div className="sticky top-24 space-y-6">
                   {/* Links card */}
-                  <div className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-sm p-6 shadow-[0_0_20px_1px_rgba(130,69,236,0.1)]">
-                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider font-sans mb-5">
+                  <div className="rounded-2xl border border-border-subtle bg-surface/60 backdrop-blur-sm p-6 dark:shadow-[0_0_20px_1px_rgba(130,69,236,0.1)]">
+                    <h3 className="text-sm font-semibold text-content-subtle uppercase tracking-wider font-sans mb-5">
                       Project Links
                     </h3>
                     <div className="space-y-3">
@@ -248,7 +248,7 @@ const ProjectDetail = () => {
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group flex items-center gap-3 px-4 py-3 rounded-xl border border-white/5 bg-gray-800/40 text-gray-300 font-sans text-sm transition-all duration-300 hover:border-purple-500/30 hover:bg-gray-800/80 hover:text-white"
+                          className="group flex items-center gap-3 px-4 py-3 rounded-xl border border-border-faint bg-surface-raised/40 text-content-soft font-sans text-sm transition-all duration-300 hover:border-accent/30 hover:bg-surface-raised/80 hover:text-content"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -260,13 +260,13 @@ const ProjectDetail = () => {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className="shrink-0 text-gray-500 group-hover:text-purple-400 transition-colors"
+                            className="shrink-0 text-content-subtle group-hover:text-accent-text transition-colors"
                           >
                             <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                           </svg>
                           <div className="min-w-0">
                             <div className="font-medium">Source Code</div>
-                            <div className="text-xs text-gray-500 truncate">
+                            <div className="text-xs text-content-subtle truncate">
                               github.com
                             </div>
                           </div>
@@ -280,7 +280,7 @@ const ProjectDetail = () => {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className="ml-auto shrink-0 text-gray-600 group-hover:text-purple-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                            className="ml-auto shrink-0 text-content-subtle group-hover:text-accent-text transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                           >
                             <line x1="7" y1="17" x2="17" y2="7" />
                             <polyline points="7 7 17 7 17 17" />
@@ -292,7 +292,7 @@ const ProjectDetail = () => {
                           href={project.webapp}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="group flex items-center gap-3 px-4 py-3 rounded-xl border border-purple-500/20 bg-accent/10 text-white font-sans text-sm transition-all duration-300 hover:border-purple-500/40 hover:bg-accent/20"
+                          className="group flex items-center gap-3 px-4 py-3 rounded-xl border border-accent/20 bg-accent/10 text-content font-sans text-sm transition-all duration-300 hover:border-accent/40 hover:bg-accent/20"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -304,7 +304,7 @@ const ProjectDetail = () => {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className="shrink-0 text-purple-400"
+                            className="shrink-0 text-accent-text"
                           >
                             <circle cx="12" cy="12" r="10" />
                             <line x1="2" y1="12" x2="22" y2="12" />
@@ -312,7 +312,7 @@ const ProjectDetail = () => {
                           </svg>
                           <div className="min-w-0">
                             <div className="font-medium">Live Demo</div>
-                            <div className="text-xs text-gray-400 truncate">
+                            <div className="text-xs text-content-muted truncate">
                               View deployed project
                             </div>
                           </div>
@@ -326,7 +326,7 @@ const ProjectDetail = () => {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className="ml-auto shrink-0 text-purple-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                            className="ml-auto shrink-0 text-accent-text transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                           >
                             <line x1="7" y1="17" x2="17" y2="7" />
                             <polyline points="7 7 17 7 17 17" />
@@ -337,13 +337,13 @@ const ProjectDetail = () => {
                   </div>
 
                   {/* Quick info card */}
-                  <div className="rounded-2xl border border-white/10 bg-gray-900/60 backdrop-blur-sm p-6 shadow-[0_0_20px_1px_rgba(130,69,236,0.1)]">
-                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider font-sans mb-5">
+                  <div className="rounded-2xl border border-border-subtle bg-surface/60 backdrop-blur-sm p-6 dark:shadow-[0_0_20px_1px_rgba(130,69,236,0.1)]">
+                    <h3 className="text-sm font-semibold text-content-subtle uppercase tracking-wider font-sans mb-5">
                       Quick Info
                     </h3>
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-gray-800 border border-white/5 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-faint flex items-center justify-center">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="14"
@@ -354,23 +354,23 @@ const ProjectDetail = () => {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className="text-purple-400"
+                            className="text-accent-text"
                           >
                             <polyline points="16 18 22 12 16 6" />
                             <polyline points="8 6 2 12 8 18" />
                           </svg>
                         </div>
                         <div>
-                          <div className="text-xs text-gray-500 font-sans">
+                          <div className="text-xs text-content-subtle font-sans">
                             Technologies
                           </div>
-                          <div className="text-sm text-gray-300 font-sans font-medium">
+                          <div className="text-sm text-content-soft font-sans font-medium">
                             {project.tags.length} tools used
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-gray-800 border border-white/5 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-lg bg-surface-raised border border-border-faint flex items-center justify-center">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="14"
@@ -381,7 +381,7 @@ const ProjectDetail = () => {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className="text-purple-400"
+                            className="text-accent-text"
                           >
                             <rect
                               x="2"
@@ -396,10 +396,10 @@ const ProjectDetail = () => {
                           </svg>
                         </div>
                         <div>
-                          <div className="text-xs text-gray-500 font-sans">
+                          <div className="text-xs text-content-subtle font-sans">
                             Category
                           </div>
-                          <div className="text-sm text-gray-300 font-sans font-medium">
+                          <div className="text-sm text-content-soft font-sans font-medium">
                             {project.tags.some(
                               (t) =>
                                 t.toLowerCase().includes("node") ||
@@ -421,12 +421,12 @@ const ProjectDetail = () => {
 
           {/* Project navigation */}
           <Reveal variant="fade-up" delay={400}>
-            <div className="mt-20 pt-10 border-t border-white/5">
+            <div className="mt-20 pt-10 border-t border-border-faint">
               <div className="flex items-center justify-between">
                 {prevProject ? (
                   <Link
                     to={`/project/${prevProject.id}`}
-                    className="group flex items-center gap-3 text-gray-400 hover:text-white transition-colors duration-300 max-w-[45%]"
+                    className="group flex items-center gap-3 text-content-muted hover:text-content transition-colors duration-300 max-w-[45%]"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -444,7 +444,7 @@ const ProjectDetail = () => {
                       <polyline points="12 19 5 12 12 5" />
                     </svg>
                     <div className="min-w-0">
-                      <div className="text-xs text-gray-500 font-sans uppercase tracking-wider mb-1">
+                      <div className="text-xs text-content-subtle font-sans uppercase tracking-wider mb-1">
                         Previous
                       </div>
                       <div className="text-sm sm:text-base font-medium truncate">
@@ -458,10 +458,10 @@ const ProjectDetail = () => {
                 {nextProject ? (
                   <Link
                     to={`/project/${nextProject.id}`}
-                    className="group flex items-center gap-3 text-gray-400 hover:text-white transition-colors duration-300 text-right max-w-[45%]"
+                    className="group flex items-center gap-3 text-content-muted hover:text-content transition-colors duration-300 text-right max-w-[45%]"
                   >
                     <div className="min-w-0">
-                      <div className="text-xs text-gray-500 font-sans uppercase tracking-wider mb-1">
+                      <div className="text-xs text-content-subtle font-sans uppercase tracking-wider mb-1">
                         Next
                       </div>
                       <div className="text-sm sm:text-base font-medium truncate">

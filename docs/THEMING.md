@@ -1,11 +1,11 @@
 # Adding a light theme — implementation plan
 
-Status: **Phase 1 complete.** Phases 2–5 not started.
+Status: **Phases 1–2 complete.** Phases 3–5 not started.
 
 | Phase | State |
 | --- | --- |
 | 1 — Token foundation and theme plumbing | ✅ landed |
-| 2 — App shell and the toggle UI | not started |
+| 2 — App shell and the toggle UI | ✅ landed |
 | 3 — The hero (`About.jsx`) | not started |
 | 4 — Content sections and the data-layer colours | not started |
 | 5 — Motion layer, accessibility audit, and docs | not started |
@@ -287,6 +287,94 @@ chrome level even though sections inside it are still dark-only.
 while in `"system"`, and the shell reads correctly in both themes. Section
 interiors are expected to look wrong in light here — that is Phases 3–4.
 
+#### ✅ What landed
+
+- **A Phase 1 bug fixed first.** The `dark` variant was registered as a
+  single `[data-theme="dark"]` selector, which silently missed every
+  visitor on `system` with a dark OS — that path deliberately writes no
+  attribute, so they got dark *tokens* but no dark *variant* rules. Since
+  dark is the default, "dark is active" is really "light is not active",
+  so the variant is now two arms mirroring the token cascade exactly: the
+  attribute, plus `@media not all and (prefers-color-scheme: light)`
+  guarded by `:not([data-theme="light"])`. Written in the legacy `not all
+  and` form because older Safari drops a block it cannot parse, and
+  losing this one would take dark styling with it.
+- `src/components/ThemeToggle.jsx` — one component, two presentations.
+  `icon` cycles (navbar, desktop); `segmented` shows all three states at
+  once (mobile sheet), because a cycling icon cannot distinguish `system`
+  resolving to dark from an explicit dark choice. Uses `aria-pressed`
+  toggle buttons rather than `role="radio"`, which would owe the visitor
+  arrow-key navigation for no gain in meaning. The accessible name states
+  the current theme *and* the next one; a separate `aria-live` region
+  sits outside the button so focus does not re-announce it.
+- Shell tokenised: `HomePage`, `BlurBlob`, `Navbar`, `Footer`,
+  `NavigatorToTop`, `ProjectDetail`.
+- The background grid became a `.grid-lines` utility in `index.css`
+  alongside the existing `clip-path-*` ones. It was duplicated inline in
+  two files with the line colour hardcoded in each; the mask stays black
+  because there it means opacity, not colour.
+- `BlurBlob` is the phase's one true `dark:` case, and only its opacity
+  is gated — the colour is a token (`--glow`, the old `bg-purple-500`,
+  which is deliberately *not* `--accent`: the blob reads as light
+  bleeding through the page, so it runs brighter than the brand fill).
+  On light it drops to `opacity-[0.14]`; at dark's 0.30 the same shape is
+  a grey-lavender smudge.
+- New tokens this phase needed: `--border-faint` and `--surface-hover`
+  (what `border-white/5` and `hover:bg-white/5` resolved to over the
+  ground — a translucent white hairline is invisible on a light page),
+  `--glow`, `--grid-line`. `--color-bg-base` was withdrawn in favour of
+  the pre-existing `ink`: two utilities for one value is the drift this
+  layer exists to prevent, and `bg-ink/70` reads better than
+  `bg-bg-base/70`.
+- `ProjectDetail`'s accent glows are `dark:`-gated rather than
+  recoloured, ahead of the Phase 5 policy, since the page was being
+  tokenised anyway.
+
+**Verified:** `npm run lint` clean, `npm run build` green. In the built
+CSS every `dark:` utility emits both arms; `.grid-lines` reads
+`var(--grid-line)`; the alpha forms compose (`.bg-ink/70` →
+`color-mix(in oklab, var(--bg-base) 70%, transparent)`). The
+`hidden lg:grid` on the desktop toggle was checked against Tailwind's
+emitted order — `.hidden` sorts after `.grid`, and `.lg:grid` lands last
+inside its media query, so the display utilities resolve correctly.
+
+#### Scope adjustment: `ProjectDetail` was done in full
+
+The plan scoped this phase to `ProjectDetail`'s "shell (11 hex
+literals)". That was wrong: it is a *route*, not a section, and no later
+phase owned its interior — Phase 4 lists only the homepage sections. A
+visitor can navigate to `/project/:id` directly, and a half-themed page
+is a worse outcome than either extreme, so the whole file (~60 colour
+decisions) was tokenised here.
+
+#### Normalisations — deliberate, small dark changes
+
+The ground rule says dark values carry over verbatim. These do not, and
+each is a conscious call rather than an oversight. The cause is that the
+codebase used **eight** near-identical greys where the token scale has
+four steps; collapsing them *is* the drift the token layer exists to
+remove, but it is still a visible change and belongs on the record.
+
+| Was | Now | Dark effect |
+| --- | --- | --- |
+| `text-gray-100` `#f3f4f6`, `text-gray-200` `#e5e7eb` | `content` `#ffffff` | Marginally brighter; 18.4:1 and 16.7:1 → 20.3:1 |
+| `text-gray-600` `#4b5563` | `content-subtle` `#6b7280` | Brighter; improves the page's worst contrast |
+| `text-purple-300/400` `#d8b4fe`/`#c084fc`, `text-purple-500` `#a855f7` | `accent-text` `#9d6ef5` | Slightly deeper, and now the AA-checked accent |
+| `bg-gray-900` `#111827`, `bg-gray-800` `#1f2937` | `surface` `#111118`, `surface-raised` `#1a1a24` | Loses a little blue; matches the rest of the site |
+| `bg-white/[0.03]` (active nav item) | `accent-wash` `#131025` | Accent-tinted rather than neutral |
+
+Exact carry-overs, for contrast: `text-white`, `text-gray-300`,
+`text-gray-400`, `text-gray-500`, `border-white/10`, `border-white/5`,
+`bg-purple-500` (as `--glow`) and every `#050414` all map to a token
+holding the identical value.
+
+#### Known gap, by design
+
+Below `lg` the theme control lives only inside the hamburger sheet, so a
+visitor who never opens the menu sees no toggle. That is the plan's
+placement decision, not an oversight — the icon row is already at its
+width limit on a 360px viewport.
+
 ---
 
 ### Phase 3 — The hero (`About.jsx`)
@@ -461,6 +549,9 @@ its own decision outside this workstream.
   the 4.5:1 body-text threshold. Carried over unchanged; the token
   carries a comment saying not to use it for new small copy. Fixing it
   means changing how dark looks, so it is a separate call.
+- **`ProjectDetail` uses `--content-subtle` for small copy** in ten
+  places (metadata labels, truncated URLs), which is where the failure
+  above actually bites hardest. Worth revisiting together with it.
 
 ## 7. Out of scope
 

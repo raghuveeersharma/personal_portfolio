@@ -634,3 +634,41 @@
   }
 }
 
+
+/* ============================================================
+   Theme toggle
+
+   The three icons are stacked and cross-faded rather than
+   swapped, so the control does not reflow or flicker as the
+   preference cycles. Same keying trick as `.journey-log-line`
+   would work, but a remount would restart the icon font paint;
+   stacking keeps all three warm.
+
+   Only `opacity` and `transform` here, per the standing rule.
+   ============================================================ */
+.theme-toggle__icon {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: scale(0.6) rotate(-30deg);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.theme-toggle__icon[data-active="true"] {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Cut, don't fade — the toggle is a control, and its feedback
+     has to survive the preference rather than disappear with it. */
+  .theme-toggle__icon {
+    transition: none;
+    transform: none;
+  }
+
+  .theme-toggle__icon[data-active="true"] {
+    transform: none;
+  }
+}

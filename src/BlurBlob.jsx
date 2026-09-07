@@ -15,7 +15,13 @@ const BlurBlob = ({ position, size }) => {
         transform: "translate(-50%, -50%)",
       }}
     >
-      <div className="w-full h-full bg-purple-500 rounded-full opacity-30 blur-3xl animate-blob"></div>
+      {/* One of the few genuine `dark:` cases: the difference is
+          structural, not a colour swap. On dark the blob is additive
+          light bleeding through the page and wants to be seen; on
+          light the same shape at the same opacity is a grey-lavender
+          smudge, so it drops to a faint tint. The colour itself is a
+          token (`--glow`), which is why only the opacity is gated. */}
+      <div className="w-full h-full bg-glow rounded-full opacity-[0.14] blur-3xl animate-blob dark:opacity-30"></div>
     </div>
   );
 };

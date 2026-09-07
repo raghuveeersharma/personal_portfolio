@@ -38,8 +38,30 @@
    *structurally* rather than by colour — an opacity, a glow
    spread, whether an ambient effect renders at all. If you find
    yourself writing `dark:` next to a plain colour class, the
-   colour wanted a token instead. */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+   colour wanted a token instead.
+
+   The two arms below have to mirror the token cascade in parts 1
+   and 2 exactly, or `dark:` disagrees with the colours around
+   it. Since dark is the *default*, "dark is active" is really
+   "light is not active" — an explicit dark choice, or no
+   explicit choice and no light OS preference. A single
+   `[data-theme="dark"]` selector would silently miss every
+   visitor on `system` with a dark OS, because that path
+   deliberately writes no attribute.
+
+   `not all and (...)` rather than MQ4's bare `not (...)`: older
+   Safari drops a whole block it cannot parse, and losing this
+   one would take dark styling with it. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media not all and (prefers-color-scheme: light) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
 
 /* ============================================================
    1. Raw values — dark (the default, and the no-JS fallback)
@@ -75,10 +97,20 @@
      dark is frozen; do not use it for new small copy. Logged as
      a follow-up in docs/THEMING.md. */
 
-  /* -- Lines ------------------------------------------------- */
+  /* -- Lines -------------------------------------------------
+     `--border-subtle` and `--border-faint` are what the
+     `border-white/10` and `border-white/5` classes resolved to
+     over the page ground. They had to become opaque tokens: a
+     translucent white hairline is invisible on a light page. */
   --border: #2a2a3f; /* default divider */
-  --border-subtle: #1e1e2e; /* barely-there hairline */
+  --border-subtle: #1e1e2e; /* hairline — was border-white/10 */
+  --border-faint: #12111f; /* fainter still — was border-white/5 */
   --border-strong: #3a3458; /* emphasis, focus rings */
+
+  /* Hover/active tint for a row on a dark ground — the old
+     `hover:bg-white/5`. Lightens in dark, darkens in light, so
+     it cannot be folded into `--surface-*`. */
+  --surface-hover: #12111f;
 
   /* -- Accent -----------------------------------------------
      Two accents, not one, and they are not interchangeable:
@@ -91,6 +123,15 @@
   --accent-text: #9d6ef5; /* text — 5.79:1 on bg-base */
   --accent-contrast: #ffffff; /* text placed ON an accent fill */
   --accent-wash: #131025; /* accent-tinted surface */
+
+  /* -- Ambient ----------------------------------------------
+     `--glow` is BlurBlob's colour, the old `bg-purple-500`. It
+     is not `--accent`: the blob reads as light bleeding through
+     the page, so it runs brighter than the brand fill.
+     `--grid-line` is the background grid overlay; it carries its
+     own alpha because the overlay sits directly on the ground. */
+  --glow: #a855f7;
+  --grid-line: #4f4f4f2e;
 
   /* -- Status ------------------------------------------------ */
   --success: #4ade80;
@@ -158,13 +199,22 @@
 
     --border: #dcdce8;
     --border-subtle: #e9e9f2;
+    --border-faint: #f2f2f8;
     --border-strong: #8b8ba6; /* 3.31:1 — meets AA for a control boundary */
+    --surface-hover: #eeeef5;
 
     --accent: #8245ec; /* unchanged; white on it, 5.23:1 */
     --accent-deep: #6f3bce; /* white on it, 6.58:1 */
     --accent-text: #7c3aed; /* 5.70:1 on surface */
     --accent-contrast: #ffffff;
     --accent-wash: #f3edfe;
+
+    /* The glow inverts in role: on a light page it is a tint, not
+       a bloom, so it takes the brand fill and a lower opacity
+       (see BlurBlob). The grid line has to darken outright —
+       #4f4f4f2e over white is invisible. */
+    --glow: #8245ec;
+    --grid-line: #1414201a;
 
     --success: #15803d; /* 5.02:1 */
     --success-wash: #eafaf0;
@@ -207,13 +257,18 @@
 
   --border: #dcdce8;
   --border-subtle: #e9e9f2;
+  --border-faint: #f2f2f8;
   --border-strong: #8b8ba6;
+  --surface-hover: #eeeef5;
 
   --accent: #8245ec;
   --accent-deep: #6f3bce;
   --accent-text: #7c3aed;
   --accent-contrast: #ffffff;
   --accent-wash: #f3edfe;
+
+  --glow: #8245ec;
+  --grid-line: #1414201a;
 
   --success: #15803d;
   --success-wash: #eafaf0;
@@ -243,11 +298,18 @@
    follows the theme. Add colour tokens here and nowhere else.
    ============================================================ */
 @theme inline {
-  --color-bg-base: var(--bg-base);
+  /* The page ground is exposed as `ink` only, not also as
+     `bg-base`. Two utilities for one value is the drift this
+     layer exists to prevent, and `bg-ink/70` reads better than
+     `bg-bg-base/70` where the ground is needed with alpha. The
+     raw `--bg-base` keeps its descriptive name because
+     `applyTheme` and `body` read it directly. */
+  --color-ink: var(--bg-base);
   --color-bg-subtle: var(--bg-subtle);
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
   --color-surface-sunken: var(--surface-sunken);
+  --color-surface-hover: var(--surface-hover);
 
   --color-content: var(--content);
   --color-content-soft: var(--content-soft);
@@ -257,6 +319,7 @@
 
   --color-border: var(--border);
   --color-border-subtle: var(--border-subtle);
+  --color-border-faint: var(--border-faint);
   --color-border-strong: var(--border-strong);
 
   --color-accent: var(--accent);
@@ -265,17 +328,14 @@
   --color-accent-contrast: var(--accent-contrast);
   --color-accent-wash: var(--accent-wash);
 
+  --color-glow: var(--glow);
+
   --color-success: var(--success);
   --color-success-wash: var(--success-wash);
   --color-warning: var(--warning);
   --color-warning-wash: var(--warning-wash);
   --color-info: var(--info);
   --color-info-wash: var(--info-wash);
-
-  /* `ink` predates the token set and means "the page ground".
-     Kept as an alias so existing markup keeps working; prefer
-     `bg-base` in new code. */
-  --color-ink: var(--bg-base);
 
   --color-hero-bg: var(--hero-bg);
   --color-hero-surface: var(--hero-surface);

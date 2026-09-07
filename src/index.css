@@ -13,6 +13,27 @@
 }
 
 @layer utilities {
+  /* The page's background grid. Was an inline arbitrary-value
+     `bg-[linear-gradient(...)]` repeated in HomePage and
+     ProjectDetail, with the line colour hardcoded twice; as a
+     utility the colour comes from `--grid-line` and follows the
+     theme. The mask stays black-to-transparent because there it
+     means opacity, not colour. */
+  .grid-lines {
+    background-image: linear-gradient(
+        to right,
+        var(--grid-line) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 14px 24px;
+    mask-image: radial-gradient(
+      ellipse 60% 50% at 50% 0%,
+      #000 70%,
+      transparent 100%
+    );
+  }
+
   .clip-path-custom {
     clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 95%, 0 100%);
   }
