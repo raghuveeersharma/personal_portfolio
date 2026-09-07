@@ -144,7 +144,7 @@
     var(--glow) 55%,
     var(--progress-tip) 100%
   );
-  box-shadow: 0 0 12px 1px rgba(130, 69, 236, 0.55);
+  box-shadow: 0 0 12px 1px var(--progress-glow);
   transform: scaleY(var(--scroll-progress, 0));
   transform-origin: top center;
   /* Just enough to smooth the jump between discrete wheel ticks;

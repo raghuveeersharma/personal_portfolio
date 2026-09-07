@@ -1,6 +1,7 @@
 # Adding a light theme — implementation plan
 
-Status: **Phases 1–4 complete.** Phase 5 not started.
+Status: **All five phases implemented.** Browser verification outstanding —
+see *What has not been verified* at the end of Phase 5.
 
 | Phase | State |
 | --- | --- |
@@ -8,7 +9,7 @@ Status: **Phases 1–4 complete.** Phase 5 not started.
 | 2 — App shell and the toggle UI | ✅ landed |
 | 3 — The hero (`About.jsx`) | ✅ landed |
 | 4 — Content sections and the data-layer colours | ✅ landed |
-| 5 — Motion layer, accessibility audit, and docs | not started |
+| 5 — Motion layer, accessibility audit, and docs | ✅ implemented (needs a browser pass) |
 
 ## Ground rule: dark is the baseline and it does not change
 
@@ -671,6 +672,133 @@ finished one, so it is scoped as real work rather than cleanup.
 person adding a section knows which token to reach for without reading
 this plan.
 
+#### ✅ What landed
+
+- **`animations.css` now has zero colour literals.** The last one, the
+  timeline spine's `rgba(130, 69, 236, 0.55)` bloom, became
+  `--progress-glow`. Light keeps a halo but at 0.22 — under half
+  strength — because a bloom that reads as emitted light on dark reads
+  as the element being out of focus on white.
+- **The theme cross-fade** (part 6 of `theme.css` + `beginThemeTransition`
+  in `themeStorage.js`). Deliberately narrow: a short-lived
+  `theme-switching` class on `<html>`, colour properties only, wrapped
+  in `:where()` so it carries **zero specificity** — any element with
+  its own `transition-*` utility keeps it — and excluding
+  `[data-reveal]` so a reveal caught mid-flight cannot have its
+  `transition-property` replaced and snap. Skipped under reduced motion
+  in both the provider and the CSS. The first application is not
+  treated as a swap: the page is arriving at the theme the blocking
+  script already painted, and fading that would be a flash with extra
+  steps.
+- **`@media (forced-colors: active)`** remaps the resolver's four
+  outputs to system keywords. That is the whole fix — every consumer
+  reads its colours from `--brand-*`, so nothing else needs naming, and
+  a `color-mix()` of two custom properties is exactly what
+  high-contrast mode cannot be trusted to substitute.
+- **`@media print`** forces the light ground, content scale and borders,
+  and resets `.brand-hue` so a chip cannot print a dark surface. Glows
+  and washes go `transparent`.
+- **`CLAUDE.md` has a Theming section** covering the `@theme inline`
+  mechanism, the token vocabulary, the accent fill-vs-text split, the
+  two-arm `dark:` variant, the `.brand-hue` contract with its three
+  working rules, and the swap.
+
+#### The contrast audit
+
+Measured over the token values parsed out of `theme.css`, 46 pairs per
+theme, against AA: 4.5:1 for body text, 3:1 for large text and genuine
+UI boundaries.
+
+**Light: 0 failures.** That is the deliverable and it is clean.
+
+**Dark: 8 failures, all pre-existing.** Every one is a value carried
+over verbatim from before this work, so under the ground rule they are
+logged rather than fixed:
+
+| Pair | Ratio | Needs |
+| --- | --- | --- |
+| `content-subtle` on `bg-base` (was `text-gray-500`) | 4.20:1 | 4.5 |
+| `content-subtle` on `surface` | 3.89:1 | 4.5 |
+| `content-accent` on `surface-sunken` (Services dim text) | 4.30:1 | 4.5 |
+| `hero-muted` on `hero-card` (editor chrome label) | 4.18:1 | 4.5 |
+| `accent-contrast` on `hero-accent` (**the hero's primary CTA**) | 3.31:1 | 4.5 |
+| `accent-contrast` on `hero-accent-hover` | 3.81:1 | 4.5 |
+| `border-neutral` on `accent-wash` (form input boundary) | 2.46:1 | 3.0 |
+| `border-neutral` on `surface-accent` | 2.59:1 | 3.0 |
+
+The hero CTA is the one worth acting on soonest: it is the most
+prominent interactive element on the page and white on `#8b7cf8` has
+always been 3.31:1.
+
+**Two things the audit caught in my own work**, which is the argument
+for doing it computationally rather than by eye:
+
+1. **Phase 4 degraded two dark boundaries.** Mapping `border-gray-600`
+   and `border-gray-700` onto `--border-strong` was wrong twice over —
+   it is a *violet emphasis* colour, not a neutral — and it dropped the
+   form input boundary from 2.46:1 to 1.61:1 and the skill pill outline
+   from 1.82:1 to 1.34:1. Both were already failing; making them worse
+   was mine. Fixed by restoring the exact values as their own
+   `--border-neutral` / `--border-neutral-soft` scale, kept separate
+   from the violet one.
+2. **A genuine light-theme bug.** `--border-neutral` at `#8b8ba6`
+   measured 2.89:1 against the tinted `--accent-wash` the form inputs
+   actually sit on — under the 3:1 floor for a control boundary, which
+   the check against plain `--surface` had hidden. Now `#828299`:
+   3.28:1 on the input fill, 3.75:1 on white, 3.56:1 on the contact
+   panel, 3.51:1 on the page.
+
+Two pairs were **reclassified rather than changed**: the skill pill
+outline and the service card's hover border. Neither is a UI component
+boundary under WCAG 1.4.11 — one is a static outline around an already
+labelled logo, the other accompanies a colour change — so the 3:1 floor
+does not apply and dark's values stand.
+
+#### Reduced motion
+
+Verified by reading the `prefers-reduced-motion: reduce` block against
+every animated selector in the project. All covered, including the two
+this work added: `.theme-toggle__icon` (cuts instead of fading — the
+toggle is a control and its feedback has to survive the preference) and
+`html.theme-switching`. The MERN journey and Services keep their
+differing contracts: the journey still runs under reduced motion
+because the visitor asked it to, Services stops autoplaying entirely.
+
+#### One dead selector removed
+
+The first version of the forced-colors block asserted
+`border: 1px solid CanvasText` on `.tech-chip`, `.service-stack-card`
+and `.journey-node`. The third class does not exist anywhere in the
+project, and the rule was redundant for the other two — they declare
+their own borders. Remapping `--brand-*` was doing all the work.
+
+#### ⚠️ What has **not** been verified
+
+Everything above is static: `npm run lint`, `npm run build`, and reading
+the compiled CSS. **No part of this has been looked at in a browser**,
+because none is available in the environment the work was done in. The
+plan's cross-check list is therefore outstanding, and these are the
+things most likely to surface a problem that measurement cannot predict:
+
+- [ ] **A visual pass in both themes** at 360px, 768px and 1440px.
+- [ ] **The dark-parity walk against `master`** — the whole point of the
+      ground rule, and the one check that can confirm the ~12
+      documented normalisations are as small in practice as they are on
+      paper.
+- [ ] **The `body { color }` deviation from Phase 1.** It can only
+      affect text that is *currently* invisible black-on-dark. Reasoned
+      through and the `bg-white` elements were checked, but never seen.
+- [ ] Chrome, Firefox, Safari, iOS Safari.
+- [ ] Windows high-contrast mode.
+- [ ] A print preview.
+- [ ] The cross-fade feels right and nothing snaps — particularly a
+      theme swap while a scroll reveal is mid-flight.
+- [ ] The blocking script: hard reload with a light OS preference, and
+      with site data blocked.
+
+The contrast numbers are computed from the token values and do not need
+a browser. The visual judgements do.
+
 ---
 
 ## 4. Sequencing rationale
@@ -713,6 +841,14 @@ its own decision outside this workstream.
 - **`ProjectDetail` uses `--content-subtle` for small copy** in ten
   places (metadata labels, truncated URLs), which is where the failure
   above actually bites hardest. Worth revisiting together with it.
+- **The hero's primary CTA is 3.31:1 in dark** — white on
+  `--hero-accent` `#8b7cf8`. Pre-existing and unchanged, but it is the
+  most prominent button on the site. Darkening `--hero-accent` to about
+  `#6f5fe0` would clear 4.5:1; it changes how dark looks, so it is a
+  separate call. The light side already passes at 5.13:1.
+- **Dark form input boundaries are 2.46:1** against the input fill,
+  below the 3:1 control-boundary floor. Pre-existing (`border-gray-600`);
+  light was fixed to 3.28:1 in phase 5.
 - **`bg-bg-subtle` is an awkward utility name**, produced by the
   `--color-bg-subtle` token. It works, but `bg-subtle` would read
   better. Renaming the token is a mechanical change across one

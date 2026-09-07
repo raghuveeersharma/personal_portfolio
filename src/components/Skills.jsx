@@ -67,7 +67,7 @@ const Skills = () => {
                       // wider than a grid column on a small phone (12vw
                       // section padding + the card's px-6), so the pills
                       // used to spill over the card's own border.
-                      className="flex min-w-0 h-12 w-full items-center justify-center gap-x-1.5 rounded-3xl border-2 border-border bg-transparent px-2 py-2 text-center"
+                      className="flex min-w-0 h-12 w-full items-center justify-center gap-x-1.5 rounded-3xl border-2 border-border-neutral-soft bg-transparent px-2 py-2 text-center"
                     >
                       <img
                         src={skill.logo}

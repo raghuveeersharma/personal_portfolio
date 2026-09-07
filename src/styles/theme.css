@@ -106,8 +106,17 @@
   --border: #2a2a3f; /* default divider */
   --border-subtle: #1e1e2e; /* hairline — was border-white/10 */
   --border-faint: #12111f; /* fainter still — was border-white/5 */
-  --border-strong: #3a3458; /* emphasis, focus rings */
+  --border-strong: #3a3458; /* violet emphasis — card hover, not a control */
   --border-accent: #4a3f73; /* violet-tinted: service node resting ring */
+
+  /* The neutral-grey border scale, kept separate from the violet
+     `--border-*` values above. These were `border-gray-600` and
+     `border-gray-700`, and phase 4 first folded them into
+     `--border-strong` — which was wrong twice over: it is a violet
+     emphasis colour, not a neutral, and the swap dropped the form
+     input boundary from 2.46:1 to 1.61:1. Restored exactly. */
+  --border-neutral: #4b5563; /* form inputs and other real controls */
+  --border-neutral-soft: #374151; /* skill pills — decorative outline */
   --track-line: #241d3d; /* the service circle's inactive arc */
 
   /* Hover/active tint for a row on a dark ground — the old
@@ -140,6 +149,13 @@
   --glow: #a855f7;
   --grid-line: #4f4f4f2e;
   --progress-tip: #d8b4fe; /* pale end of the timeline gradient */
+
+  /* The timeline spine's bloom. Glows are the one effect that cannot
+     just be recoloured: on a dark ground a bloom reads as emitted
+     light, on a light one the identical shadow reads as the element
+     being out of focus. So light keeps the halo but at well under
+     half the strength. */
+  --progress-glow: rgba(130, 69, 236, 0.55);
 
   /* The magenta/blue wash behind Skills, Experience and Education.
      Was the same inline `backgroundImage` pasted into all three. */
@@ -231,7 +247,15 @@
     --border: #dcdce8;
     --border-subtle: #e9e9f2;
     --border-faint: #f2f2f8;
-    --border-strong: #8b8ba6; /* 3.31:1 — meets AA for a control boundary */
+    --border-strong: #8b8ba6; /* 3.31:1 */
+    /* Darker than --border-strong on purpose: the form inputs sit on
+       the tinted --accent-wash fill, where #8b8ba6 measured only
+       2.89:1 — under the 3:1 floor for a control boundary. This
+       clears it on every light surface an input can land on:
+       3.28:1 on the input fill, 3.75:1 on white, 3.56:1 on the
+       contact panel, 3.51:1 on the page. */
+    --border-neutral: #828299;
+    --border-neutral-soft: #c3c3d6;
     --border-accent: #cfc4ec;
     --track-line: #e4dff4;
     --surface-hover: #eeeef5;
@@ -251,6 +275,7 @@
     /* Darkens rather than lightens: the dark gradient fades *up* to
        a pale lilac, which vanishes against a white page. */
     --progress-tip: #6f3bce;
+    --progress-glow: rgba(130, 69, 236, 0.22);
 
     /* Much fainter: at dark's 0.15 the same two gradients turn a
        white page muddy rather than atmospheric. */
@@ -318,6 +343,8 @@
   --border-subtle: #e9e9f2;
   --border-faint: #f2f2f8;
   --border-strong: #8b8ba6;
+  --border-neutral: #828299;
+  --border-neutral-soft: #c3c3d6;
   --border-accent: #cfc4ec;
   --track-line: #e4dff4;
   --surface-hover: #eeeef5;
@@ -331,6 +358,7 @@
   --glow: #8245ec;
   --grid-line: #1414201a;
   --progress-tip: #6f3bce;
+  --progress-glow: rgba(130, 69, 236, 0.22);
   --section-wash-a: rgba(204, 0, 187, 0.05);
   --section-wash-b: rgba(0, 70, 209, 0.05);
 
@@ -398,6 +426,8 @@
   --color-border-subtle: var(--border-subtle);
   --color-border-faint: var(--border-faint);
   --color-border-strong: var(--border-strong);
+  --color-border-neutral: var(--border-neutral);
+  --color-border-neutral-soft: var(--border-neutral-soft);
   --color-border-accent: var(--border-accent);
   --color-track-line: var(--track-line);
 
@@ -624,6 +654,113 @@
   color: var(--brand-ink);
   background-color: var(--brand-surface);
   border-color: var(--brand-line);
+}
+
+/* ============================================================
+   6. The theme swap itself
+
+   ---- Why this is so narrow --------------------------------
+   A global `transition: all` on a theme switch is the classic
+   way to break everything else: it replaces the
+   `transition-property` that hover states and — worse — the
+   scroll-reveal system depend on (see the reveal rules in
+   CLAUDE.md, where exactly this bug is documented). So:
+
+   - the whole selector sits inside `:where()`, giving it zero
+     specificity. Any element that declares its own transition
+     via a Tailwind utility keeps it and simply carries the
+     colour change along at its own duration;
+   - `[data-reveal]` is excluded outright, so a reveal caught
+     mid-flight during a swap cannot have its transition
+     replaced and snap;
+   - only colour properties are listed, never `all`;
+   - the class is short-lived. ThemeProvider adds it, flips the
+     attribute, and removes it again — so none of this is in
+     the cascade while the visitor is just using the page.
+   ============================================================ */
+html.theme-switching :where(*:not([data-reveal])) {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 220ms;
+  transition-timing-function: ease;
+}
+
+/* Belt and braces: ThemeProvider already declines to add the class
+   when motion is unwanted, but a cross-fade must never be reachable
+   through a stale class either. */
+@media (prefers-reduced-motion: reduce) {
+  html.theme-switching :where(*) {
+    transition-property: none;
+  }
+}
+
+/* Windows high-contrast and friends: the OS palette replaces ours
+   wholesale, and a `color-mix()` of two custom properties is exactly
+   what it cannot be trusted to substitute. Remapping the resolver's
+   four outputs to system keywords is enough on its own — every
+   consumer reads its colours from these, so the chips, nodes and
+   cards all pick up the OS palette without naming any of them here.
+
+   An earlier version of this block also asserted `border: 1px solid
+   CanvasText` on the consumers, which was redundant (they all declare
+   their own border already) and named a `.journey-node` class that
+   does not exist. */
+@media (forced-colors: active) {
+  .brand-hue {
+    --brand-ink: CanvasText;
+    --brand-edge: CanvasText;
+    --brand-surface: Canvas;
+    --brand-line: CanvasText;
+  }
+}
+
+/* Print always uses the light palette: a dark page wastes ink, and
+   most browsers drop the backgrounds anyway, which would leave light
+   text on white.
+
+   This is the third place the light values are written down. It is
+   deliberately partial — only the ground, the content scale and the
+   borders, which is what carries a printed page — so if the light
+   palette changes, the values here need a look but most of them do
+   not appear. */
+@media print {
+  :root {
+    color-scheme: light;
+
+    --bg-base: #ffffff;
+    --bg-subtle: #ffffff;
+    --surface: #ffffff;
+    --surface-raised: #ffffff;
+    --surface-sunken: #ffffff;
+    --surface-accent: #ffffff;
+    --surface-hover: #ffffff;
+
+    --content: #14141f;
+    --content-soft: #3d3d52;
+    --content-muted: #5a5a72;
+    --content-subtle: #6e6e88;
+    --content-accent: #6a5f96;
+
+    --border: #dcdce8;
+    --border-subtle: #e9e9f2;
+    --border-faint: #f2f2f8;
+    --border-strong: #8b8ba6;
+    --border-neutral: #828299;
+    --border-neutral-soft: #c3c3d6;
+
+    --glow: transparent;
+    --grid-line: transparent;
+    --progress-glow: transparent;
+    --section-wash-a: transparent;
+    --section-wash-b: transparent;
+  }
+
+  /* Derived hues too, so a chip does not print a dark surface. */
+  .brand-hue {
+    --brand-ink: #14141f;
+    --brand-surface: #ffffff;
+    --brand-line: #dcdce8;
+    --brand-edge: #8b8ba6;
+  }
 }
 
 @layer base {

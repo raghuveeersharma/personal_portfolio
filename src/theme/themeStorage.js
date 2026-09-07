@@ -51,6 +51,34 @@ export const subscribeSystemTheme = (onChange) => {
   return () => mq.removeEventListener("change", handler);
 };
 
+const TRANSITION_CLASS = "theme-switching";
+/* Must outlast the 220ms transition in theme.css part 6; a little
+   slack so the class is never pulled mid-fade. */
+const TRANSITION_MS = 300;
+
+let transitionTimer = null;
+
+/**
+ * Arm the colour cross-fade for one swap, then disarm it.
+ *
+ * The class is deliberately transient. Leaving it on would put a
+ * zero-specificity `transition-property` on almost every element for
+ * the life of the page, which is the sort of thing that turns up
+ * later as "why does this one hover feel wrong".
+ *
+ * Re-entrant on purpose: cycling the toggle quickly just extends the
+ * window rather than stacking timers.
+ */
+export const beginThemeTransition = () => {
+  const root = document.documentElement;
+  root.classList.add(TRANSITION_CLASS);
+
+  window.clearTimeout(transitionTimer);
+  transitionTimer = window.setTimeout(() => {
+    root.classList.remove(TRANSITION_CLASS);
+  }, TRANSITION_MS);
+};
+
 /**
  * Push the resolved theme at the document.
  *

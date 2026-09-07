@@ -107,7 +107,7 @@ const Contact = () => {
             placeholder="Your Email"
             autoComplete="email"
             required
-            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
 
           <label htmlFor="contact-name" className="sr-only">
@@ -120,7 +120,7 @@ const Contact = () => {
             placeholder="Your Name"
             autoComplete="name"
             required
-            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
 
           <label htmlFor="contact-subject" className="sr-only">
@@ -133,7 +133,7 @@ const Contact = () => {
             placeholder="Subject"
             autoComplete="off"
             required
-            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
 
           <label htmlFor="contact-message" className="sr-only">
@@ -145,7 +145,7 @@ const Contact = () => {
             placeholder="Message"
             rows="4"
             required
-            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
 
           {/* Send Button */}
