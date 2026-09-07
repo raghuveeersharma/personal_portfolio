@@ -19,11 +19,11 @@ const Footer = () => {
   };
 
   return (
-    <footer className="text-white pt-4 md:pt-8 py-8">
+    <footer className="text-content pt-4 md:pt-8 py-8">
      <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
       <Reveal className="container mx-auto text-center">
         {/* Name / Logo */}
-        <h2 className="text-xl font-semibold text-purple-500">
+        <h2 className="text-xl font-semibold text-accent-text">
           Raghuveer Sharma
         </h2>
 
@@ -33,7 +33,7 @@ const Footer = () => {
             <button
               key={item.id}
               onClick={() => handleScroll(item.id)}
-              className="hover:text-purple-500 text-sm sm:text-base my-1"
+              className="hover:text-accent-text text-sm sm:text-base my-1"
             >
               {item.label}
             </button>
@@ -51,7 +51,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="text-xl hover:text-purple-500 transition-transform transform hover:scale-110"
+                className="text-xl hover:text-accent-text transition-transform transform hover:scale-110"
               >
                 <Icon />
               </a>
@@ -60,7 +60,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright Text */}
-        <p className="text-sm text-gray-400 mt-6 font-sans">
+        <p className="text-sm text-content-muted mt-6 font-sans">
           © {new Date().getFullYear()} Raghuveer Sharma. All rights reserved.
         </p>
       </Reveal>

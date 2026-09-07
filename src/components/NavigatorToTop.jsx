@@ -36,7 +36,7 @@ const NavigatorToTop = () => {
       aria-label="Scroll to top"
       // Prevent tabbing to it when invisible
       tabIndex={showTopBtn ? 0 : -1}
-      className={`fixed bottom-6 right-6 z-50 flex h-12 w-12 md:bottom-10 md:right-10 items-center justify-center rounded-xl bg-accent/30 text-white shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-accent/50 ${
+      className={`fixed bottom-6 right-6 z-50 flex h-12 w-12 md:bottom-10 md:right-10 items-center justify-center rounded-xl bg-accent/30 text-accent-contrast shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-accent/50 ${
         showTopBtn ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0 pointer-events-none"
       }`}
     >

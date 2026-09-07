@@ -12,13 +12,18 @@ import {
 /* Hand-coloured token palette for the editor panel. A syntax
    highlighter would be a dependency and a runtime pass over a
    snippet that never changes — nine lines of spans is cheaper and
-   gives exact control over which identifiers read as "live". */
+   gives exact control over which identifiers read as "live".
+
+   The values are theme variables rather than literals, so the
+   panel switches with the page and never needs `resolvedTheme`:
+   inverting a dark syntax theme goes muddy, so light is its own
+   palette. Both are defined in styles/theme.css. */
 const CODE = {
-  kw: "#C792EA", // const, require
-  str: "#C3E88D", // 'express'
-  fn: "#82AAFF", // express(), app.use()
-  num: "#F78C6C", // 5000
-  txt: "#E8E8F4", // everything else
+  kw: "var(--code-kw)", // const, require
+  str: "var(--code-str)", // 'express'
+  fn: "var(--code-fn)", // express(), app.use()
+  num: "var(--code-num)", // 5000
+  txt: "var(--code-txt)", // everything else
 };
 
 /* The snippet, as [token, text] pairs. Kept here rather than in
@@ -142,7 +147,7 @@ const About = () => {
           <div className="flex flex-col items-start">
             {/* Availability badge */}
             <Reveal immediate duration={400}>
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#2D3A2D] bg-[#111D11] px-3 py-1.5 lg:px-3.5 lg:py-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-success-line bg-success-wash px-3 py-1.5 lg:px-3.5 lg:py-2">
                 <span className="animate-avail-pulse block w-[7px] h-[7px] rounded-full bg-hero-green" />
                 <span className="font-sans text-[11px] lg:text-[12px] font-medium tracking-[0.03em] text-hero-green">
                   Open to remote roles
@@ -233,7 +238,7 @@ const About = () => {
                   onClick={scrollToProjects}
                   onMouseMove={pullToCursor}
                   onMouseLeave={releaseCursor}
-                  className="rounded-lg bg-hero-accent px-[22px] py-2.5 lg:px-7 lg:py-3 font-sans text-[13px] lg:text-[14px] font-semibold text-white transition-[transform,background-color] duration-200 ease-out hover:bg-[#7C6FFA]"
+                  className="rounded-lg bg-hero-accent px-[22px] py-2.5 lg:px-7 lg:py-3 font-sans text-[13px] lg:text-[14px] font-semibold text-accent-contrast transition-[transform,background-color] duration-200 ease-out hover:bg-hero-accent-hover"
                 >
                   View my work
                 </button>
@@ -299,6 +304,11 @@ const About = () => {
               >
                 {/* Editor chrome */}
                 <div className="flex items-center justify-between gap-3 border-b border-hero-border bg-hero-card px-3.5 py-2 lg:px-5 lg:py-2.5">
+                  {/* Deliberately not tokens and deliberately not
+                      themed: these are the window-control dots, and a
+                      real editor shows the same three colours in light
+                      and dark. Same convention as the per-technology
+                      hues in constants.js. */}
                   <div className="flex gap-[5px]">
                     <span className="block h-2.5 w-2.5 rounded-full bg-[#E24B4A]" />
                     <span className="block h-2.5 w-2.5 rounded-full bg-[#BA7517]" />
@@ -313,9 +323,9 @@ const About = () => {
                 </div>
 
                 {/* Code body */}
-                <div className="overflow-x-auto bg-hero-surface px-[18px] py-4 lg:px-6 lg:py-5 font-mono text-[12px] lg:text-[13.5px] leading-[2] text-[#E8E8F4]">
+                <div className="overflow-x-auto bg-hero-surface px-[18px] py-4 lg:px-6 lg:py-5 font-mono text-[12px] lg:text-[13.5px] leading-[2] text-hero-text">
                   <CodeLines lines={IMPORTS} />
-                  <div className="mt-1 mb-1.5 h-px bg-[#1E1E2E]" />
+                  <div className="mt-1 mb-1.5 h-px bg-border-subtle" />
                   <CodeLines lines={SERVER} />
                 </div>
 
@@ -328,7 +338,7 @@ const About = () => {
                   duration={250}
                   variant="fade-left"
                   style={{ "--reveal-distance": "6px" }}
-                  className="hidden border-t border-[#1A3A1A] bg-[#0A1A0A] px-3.5 py-2.5 lg:px-6 lg:py-3.5 font-mono text-[11px] lg:text-[12.5px] leading-[2] sm:block"
+                  className="hidden border-t border-success-line bg-success-wash px-3.5 py-2.5 lg:px-6 lg:py-3.5 font-mono text-[11px] lg:text-[12.5px] leading-[2] sm:block"
                 >
                   <p className="whitespace-pre text-hero-dim">
                     GET /api/users/profile{"  "}
@@ -336,14 +346,14 @@ const About = () => {
                   </p>
                   <p className="whitespace-pre text-hero-dim">
                     {"{  "}
-                    <span className="text-[#A5F3C0]">&quot;name&quot;</span>
+                    <span className="text-code-prop">&quot;name&quot;</span>
                     {":   "}
                     <span className="text-hero-green">&quot;Raghuveer&quot;</span>
                     ,
                   </p>
                   <p className="whitespace-pre text-hero-dim">
                     {"   "}
-                    <span className="text-[#A5F3C0]">&quot;role&quot;</span>
+                    <span className="text-code-prop">&quot;role&quot;</span>
                     {":   "}
                     <span className="text-hero-green">
                       &quot;MERN developer&quot;
@@ -352,7 +362,7 @@ const About = () => {
                   </p>
                   <p className="whitespace-pre text-hero-dim">
                     {"   "}
-                    <span className="text-[#A5F3C0]">&quot;status&quot;</span>
+                    <span className="text-code-prop">&quot;status&quot;</span>
                     {": "}
                     <span className="text-hero-green">&quot;available&quot;</span>
                     {"  }"}
@@ -373,12 +383,17 @@ const About = () => {
               {heroStack.map((chip) => (
                 <span
                   key={chip.label}
+                  /* Custom properties only — never `backgroundColor`
+                     directly. An inline colour would outrank the
+                     light-theme rules in theme.css, which derive the
+                     surfaces from the brand hue instead of using
+                     these dark literals. */
                   style={{
-                    backgroundColor: chip.bg,
-                    borderColor: chip.border,
-                    color: chip.text,
+                    "--chip-color": chip.text,
+                    "--chip-bg": chip.bg,
+                    "--chip-border": chip.border,
                   }}
-                  className="rounded-[20px] border px-3 py-1 lg:px-3.5 lg:py-1.5 font-sans text-[10px] lg:text-[11px] font-medium tracking-[0.03em]"
+                  className="tech-chip rounded-[20px] border px-3 py-1 lg:px-3.5 lg:py-1.5 font-sans text-[10px] lg:text-[11px] font-medium tracking-[0.03em]"
                 >
                   {chip.label}
                 </span>

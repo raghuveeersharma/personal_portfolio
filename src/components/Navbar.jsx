@@ -4,6 +4,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross1 } from "react-icons/rx";
 import { navLinks } from "../constants";
+import ThemeToggle from "./ThemeToggle";
 import useScrollSpy from "../animation/useScrollSpy";
 
 const Navbar = () => {
@@ -33,27 +34,27 @@ const Navbar = () => {
     <nav
       className={`${
         scroll
-          ? "bg-[#050414]/70 backdrop-blur-md shadow-md"
+          ? "bg-ink/70 backdrop-blur-md shadow-md"
           : "bg-transparent"
       } fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-in-out`}
     >
       <div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">
-      <div className="text-white py-3.5 sm:py-4 lg:py-5 flex items-center justify-between gap-3">
+      <div className="text-content py-3.5 sm:py-4 lg:py-5 flex items-center justify-between gap-3">
         <a
           href="#about"
 
           className="min-w-0 shrink font-semibold cursor-pointer whitespace-nowrap text-sm leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:text-lg"
         >
           <span className="text-accent-text">&lt;</span>
-          <span className="text-white">Raghuveer</span>
+          <span className="text-content">Raghuveer</span>
           <span className="text-accent-text">/</span>
-          <span className="text-white">Sharma</span>
+          <span className="text-content">Sharma</span>
           <span className="text-accent-text">&gt;</span>
         </a>
 
         {/* lg, not md: six items no longer clear the wordmark at ~800px,
             so the tablet range keeps the hamburger. */}
-        <ul className="text-gray-300 hidden lg:flex items-center justify-center gap-5 text-center text-sm xl:gap-8 xl:text-base">
+        <ul className="text-content-soft hidden lg:flex items-center justify-center gap-5 text-center text-sm xl:gap-8 xl:text-base">
           {navLinks.map((items) => (
             <li key={items.id}>
               {/* One interactive element, not an <a> wrapping a <button>:
@@ -78,7 +79,7 @@ const Navbar = () => {
               href="https://github.com/raghuveeersharma"
               target="_blank"
               rel="noopener noreferrer"
-              className="grid h-9 w-9 place-items-center rounded-sm text-white transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10"
+              className="grid h-9 w-9 place-items-center rounded-sm text-content transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10"
               aria-label="GitHub profile"
             >
               <IoLogoGithub className="text-xl sm:text-2xl" aria-hidden="true" />
@@ -87,24 +88,30 @@ const Navbar = () => {
               href="https://www.linkedin.com/in/raghuveer-sharma-810124252/"
               target="_blank"
               rel="noopener noreferrer"
-              className="grid h-9 w-9 place-items-center rounded-sm text-white transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10"
+              className="grid h-9 w-9 place-items-center rounded-sm text-content transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10"
               aria-label="LinkedIn profile"
             >
               <FaLinkedin className="text-xl sm:text-2xl" aria-hidden="true" />
             </a>
           </div>
+
+          {/* Cycling icon on desktop; the mobile sheet gets the
+              segmented form below, where there is room to show all
+              three states at once. */}
+          <ThemeToggle variant="icon" className="hidden lg:grid" />
+
           <button
             type="button"
-            className="grid h-9 w-9 place-items-center rounded-sm text-white transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10 lg:hidden"
+            className="grid h-9 w-9 place-items-center rounded-sm text-content transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-text sm:h-10 sm:w-10 lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen(!open)}
           >
             {open ? (
-              <RxCross1 className="text-white text-2xl" />
+              <RxCross1 className="text-content text-2xl" />
             ) : (
-              <RxHamburgerMenu className="text-white text-2xl" />
+              <RxHamburgerMenu className="text-content text-2xl" />
             )}
           </button>
         </div>
@@ -112,18 +119,18 @@ const Navbar = () => {
       {open && (
         <div
           id="mobile-menu"
-          className="absolute inset-x-0 top-full mt-2 overflow-hidden rounded-md border border-white/10 bg-[#050414]/95 shadow-2xl backdrop-blur-xl lg:hidden"
+          className="absolute inset-x-0 top-full mt-2 overflow-hidden rounded-md border border-border-subtle bg-ink/95 shadow-2xl backdrop-blur-xl lg:hidden"
         >
-          <ul className="flex flex-col py-2 text-gray-200">
+          <ul className="flex flex-col py-2 text-content">
             {navLinks.map((items) => (
               <li key={items.id}>
                 <a
                   href={`#${items.id}`}
                   aria-current={active === items.id ? "true" : undefined}
                   onClick={() => handleMobileNav()}
-                  className={`block px-4 py-3 text-center text-sm font-medium transition-colors hover:bg-white/5 hover:text-accent-text focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-accent-text ${
+                  className={`block px-4 py-3 text-center text-sm font-medium transition-colors hover:bg-surface-hover hover:text-accent-text focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-accent-text ${
                     active === items.id
-                      ? "bg-white/[0.03] text-accent-text"
+                      ? "bg-accent-wash text-accent-text"
                       : ""
                   }`}
                 >
@@ -132,6 +139,16 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
+
+          {/* Inside the sheet rather than beside the hamburger: on a
+              360px viewport the icon row is already at its limit, and
+              a labelled row is clearer than a fourth bare icon. */}
+          <div className="flex items-center justify-between gap-3 border-t border-border-subtle px-4 py-3">
+            <span className="font-sans text-xs font-medium tracking-wider text-content-muted uppercase">
+              Theme
+            </span>
+            <ThemeToggle variant="segmented" className="min-w-0" />
+          </div>
         </div>
       )}
       </div>
