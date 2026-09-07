@@ -1,12 +1,12 @@
 # Adding a light theme — implementation plan
 
-Status: **Phases 1–2 complete.** Phases 3–5 not started.
+Status: **Phases 1–3 complete.** Phases 4–5 not started.
 
 | Phase | State |
 | --- | --- |
 | 1 — Token foundation and theme plumbing | ✅ landed |
 | 2 — App shell and the toggle UI | ✅ landed |
-| 3 — The hero (`About.jsx`) | not started |
+| 3 — The hero (`About.jsx`) | ✅ landed |
 | 4 — Content sections and the data-layer colours | not started |
 | 5 — Motion layer, accessibility audit, and docs | not started |
 
@@ -400,6 +400,71 @@ palette, and it is the one section a visitor judges the theme by.
 **Done when:** the hero is correct in both themes at 360px, 768px and
 1440px, and the code panel is legible rather than merely inverted.
 
+#### ✅ What landed
+
+- **The syntax palette became theme variables.** `About`'s `CODE` map
+  now holds `var(--code-kw)` and friends instead of literals, so the
+  panel switches with the page and never needs `resolvedTheme`. Light is
+  its own palette picked against white, not a transform of the dark one:
+  `#6f42c1` / `#116329` / `#0550ae` / `#953800`, all 6.5–7.6:1.
+- **The JSON key inverts its relationship.** The dark response panel
+  distinguishes key from value with a *paler* green (`#a5f3c0` against
+  `#4ade80`). Paler means lower contrast on white, so light does the
+  opposite: `--code-prop` is `#0a5c2a`, *darker* than `--success`, which
+  keeps the two distinguishable at 7.54:1.
+- Hero tokens gained light twins, plus `--hero-accent-hover` (the CTA's
+  old `hover:bg-[#7C6FFA]`) and `--success-line` / `--warning-line` /
+  `--info-line` — the last two are unused so far but are exactly the
+  journey-node border literals Phase 4 needs.
+- The **editor traffic lights stay literal and unthemed**, with a
+  comment saying so: a real editor shows the same three dots in both
+  themes. Same convention as the per-technology hues in `constants.js`.
+- Availability badge and response panel moved onto
+  `success-wash` / `success-line`.
+
+#### The `.tech-chip` mechanism — Phase 4's pattern, proven here
+
+The hero's stack chips are the first per-item coloured data to be
+themed, so the asymmetric approach the plan settled on for Phase 4 was
+built here on four chips rather than twenty.
+
+`constants.js` is **unchanged**. The chip passes its colours as custom
+properties only — never as `backgroundColor` — and a single `.tech-chip`
+rule in `theme.css` reads them:
+
+- **dark** reads the hand-picked literals straight off the element, so
+  the dark chips are exact;
+- **light** ignores them and derives all three from the brand hue with
+  `color-mix`.
+
+Inline styles setting custom properties rather than colour properties is
+what makes this work — an inline `background-color` would outrank any
+selector in the stylesheet.
+
+**Why 55%.** The text mix is the constrained one: it must clear AA on
+the 10%-tinted background for every hue in `constants.js`. Measured
+across all twelve, 55% gives a worst case of 4.85:1 (Tailwind's pale
+`#7dd3fc`); at 60% that hue drops to 4.19:1 and fails. The percentage is
+load-bearing and the comment in `theme.css` says not to raise it without
+re-measuring.
+
+**A build behaviour worth knowing about.** Lightning CSS generates its
+own fallback for any `color-mix` it cannot resolve at compile time.
+Because every argument here is a custom property it can resolve none of
+them, and the fallback it picks is the bare brand hue for *all three*
+properties — which in light mode is hue-on-hue, an invisible label. So
+the light arms declare a legible neutral chip first and gate the mixes
+behind `@supports (color: color-mix(...))`. Confirmed in the built CSS:
+without `color-mix` the whole block is skipped and the neutral chip
+applies; with it, the real mix wins as the later rule. If a future
+change moves those rules, keep the ordering.
+
+**Verified:** `npm run lint` clean, `npm run build` green. Every dark
+value in the hero and syntax sets was diffed against its original
+literal in the built CSS — all exact, no normalisations this phase. The
+only remaining hex literals in `About.jsx` are the three traffic-light
+dots.
+
 ---
 
 ### Phase 4 — Content sections and the data-layer colours
@@ -552,6 +617,10 @@ its own decision outside this workstream.
 - **`ProjectDetail` uses `--content-subtle` for small copy** in ten
   places (metadata labels, truncated URLs), which is where the failure
   above actually bites hardest. Worth revisiting together with it.
+- **The light availability badge sits at 4.64:1** (`--success` on
+  `--success-wash`). That passes AA but with little margin, and the
+  badge text is 11px. Not a failure, but the first thing to adjust if
+  the light palette gets another pass.
 
 ## 7. Out of scope
 

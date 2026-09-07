@@ -136,10 +136,13 @@
   /* -- Status ------------------------------------------------ */
   --success: #4ade80;
   --success-wash: #0d1a0d;
+  --success-line: #1a3a1a;
   --warning: #f59e0b;
   --warning-wash: #1a1209;
+  --warning-line: #3a2a09;
   --info: #60a5fa;
   --info-wash: #0d1729;
+  --info-line: #0d2545;
 
   /* -- Hero palette -----------------------------------------
      Scoped to About, which runs a cooler violet than the site
@@ -152,6 +155,7 @@
   --hero-card: #1a1a24;
   --hero-border: #2a2a3f;
   --hero-accent: #8b7cf8;
+  --hero-accent-hover: #7c6ffa;
   --hero-accent-dim: #6c5ce7;
   --hero-green: #4ade80;
   --hero-amber: #f59e0b;
@@ -159,6 +163,18 @@
   --hero-text: #e8e8f4; /* 15.47:1 on hero-surface */
   --hero-dim: #8c8caa; /* 5.77:1 on hero-surface */
   --hero-muted: #7a7a9c; /* 4.56:1 on hero-surface, 4.92:1 on bg-base */
+
+  /* -- Editor syntax ----------------------------------------
+     The hero's code panel, hand-coloured rather than run
+     through a highlighter (see About.jsx). A dark syntax theme
+     inverted goes muddy, so light is a real light-syntax set
+     picked against white, not a transform of these. */
+  --code-kw: #c792ea; /* const, require */
+  --code-str: #c3e88d; /* 'express' */
+  --code-fn: #82aaff; /* express(), app.use() */
+  --code-num: #f78c6c; /* 5000 */
+  --code-txt: #e8e8f4; /* everything else */
+  --code-prop: #a5f3c0; /* JSON key in the response panel */
 }
 
 /* ============================================================
@@ -216,12 +232,15 @@
     --glow: #8245ec;
     --grid-line: #1414201a;
 
-    --success: #15803d; /* 5.02:1 */
+    --success: #15803d; /* 5.02:1; 4.64:1 on its own wash */
     --success-wash: #eafaf0;
+    --success-line: #b7dfc6;
     --warning: #b45309; /* 5.02:1 */
     --warning-wash: #fdf4e7;
+    --warning-line: #f2dfb8;
     --info: #1d4ed8; /* 6.70:1 */
     --info-wash: #eaf1fe;
+    --info-line: #c9dcfa;
 
     /* Drafted here so the shell has something to render against;
        Phase 3 finalises the hero. */
@@ -230,13 +249,26 @@
     --hero-card: #f7f7fc;
     --hero-border: #e2e2ee;
     --hero-accent: #6b5bd6; /* 5.13:1 — keeps the cooler-than-brand violet */
+    --hero-accent-hover: #5a4ac4; /* white on it, 6.54:1 */
     --hero-accent-dim: #4c3fbf; /* 7.58:1 */
     --hero-green: #15803d;
     --hero-amber: #b45309;
     --hero-blue: #1d4ed8;
     --hero-text: #14141f;
     --hero-dim: #5a5a72;
-    --hero-muted: #6e6e88;
+    --hero-muted: #6e6e88; /* 4.63:1 on hero-card */
+
+    /* A real light-syntax palette, not the dark one inverted.
+       All five clear AA on the white panel. */
+    --code-kw: #6f42c1; /* 6.51:1 */
+    --code-str: #116329; /* 7.39:1 */
+    --code-fn: #0550ae; /* 7.59:1 */
+    --code-num: #953800; /* 7.39:1 */
+    --code-txt: #14141f; /* 18.27:1 */
+    /* Darker than --success so the JSON key still reads as
+       distinct from the value beside it — the dark panel makes
+       that distinction with a *paler* green, which inverts. */
+    --code-prop: #0a5c2a; /* 7.54:1 on the wash */
   }
 }
 
@@ -272,16 +304,20 @@
 
   --success: #15803d;
   --success-wash: #eafaf0;
+  --success-line: #b7dfc6;
   --warning: #b45309;
   --warning-wash: #fdf4e7;
+  --warning-line: #f2dfb8;
   --info: #1d4ed8;
   --info-wash: #eaf1fe;
+  --info-line: #c9dcfa;
 
   --hero-bg: #f4f4f9;
   --hero-surface: #ffffff;
   --hero-card: #f7f7fc;
   --hero-border: #e2e2ee;
   --hero-accent: #6b5bd6;
+  --hero-accent-hover: #5a4ac4;
   --hero-accent-dim: #4c3fbf;
   --hero-green: #15803d;
   --hero-amber: #b45309;
@@ -289,6 +325,13 @@
   --hero-text: #14141f;
   --hero-dim: #5a5a72;
   --hero-muted: #6e6e88;
+
+  --code-kw: #6f42c1;
+  --code-str: #116329;
+  --code-fn: #0550ae;
+  --code-num: #953800;
+  --code-txt: #14141f;
+  --code-prop: #0a5c2a;
 }
 
 /* ============================================================
@@ -332,16 +375,24 @@
 
   --color-success: var(--success);
   --color-success-wash: var(--success-wash);
+  --color-success-line: var(--success-line);
   --color-warning: var(--warning);
   --color-warning-wash: var(--warning-wash);
+  --color-warning-line: var(--warning-line);
   --color-info: var(--info);
   --color-info-wash: var(--info-wash);
+  --color-info-line: var(--info-line);
+
+  /* The syntax palette is consumed as raw `var(--code-*)` from
+     About's inline styles; only the JSON key needs a utility. */
+  --color-code-prop: var(--code-prop);
 
   --color-hero-bg: var(--hero-bg);
   --color-hero-surface: var(--hero-surface);
   --color-hero-card: var(--hero-card);
   --color-hero-border: var(--hero-border);
   --color-hero-accent: var(--hero-accent);
+  --color-hero-accent-hover: var(--hero-accent-hover);
   --color-hero-accent-dim: var(--hero-accent-dim);
   --color-hero-green: var(--hero-green);
   --color-hero-amber: var(--hero-amber);
@@ -415,6 +466,94 @@
     66% {
       transform: translate(-5%, 5%) scale(0.94);
     }
+  }
+}
+
+/* ============================================================
+   5. Theme-conditional component colour
+
+   One rule, and it lives here rather than in animations.css
+   (which is motion only) or index.css (which holds utilities)
+   because it is entirely a theming concern: the same element
+   takes hand-authored colours in dark and derived ones in light.
+
+   ---- The per-item colour problem ---------------------------
+   `constants.js` gives every technology a brand hue plus a
+   hand-picked dark `bg`/`border` — deliberately not tokens,
+   since nothing outside those sections consumes them. Dark is
+   frozen, so those literals have to survive verbatim; but they
+   are dark surfaces and mean nothing on a light page, and
+   hand-picking a light twin for each of ~20 entries is a lot of
+   values to keep in sync.
+
+   So the two themes are handled asymmetrically:
+
+     dark  — reads the literals straight off the element, passed
+             in as --chip-bg / --chip-border. Exact, unchanged.
+     light — ignores them and derives everything from the brand
+             hue with `color-mix`, the same trick the journey
+             cards already use.
+
+   Inline styles set only the custom properties, never the
+   colour properties themselves. That is what lets these rules
+   win in light: an inline `background-color` would outrank any
+   selector here.
+
+   ---- Why 55% ------------------------------------------------
+   The text mix is the constrained one: it has to clear AA on
+   the 10%-tinted background for *every* hue in constants.js.
+   Measured across all twelve, 55% gives a worst case of 4.85:1
+   (Tailwind's pale blue #7dd3fc); at 60% that same hue drops to
+   4.19:1 and fails. Do not raise it without re-measuring.
+   ============================================================ */
+.tech-chip {
+  color: var(--chip-color);
+  background-color: var(--chip-bg);
+  border-color: var(--chip-border);
+}
+
+/* Light, step 1: a legible neutral chip.
+   This is not dead code. The build inserts its own fallback for
+   any `color-mix` it cannot resolve at compile time, and because
+   the mix arguments here are custom properties it cannot resolve
+   *any* of them — the fallback it picks is the bare brand hue for
+   all three properties at once, which in light mode means
+   hue-on-hue: an invisible label. So the neutral chip is
+   declared first and the mixes are gated behind @supports below,
+   which suppresses that substitution. Anything without
+   `color-mix` (pre-2023 browsers) lands here instead. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .tech-chip {
+    color: var(--content);
+    background-color: var(--bg-subtle);
+    border-color: var(--border);
+  }
+}
+
+:root[data-theme="light"] .tech-chip {
+  color: var(--content);
+  background-color: var(--bg-subtle);
+  border-color: var(--border);
+}
+
+/* Light, step 2: the real thing, hue derived. */
+@supports (color: color-mix(in srgb, red 50%, #000)) {
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .tech-chip {
+      color: color-mix(in srgb, var(--chip-color) 55%, #000);
+      background-color: color-mix(
+        in srgb,
+        var(--chip-color) 10%,
+        var(--surface)
+      );
+      border-color: color-mix(in srgb, var(--chip-color) 30%, var(--surface));
+    }
+  }
+
+  :root[data-theme="light"] .tech-chip {
+    color: color-mix(in srgb, var(--chip-color) 55%, #000);
+    background-color: color-mix(in srgb, var(--chip-color) 10%, var(--surface));
+    border-color: color-mix(in srgb, var(--chip-color) 30%, var(--surface));
   }
 }
 
