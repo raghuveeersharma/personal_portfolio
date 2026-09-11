@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="RAG">
+  <defs>
+    <linearGradient id="rag-gradient" x1="18" y1="18" x2="110" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#151126"/>
+  <path d="M36 39h34a12 12 0 0 1 12 12v23a12 12 0 0 1-12 12H51l-15 12V51a12 12 0 0 1 12-12Z" fill="none" stroke="url(#rag-gradient)" stroke-linejoin="round" stroke-width="8"/>
+  <circle cx="54" cy="62" r="5" fill="#C4B5FD"/>
+  <circle cx="70" cy="62" r="5" fill="#7DD3FC"/>
+  <path d="M87 49h10a9 9 0 0 1 9 9v25a9 9 0 0 1-9 9H82" fill="none" stroke="#38BDF8" stroke-linecap="round" stroke-width="7"/>
+  <path d="m89 66 8 8-8 8" fill="none" stroke="#38BDF8" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"/>
+</svg>

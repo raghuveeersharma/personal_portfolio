@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="LLM integration">
+  <rect width="128" height="128" rx="28" fill="#151126"/>
+  <rect x="36" y="36" width="56" height="56" rx="12" fill="#312E81" stroke="#A78BFA" stroke-width="7"/>
+  <path d="M53 56v16M64 52v24M75 56v16M50 64h28" fill="none" stroke="#DDD6FE" stroke-linecap="round" stroke-width="6"/>
+  <path d="M26 52v-9a9 9 0 0 1 9-9h9M102 52v-9a9 9 0 0 0-9-9h-9M26 76v9a9 9 0 0 0 9 9h9M102 76v9a9 9 0 0 1-9 9h-9" fill="none" stroke="#F472B6" stroke-linecap="round" stroke-width="7"/>
+</svg>

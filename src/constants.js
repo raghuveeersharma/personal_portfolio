@@ -28,6 +28,10 @@ import postmanLogo from "./assets/tech_logo/postman.webp";
 import mcLogo from "./assets/tech_logo/mc.webp";
 import vercelLogo from "./assets/tech_logo/vercel.webp";
 import postgreLogo from "./assets/tech_logo/postgre.webp";
+import ragLogo from "./assets/tech_logo/rag.svg";
+import langchainLogo from "./assets/tech_logo/langchain.svg";
+import vectorDbLogo from "./assets/tech_logo/vector-db.svg";
+import llmIntegrationLogo from "./assets/tech_logo/llm-integration.svg";
 
 // Education Section Logo's
 import chameli from "./assets/education_logo/chameli.webp";
@@ -114,6 +118,20 @@ export const SkillsInfo = [
       { name: "Postman", logo: postmanLogo, logoW: 128, logoH: 128 },
       { name: "Compass", logo: mcLogo, logoW: 128, logoH: 128 },
       { name: "Vercel", logo: vercelLogo, logoW: 128, logoH: 128 },
+    ],
+  },
+  {
+    title: "AI & LLM",
+    skills: [
+      { name: "RAG", logo: ragLogo, logoW: 128, logoH: 128 },
+      { name: "LangChain", logo: langchainLogo, logoW: 128, logoH: 128 },
+      { name: "Vector DB", logo: vectorDbLogo, logoW: 128, logoH: 128 },
+      {
+        name: "LLM Integration",
+        logo: llmIntegrationLogo,
+        logoW: 128,
+        logoH: 128,
+      },
     ],
   },
 ];
