@@ -58,6 +58,7 @@ import Benoit from "./assets/work_logo/Benoit.webp";
 import PistZerna from "./assets/work_logo/PistZerna.webp";
 import BadoniyaConstructions from "./assets/work_logo/BadoniyaConstructions.webp";
 import Ironhaus from "./assets/work_logo/Ironhaus.webp";
+import GymFlow from "./assets/work_logo/GymFlow.svg";
 
 // The single source of truth for anchor navigation. Navbar and Footer
 // both render this list; keeping two copies is how the footer ended up
@@ -597,7 +598,9 @@ export const projects = [
     title: "GymFlow",
     description:
       "GymFlow is a modern multi-tenant gym management platform that helps gym owners efficiently manage members, membership plans, payments, attendance, and business analytics from a single dashboard. It features secure authentication, role-based access, real-time dashboard insights, and a scalable architecture built with modern frontend technologies for a seamless management experience.",
-    image: "GymFlow",
+    image: GymFlow,
+    imgW: 1200,
+    imgH: 651,
     tags: [
       "Next.js",
       "React",
