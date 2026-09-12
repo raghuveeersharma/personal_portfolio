@@ -301,15 +301,20 @@ done** (verified with `npm run lint` and a production build on 2026-08-25).
       "Show All Projects +8" / "Show Less" toggle button below the grid reveals
       the rest. The button matches the site's design system (rounded-full,
       `border-white/10`, purple hover glow, `focus-visible` ring).
-- [ ] **GymFlow Project Image Broken**: The thumbnail image for the GymFlow project
-      fails to render across all viewport sizes (shows broken image icon).
+- [x] **GymFlow Project Image Broken**: The thumbnail image used the string
+      `"GymFlow"` rather than an imported asset, so it resolved to a nonexistent
+      relative URL. **Done:** replaced it with a local 1200×651 SVG dashboard
+      thumbnail and supplied matching intrinsic dimensions.
 - [ ] **Three email addresses** in one Contact card
       ([`Contact.jsx:167-186`](src/components/Contact.jsx#L167-L186)) is
       choice paralysis — pick one. The card's fixed `h-52` is already
       strained by the three-address stack.
-- [ ] **Form field order** is Email → Name → Subject; Name first is
-      conventional.
-- [ ] **No spam protection** on the contact form — consider a honeypot field.
+- [x] **Form field order** is Email → Name → Subject; Name first is
+      conventional. **Done:** reordered the existing fields to Name → Email →
+      Subject → Message without changing their EmailJS field names.
+- [x] **No spam protection** on the contact form — consider a honeypot field.
+      **Done:** added an off-screen, keyboard-inaccessible `website` field. A
+      filled value is silently treated as successful and does not call EmailJS.
 - [x] **Footer copyright is hardcoded `© 2025`**
       ([`Footer.jsx:62`](src/components/Footer.jsx#L62)) and is now stale.
       Use `new Date().getFullYear()`.
