@@ -23,6 +23,16 @@ const Contact = () => {
     e.preventDefault();
     setStatus(null); // clear the previous result before the retry
 
+    const formEl = form.current;
+
+    // Bots tend to fill every named input. Pretend this submission succeeded
+    // without making an EmailJS request, so it cannot be used to send spam.
+    if (formEl.elements.website.value) {
+      formEl.reset();
+      setStatus("sent");
+      return;
+    }
+
     // A missing .env fails inside the SDK with an opaque error, so catch it
     // here and show the same fallback ("email me directly") the visitor
     // would get from a network failure.
@@ -38,8 +48,6 @@ const Contact = () => {
     // The form element itself, captured before the await: nothing unmounts
     // it mid-submit today, but the ref is the only handle the SDK gets and
     // reading it after the dynamic import is a needless dependency on that.
-    const formEl = form.current;
-
     setSending(true);
 
     // The SDK is ~50kB and only ever needed once a visitor actually submits,
@@ -97,19 +105,6 @@ const Contact = () => {
               placeholder alone is not a name: it vanishes the moment you
               type, so the field goes unlabelled exactly when a screen
               reader user is reviewing what they entered. */}
-          <label htmlFor="contact-email" className="sr-only">
-            Your email
-          </label>
-          <input
-            id="contact-email"
-            type="email"
-            name="from_Email"
-            placeholder="Your Email"
-            autoComplete="email"
-            required
-            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
-          />
-
           <label htmlFor="contact-name" className="sr-only">
             Your name
           </label>
@@ -119,6 +114,19 @@ const Contact = () => {
             name="from_name"
             placeholder="Your Name"
             autoComplete="name"
+            required
+            className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
+          />
+
+          <label htmlFor="contact-email" className="sr-only">
+            Your email
+          </label>
+          <input
+            id="contact-email"
+            type="email"
+            name="from_Email"
+            placeholder="Your Email"
+            autoComplete="email"
             required
             className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
@@ -147,6 +155,17 @@ const Contact = () => {
             required
             className="w-full p-3 rounded-md bg-accent-wash text-content border border-border-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text focus:border-accent"
           />
+
+          <div className="absolute -left-[9999px]" aria-hidden="true">
+            <label htmlFor="contact-website">Website</label>
+            <input
+              id="contact-website"
+              type="text"
+              name="website"
+              tabIndex="-1"
+              autoComplete="off"
+            />
+          </div>
 
           {/* Send Button */}
           <button
