@@ -24,7 +24,12 @@ Tailwind v4 means **there is no `tailwind.config.js`**. All design tokens live i
 
 ## Architecture
 
-Single-page portfolio. `main.jsx` mounts `App.jsx`, which renders a background layer (`BlurBlob` + a CSS grid-lines overlay) and then stacks every section in one scrolling column. Both background pieces are `absolute`, not `fixed`, so they scroll away with the page rather than staying put behind it:
+The home route is a scrolling portfolio; `/project/:id` renders a project-detail
+page. `main.jsx` mounts `App.jsx`, which owns both routes. `HomePage.jsx`
+renders the background layer (`BlurBlob` + a CSS grid-lines overlay) and then
+stacks every section in one scrolling column. Both background pieces are
+`absolute`, not `fixed`, so they scroll away with the page rather than staying
+put behind it:
 
 ```
 Navbar → About → NavigatorToTop → Skills → Services → Experience → Projects → Education → Contact → Footer
@@ -32,14 +37,21 @@ Navbar → About → NavigatorToTop → Skills → Services → Experience → P
 
 Two conventions matter across the whole app:
 
-- **Navigation is anchor-based, not routed.** Each section owns an `id` (`about`, `skills`, `services`, `experience`, `projects`, `education`, `contact`) and both `Navbar` and `Footer` jump to those ids. `Navbar` uses `href="#id"`; `Footer` uses `scrollIntoView`. Smooth scrolling comes from `html { scroll-behavior: smooth }` in `index.css`. The link list itself is **one array — `navLinks` in `constants.js`** — which both components map over; adding a section means adding its id there and nowhere else. (It used to be duplicated in each component, and the two promptly drifted: the footer lost Contact.)
-- **All content is data, not markup.** `src/constants.js` exports `SkillsInfo`, `journeyNodes`, `journeyTools`, `services`, `projects`, and `education`, and imports every image from `src/assets/` so Vite fingerprints them. Sections map over these arrays. To add a project or skill, edit `constants.js` — never hardcode content into a component. `constants.js` stays free of JSX and component imports: `journeyNodes`/`journeyTools` name their icons as **strings**, and `src/components/skills/icons.js` is the only place that maps a name to a `react-icons/tb` component.
+- **Section navigation is anchor-based.** Each home-page section owns an `id` (`about`, `skills`, `services`, `experience`, `projects`, `education`, `contact`) and both `Navbar` and `Footer` jump to those ids. `Navbar` uses `href="#id"`; `Footer` uses `scrollIntoView`. Smooth scrolling comes from `html { scroll-behavior: smooth }` in `index.css`. The link list itself is **one array — `navLinks` in `constants.js`** — which both components map over; adding a section means adding its id there and nowhere else. Project cards use the separate routed detail page.
+- **Portfolio collections are data, not repeated markup.** `src/constants.js` exports `SkillsInfo`, `journeyNodes`, `journeyTools`, `services`, `projects`, `experiences`, and `education`, and imports every image from `src/assets/` so Vite fingerprints them. Sections map over these arrays. To add a project or skill, edit `constants.js` rather than duplicating markup in a component. `constants.js` stays free of JSX and component imports: `journeyNodes`/`journeyTools` name their icons as **strings**, and `src/components/skills/icons.js` is the only place that maps a name to a `react-icons/tb` component.
 
-Section components are self-contained and share a layout idiom worth matching: `<section id="..." className="py-24 px-[12vw] md:px-[7vw] lg:px-[Nvw]">`, a centered title block, then the content grid. The purple accent is `#8245ec` and the page background is `#050414`.
+Section components are self-contained and share a layout idiom worth matching:
+an outer `<section id="..." className="py-24">`, then an inner
+`<div className="mx-auto w-full max-w-[1300px] px-6 md:px-10">`. Keep the
+shared container aligned rather than reintroducing viewport-width padding.
+The purple accent and page ground are theme tokens (`accent` and `ink`), not
+component literals.
 
 `Skills` is the one section with two halves under a single `id="skills"`: the `SkillsInfo` card grid, plus `components/skills/MernJourney.jsx` (see below). Keep the id singular — the navbar and footer both target it.
 
-**Fixed pill/card widths are a mobile bug waiting to happen.** With `px-[12vw]` section padding plus a card's own `px-6`, a 2-column grid column is barely 105px on a 360px phone, so a `w-28` chip overhangs its own card border. Size chips with `w-full min-w-0` and let the grid column decide.
+**Fixed pill/card widths are a mobile bug waiting to happen.** Keep chips
+`w-full min-w-0` where they live in a narrow grid column, and let the column
+decide their width rather than forcing a fixed pill width.
 
 ## Design tokens
 
