@@ -8,6 +8,7 @@ import {
   heroStack,
   heroStats,
 } from "../constants";
+import StarField from "./StarField";
 
 /* Hand-coloured token palette for the editor panel. A syntax
    highlighter would be a dependency and a runtime pass over a
@@ -132,12 +133,13 @@ const About = () => {
        back on this element keeps the content clear of the navbar. */
     <section
       id="about"
-      className="-mt-20 min-h-screen bg-hero-bg flex items-center justify-center pt-5"
+      className="relative overflow-hidden -mt-20 min-h-screen bg-hero-bg flex items-center justify-center pt-5"
     >
+      <StarField />
       {/* The spec's type scale was drawn against a ~1000px layout, so
           every size below steps up again at lg/xl. Left flat, the hero
           reads smaller than the section headings further down the page. */}
-      <div className="w-full mx-auto max-w-[1300px] px-6 md:px-10 py-20 lg:py-24">
+      <div className="relative w-full mx-auto max-w-[1300px] px-6 md:px-10 py-20 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-center">
           {/* ---------------- LEFT: identity ---------------- */}
           {/* Every reveal in the hero is `immediate`: it plays on mount
